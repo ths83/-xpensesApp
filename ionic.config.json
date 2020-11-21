@@ -1,0 +1,7 @@
+{
+  "name": "xpensesApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
