@@ -5,20 +5,13 @@ import {FormsModule} from '@angular/forms';
 import {HomePage} from './home.page';
 
 import {HomePageRoutingModule} from './home-routing.module';
-import {AmplifyUIAngularModule} from '@aws-amplify/ui-angular';
-
-import Amplify from 'aws-amplify';
-import awsmobile from '../../aws-exports';
-
-Amplify.configure(awsmobile);
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        HomePageRoutingModule,
-        AmplifyUIAngularModule
+        HomePageRoutingModule
     ],
     declarations: [HomePage]
 })

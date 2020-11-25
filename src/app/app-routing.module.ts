@@ -11,6 +11,14 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'create-activity',
+    loadChildren: () => import('./create-activity/create-activity.module').then( m => m.CreateActivityPageModule)
+  },
+  {
+    path: 'get-activities',
+    loadChildren: () => import('./get-activities/get-activities.module').then( m => m.GetActivitiesPageModule)
+  },
 ];
 
 @NgModule({
