@@ -23,6 +23,12 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+import { withAuthenticator } from "@aws-amplify/ui-react";
+
+import Amplify from "aws-amplify";
+import config from "./aws-exports";
+Amplify.configure(config)
+
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
@@ -34,4 +40,4 @@ const App: React.FC = () => (
   </IonApp>
 );
 
-export default App;
+export default withAuthenticator(App);
