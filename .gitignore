@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+package.json
+yarn.lock
 
 # testing
 /coverage
@@ -30,8 +32,7 @@ yarn-error.log*
 /ios
 package-lock.json
 
-#amplify
-amplify/
+# AWS Amplify
 build/
 dist/
 node_modules/
@@ -41,3 +42,4 @@ amplifyconfiguration.json
 amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
+capacitor.config.json

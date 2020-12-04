@@ -1,8 +1,7 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
+import {Redirect, Route} from 'react-router-dom';
+import {IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs} from '@ionic/react';
+import {IonReactRouter} from '@ionic/react-router';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -23,21 +22,59 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import {withAuthenticator} from '@aws-amplify/ui-react';
 
-import Amplify from "aws-amplify";
-import config from "./aws-exports";
-Amplify.configure(config)
+import Amplify from 'aws-amplify';
+import Tab1 from './pages/Tab1';
+import Tab2 from './pages/Tab2';
+import Tab3 from './pages/Tab3';
+import {ellipse, square, triangle} from 'ionicons/icons';
+
+export const API_NAME = 'xpenses';
+
+Amplify.configure({
+    Auth: {
+        region: 'ca-central-1',
+        userPoolId: 'ca-central-1_HFwrLK3vL',
+        userPoolWebClientId: '6s0jrkss0ir3se44sbq97v6cn2',
+    },
+    API: {
+        endpoints: [
+            {
+                name: API_NAME,
+                endpoint: 'https://v4pvmzb6y2.execute-api.ca-central-1.amazonaws.com/api'
+            }
+        ]
+    }
+});
 
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/home" component={Home} exact={true} />
-        <Route exact path="/" render={() => <Redirect to="/home" />} />
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
+    <IonApp>
+        <IonReactRouter>
+            <IonTabs>
+                <IonRouterOutlet>
+                    <Route path="/tab1" component={Tab1} exact={true}/>
+                    <Route path="/tab2" component={Tab2} exact={true}/>
+                    <Route path="/tab3" component={Tab3}/>
+                    <Route path="/" render={() => <Redirect to="/tab1"/>} exact={true}/>
+                </IonRouterOutlet>
+                <IonTabBar slot="bottom">
+                    <IonTabButton tab="tab1" href="/tab1">
+                        <IonIcon icon={triangle}/>
+                        <IonLabel>Tab 1</IonLabel>
+                    </IonTabButton>
+                    <IonTabButton tab="tab2" href="/tab2">
+                        <IonIcon icon={ellipse}/>
+                        <IonLabel>Tab 2</IonLabel>
+                    </IonTabButton>
+                    <IonTabButton tab="tab3" href="/tab3">
+                        <IonIcon icon={square}/>
+                        <IonLabel>Tab 3</IonLabel>
+                    </IonTabButton>
+                </IonTabBar>
+            </IonTabs>
+        </IonReactRouter>
+    </IonApp>
 );
 
 export default withAuthenticator(App);
