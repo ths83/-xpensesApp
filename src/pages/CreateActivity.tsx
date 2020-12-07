@@ -1,29 +1,17 @@
 import React, {useState} from 'react';
 import {IonButton, IonContent, IonHeader, IonInput, IonLabel, IonPage, IonTitle, IonToast, IonToolbar} from '@ionic/react';
-import './Tab2.css';
-import {API_NAME} from '../App';
-import {API, Auth} from 'aws-amplify';
+import './CreateActivity.css';
+import {createActivity} from '../service/ActivityService';
 
-const Tab2: React.FC = () => {
+const CreateActivity: React.FC = () => {
 
-    const [name, setName] = useState<string>();
-    const [createdBy, setCreatedBy] = useState<string>();
+    const [name, setName] = useState<string>("");
+    const [createdBy, setCreatedBy] = useState<string>("");
     const [toastSuccess, setToastSuccess] = useState(false);
     const [toastError, setToastError] = useState(false);
 
-    async function createActivity() {
-        const apiName = API_NAME;
-        const path = '/activities';
-        const myInit = {
-            headers: {
-                'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
-            },
-            body: {
-                name: name,
-                createdBy: createdBy
-            },
-        };
-        await API.post(apiName, path, myInit)
+    async function callCreateActivity() {
+        createActivity(name, createdBy)
             .then(() => setToastSuccess(true))
             .catch(() => setToastError(true));
     }
@@ -42,7 +30,7 @@ const Tab2: React.FC = () => {
                 <IonLabel position="stacked">CreatedBy</IonLabel>
                 <IonInput value={createdBy} placeholder="Enter owner" onIonChange={e => setCreatedBy(e.detail.value!)}/>
             </IonContent>
-            <IonButton expand="block" color="primary" onClick={() => createActivity()}>
+            <IonButton expand="block" color="primary" onClick={() => callCreateActivity()}>
                 Create
             </IonButton>
 
@@ -61,4 +49,4 @@ const Tab2: React.FC = () => {
     );
 };
 
-export default Tab2;
+export default CreateActivity;
