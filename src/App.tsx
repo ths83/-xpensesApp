@@ -26,7 +26,7 @@ import {withAuthenticator} from '@aws-amplify/ui-react';
 
 import Amplify from 'aws-amplify';
 import Home from './pages/Home';
-import CreateActivity from './pages/CreateActivity';
+import NewActivity from './pages/NewActivity';
 import {add, home} from 'ionicons/icons';
 
 export const API_NAME = 'xpenses';
@@ -53,14 +53,14 @@ const App: React.FC = () => (
             <IonTabs>
                 <IonRouterOutlet>
                     <Route path="/home" component={Home} exact={true}/>
-                    <Route path="/createActivity" component={CreateActivity} exact={true}/>
+                    <Route path="/newActivity" component={NewActivity} exact={true}/>
                     <Route path="/" render={() => <Redirect to="/home"/>} exact={true}/>
                 </IonRouterOutlet>
                 <IonTabBar slot="bottom">
                     <IonTabButton tab="home" href="/home">
                         <IonIcon icon={home}/>
                     </IonTabButton>
-                    <IonTabButton tab="createActivity" href="/createActivity">
+                    <IonTabButton tab="newActivity" href="/newActivity">
                         <IonIcon icon={add}/>
                     </IonTabButton>
                 </IonTabBar>

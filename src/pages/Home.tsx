@@ -4,6 +4,7 @@ import {
     IonContent,
     IonHeader,
     IonIcon,
+    IonInput,
     IonItem,
     IonLabel,
     IonList,
@@ -17,23 +18,26 @@ import {
 import './Home.css';
 import Activity from '../model/Activity';
 import {ellipse} from 'ionicons/icons';
-import {getActivities} from '../service/ActivityService';
-
-
-const EMPTY_ACTIVITY = new Activity('', '', '', [], '', []);
+import {get} from '../service/ActivityService';
+import {create} from '../service/ExpenseService';
 
 const Home: React.FC = () => {
 
+    const EMPTY_ACTIVITY = new Activity('', '', '', [], '', []);
+
     const [activities, setActivities] = useState<Activity[]>([]);
     const [activityDetails, setActivityDetails] = useState(false);
-    const [selectedActivity, setSelectedActivity] = useState(EMPTY_ACTIVITY);
+    const [selectedActivity, setSelectedActivity] = useState<Activity>(EMPTY_ACTIVITY);
     const [addExpense, setAddExpense] = useState(false);
     const [toastSuccess, setToastSuccess] = useState(false);
     const [toastError, setToastError] = useState(false);
+    const [amount, setAmount] = useState<number>(0);
+    const [currency, setCurrency] = useState<string>('CAD');
+    const [username, setUsername] = useState<string>('test'); //TODO username will be selected from token
 
     useEffect(() => {
         async function callGetActivities() {
-            getActivities('test') //TODO username will be selected from token
+            get(username)
                 .then(r => {
                     const mappedActivities = r.map((a: any) => {
                         return new Activity(a.id, a.name, a.createdBy, a.expenses, a.activityStatus, a.userStatus);
@@ -46,59 +50,6 @@ const Home: React.FC = () => {
 
         callGetActivities();
     }, []);
-
-    function renderCreateExpense() {
-        return (
-            <IonModal isOpen={addExpense}>
-                <IonHeader>
-                    <IonToolbar>
-                        <IonTitle>
-                            Create Expense
-                        </IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-                <IonButton onClick={() => {
-                    setAddExpense(false);
-                }}>
-                    Close
-                </IonButton>
-            </IonModal>
-        );
-    }
-
-    function renderActivityDetails() {
-        return (
-            <IonModal isOpen={activityDetails}>
-                <IonHeader>
-                    <IonToolbar>
-                        <IonTitle>
-                            {selectedActivity.name}
-                        </IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-                <IonText color="primary">
-                    <h1>Activity id : {selectedActivity.id}</h1>
-                </IonText>
-                <IonText>
-                    <h3>Created by : {selectedActivity.createdBy}</h3>
-                    <br/>
-                    <p>Activity status : {selectedActivity.activityStatus}</p>
-                    <p>Number of expenses : {selectedActivity.expenses == undefined ? 0 : selectedActivity.expenses.length}</p>
-                    <p>Number of participants : {selectedActivity.userStatus == undefined ? 0 : selectedActivity.userStatus.length}</p>
-                </IonText>
-
-                <IonButton onClick={() => setAddExpense(true)}>Add expense</IonButton>
-
-                <IonButton onClick={() => {
-                    setSelectedActivity(EMPTY_ACTIVITY);
-                    setActivityDetails(false);
-                }}>
-                    Close
-                </IonButton>
-                {renderCreateExpense()}
-            </IonModal>
-        );
-    }
 
     function renderActivities() {
         return (
@@ -119,8 +70,110 @@ const Home: React.FC = () => {
                         }
                     )
                 }
+                {renderActivityDetails()}
             </IonList>
         );
+    }
+
+    function renderActivityDetails() {
+        return (
+            <IonModal isOpen={activityDetails}>
+                <IonHeader>
+                    <IonToolbar>
+                        <IonTitle>
+                            {selectedActivity.name}
+                        </IonTitle>
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonText>
+                    <h4>Activity status : {selectedActivity.activityStatus}</h4>
+                    <p>Created by : {selectedActivity.createdBy}</p>
+                </IonText>
+
+                {(selectedActivity.expenses.length === undefined || selectedActivity.expenses.length === 0) ?
+                    <IonText>
+                        <h3>No expenses</h3>
+                    </IonText>
+                    :
+                    <IonText>
+                        <h4>Expenses</h4>
+                        <p>Number of expenses : {selectedActivity.expenses.length}</p>
+                    </IonText>
+                }
+
+                <IonText>
+                    <h4>Participants</h4>
+                    <p>Number of participants : {selectedActivity.userStatus === undefined ? 0 : selectedActivity.userStatus.length}</p>
+                </IonText>
+
+                <IonButton onClick={() => setAddExpense(true)}>Add expense</IonButton>
+
+                <IonButton onClick={() => {
+                    setSelectedActivity(EMPTY_ACTIVITY);
+                    setActivityDetails(false);
+                }}>
+                    Close
+                </IonButton>
+                {renderCreateExpense()}
+            </IonModal>
+        );
+    }
+
+    function renderCreateExpense() {
+        return (
+            <IonModal isOpen={addExpense}>
+                <IonHeader>
+                    <IonToolbar>
+                        <IonTitle>
+                            New Expense
+                        </IonTitle>
+                    </IonToolbar>
+                </IonHeader>
+                <IonLabel position="stacked">Amount</IonLabel>
+                <IonInput value={amount} type='number' placeholder="Enter amount" onIonChange={e => setAmount(parseFloat(e.detail.value!))}/>
+                <br/>
+                <IonLabel position="stacked">Currency</IonLabel>
+                <IonInput value={currency} placeholder="Enter currency" onIonChange={e => setCurrency(e.detail.value!)}/>
+                <br/>
+                <IonLabel position="stacked">Participant</IonLabel>
+                <IonInput value={username} placeholder="Enter participant" onIonChange={e => setUsername(e.detail.value!)}/>
+                <IonButton onClick={() => {
+                    callCreateExpense(amount, currency, username, selectedActivity);
+                }}>
+                    Add
+                </IonButton>
+                <IonButton onClick={() => {
+                    setAddExpense(false);
+                }}>
+                    Close
+                </IonButton>
+                {getSuccessToast('Successfully retrieved activities')}
+                {getErrorToast('An error occurred while retrieving activities. Please try again later.')}
+            </IonModal>
+        );
+    }
+
+    async function callCreateExpense(amount: number, currency: string, username: string, activity: Activity) {
+        create(amount, currency, username, activity.id)
+            .then(() => setToastSuccess(true))
+            .catch(() => setToastError(true));
+    }
+
+    function getSuccessToast(message: string) {
+        return <IonToast
+            isOpen={toastSuccess}
+            onDidDismiss={() => setToastSuccess(false)}
+            message={message}
+            duration={1000}/>;
+    }
+
+    function getErrorToast(message: string) {
+        return <IonToast
+            isOpen={toastError}
+            onDidDismiss={() => setToastError(false)}
+            message={message}
+            duration={2000}/>;
     }
 
     return (
@@ -132,19 +185,6 @@ const Home: React.FC = () => {
             </IonHeader>
             <IonContent>
                 {renderActivities()}
-                {renderActivityDetails()}
-
-                <IonToast
-                    isOpen={toastSuccess}
-                    onDidDismiss={() => setToastSuccess(false)}
-                    message="Successfully retrieved activities"
-                    duration={1000}/>
-
-                <IonToast
-                    isOpen={toastError}
-                    onDidDismiss={() => setToastError(false)}
-                    message="An error occurred while retrieving activities. Please try again later."
-                    duration={2000}/>
             </IonContent>
         </IonPage>
     );
