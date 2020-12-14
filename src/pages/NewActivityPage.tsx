@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {IonButton, IonContent, IonHeader, IonInput, IonLabel, IonPage, IonTitle, IonToast, IonToolbar} from '@ionic/react';
-import './NewActivity.css';
-import {create} from '../service/ActivityService';
+import './NewActivityPage.css';
+import {create} from '../api/ActivityApiService';
 
-export const NewActivity: React.FC = () => {
+export const NewActivityPage: React.FC = () => {
 
     const [name, setName] = useState<string>('');
     const [createdBy, setCreatedBy] = useState<string>('');
@@ -39,7 +39,7 @@ export const NewActivity: React.FC = () => {
             <IonToast
                 isOpen={toastSuccess}
                 onDidDismiss={() => setToastSuccess(false)}
-                message="Success ! Please go back to the Home screen to view the activity"
+                message="Success ! Please go back to the HomePage screen to view the activity"
                 duration={1000}/>;
 
             <IonToast
@@ -51,4 +51,4 @@ export const NewActivity: React.FC = () => {
     );
 };
 
-export default NewActivity;
+export default NewActivityPage;

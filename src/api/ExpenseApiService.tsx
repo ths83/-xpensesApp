@@ -16,5 +16,6 @@ export async function create(amount: number, currency: string, userId: string, a
             activityId: activityId
         },
     };
+    console.log('Calling createExpense endpoint...')
     return await API.post(apiName, path, myInit);
 }

@@ -13,6 +13,7 @@ export async function create(name: string, createdBy: string) {
             createdBy: createdBy
         },
     };
+    console.log('Calling createActivity endpoint...')
     return await API.post(apiName, path, myInit);
 }
 
@@ -24,5 +25,6 @@ export async function get(username: string) {
             'Authorization': `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
         },
     };
+    console.log('Calling getActivity endpoint...')
     return await API.get(apiName, path, myInit);
 }

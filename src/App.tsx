@@ -25,8 +25,8 @@ import './theme/variables.css';
 import {withAuthenticator} from '@aws-amplify/ui-react';
 
 import Amplify from 'aws-amplify';
-import Home from './pages/Home';
-import NewActivity from './pages/NewActivity';
+import HomePage from './pages/HomePage';
+import NewActivityPage from './pages/NewActivityPage';
 import {add, home} from 'ionicons/icons';
 
 export const API_NAME = 'xpenses';
@@ -52,8 +52,8 @@ const App: React.FC = () => (
         <IonReactRouter>
             <IonTabs>
                 <IonRouterOutlet>
-                    <Route path="/home" component={Home} exact={true}/>
-                    <Route path="/newActivity" component={NewActivity} exact={true}/>
+                    <Route path="/home" component={HomePage} exact={true}/>
+                    <Route path="/newActivity" component={NewActivityPage} exact={true}/>
                     <Route path="/" render={() => <Redirect to="/home"/>} exact={true}/>
                 </IonRouterOutlet>
                 <IonTabBar slot="bottom">
