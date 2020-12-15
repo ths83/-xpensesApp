@@ -29,6 +29,8 @@ import HomePage from './pages/HomePage';
 import NewActivityPage from './pages/NewActivityPage';
 import {add, home} from 'ionicons/icons';
 
+export const APP_NAME = 'Xpenses';
+
 export const API_NAME = 'xpenses';
 
 Amplify.configure({

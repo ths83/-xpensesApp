@@ -1,4 +1,4 @@
-import {IonButton, IonIcon, IonItem, IonLabel, IonList, IonModal} from '@ionic/react';
+import {IonButton, IonIcon, IonItem, IonLabel, IonList, IonModal, IonItemDivider, IonNote} from '@ionic/react';
 import {ellipse} from 'ionicons/icons';
 import React, {useState} from 'react';
 import Activity from '../../model/Activity';
@@ -43,6 +43,13 @@ export default function ActivityList({activities = [EMPTY_ACTIVITY]}) {
         );
     }
 
+    function setColorStatus(activity:Activity) : string{
+        if (activity.activityStatus === 'IN_PROGRESS') {
+            return 'success'
+        }
+        return 'danger'
+    }
+
     return (
         <IonList>
             {
@@ -53,7 +60,7 @@ export default function ActivityList({activities = [EMPTY_ACTIVITY]}) {
                                 setActivityDetails(true);
                             }}>
                                 <IonLabel>{activity.name}</IonLabel>
-                                <IonIcon icon={ellipse} size="small" slot="end"/>
+                                <IonIcon color={setColorStatus(activity)} icon={ellipse} size="small" slot="end"/>
                             </IonItem>
                         );
                     }
