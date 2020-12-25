@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Animated, View} from 'react-native';
+import {View} from 'react-native';
 import {getActivityById} from '../api/ActivityService';
 import Activity from '../model/Activity';
 import {ButtonGroup, Header, ListItem, Text} from 'react-native-elements';
