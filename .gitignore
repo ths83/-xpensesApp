@@ -1,45 +1,73 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# OSX
+#
+.DS_Store
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-package.json
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+
+# git
+#
+.gitattributes
+
+# Android/IntelliJ
+#
+android/
+.idea
+.gradle
+local.properties
+*.iml
+
+# ios/IntelliJ
+#
+ios/
+
+# Visual Studio Code
+#
+.vscode/
+
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
 yarn.lock
 
-# testing
-/coverage
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+!debug.keystore
+.buckconfig
 
-# production
-/build
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
 
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.vscode
-.idea
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Bundle artifact
+*.jsbundle
 
-# Mobile
-/android
-/.gradle
-/ios
-package-lock.json
-
-# AWS Amplify
-build/
-dist/
-node_modules/
-aws-exports.tsx
-awsconfiguration.json
-amplifyconfiguration.json
-amplify-build-config.json
-amplify-gradle-config.json
-amplifytools.xcconfig
-capacitor.config.json
+# Application
+src/config/AmplifyConfiguration.tsx
