@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {getActivityByUsername} from '../api/ActivityService';
-import Activity from '../model/Activity';
 import {Button, ListItem} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
+import Activity from '../../model/Activity';
+import {getActivityByUsername} from '../../api/ActivityService';
+import ActivityDetails from './components/ActivityDetails';
 
 const ActivitiesScreen = (props) => {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -18,6 +19,7 @@ const ActivitiesScreen = (props) => {
             a.expenses,
             a.activityStatus,
             a.userStatus,
+            a.date,
           );
         });
         setActivities(mappedActivities);
@@ -43,16 +45,12 @@ const ActivitiesScreen = (props) => {
               });
             }}
             bottomDivider>
-            <ListItem.Content>
-              <ListItem.Title>{activity.name}</ListItem.Title>
-              {/*TODO get time from API*/}
-              <ListItem.Subtitle>please add time</ListItem.Subtitle>
-            </ListItem.Content>
+            <ActivityDetails activity={activity} />
           </ListItem>
         ))}
       </ScrollView>
       <Button
-        title={'Add activity'}
+        title={'New activity'}
         onPress={() => props.navigation.navigate('AddActivity')}
       />
     </>

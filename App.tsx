@@ -1,10 +1,7 @@
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 
-import ActivitiesScreen from './src/screens/ActivitiesScreen';
-import AddActivityScreen from './src/screens/AddActivityScreen';
 import {Amplify} from 'aws-amplify';
-import ActivityDetailsScreen from './src/screens/ActivityDetailsScreen';
 import {
   API_NAME,
   ENDPOINT,
@@ -12,6 +9,10 @@ import {
   USER_POOL_ID,
   USER_POOL_WEB_CLIENT_ID,
 } from './src/config/AmplifyConfiguration';
+import AddActivityScreen from './src/screens/addActivity/AddActivityScreen';
+import ActivityDetailsScreen from './src/screens/activityDetails/ActivityDetailsScreen';
+import ActivitiesScreen from './src/screens/activities/ActivitiesScreen';
+import AddExpenseScreen from './src/screens/addExpense/AddExpenseScreen';
 
 Amplify.configure({
   Auth: {
@@ -34,6 +35,7 @@ const navigator = createStackNavigator(
     Activities: ActivitiesScreen,
     AddActivity: AddActivityScreen,
     ActivityDetails: ActivityDetailsScreen,
+    AddExpense: AddExpenseScreen,
   },
   {
     initialRouteName: 'Activities',

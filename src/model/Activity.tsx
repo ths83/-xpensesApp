@@ -5,6 +5,7 @@ export default class Activity {
   expenses: string[];
   activityStatus: string;
   userStatus: [];
+  date: string;
 
   constructor(
     id: string,
@@ -13,6 +14,7 @@ export default class Activity {
     expenses: string[],
     activityStatus: string,
     userStatus: [],
+    date: string,
   ) {
     this.id = id;
     this.name = name;
@@ -20,5 +22,6 @@ export default class Activity {
     this.expenses = expenses;
     this.activityStatus = activityStatus;
     this.userStatus = userStatus;
+    this.date = date;
   }
 }
