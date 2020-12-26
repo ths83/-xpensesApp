@@ -4,7 +4,7 @@ export default class Activity {
   createdBy: string;
   expenses: string[];
   activityStatus: string;
-  userStatus: [];
+  usersStatus: string[];
   date: string;
 
   constructor(
@@ -13,7 +13,7 @@ export default class Activity {
     createdBy: string,
     expenses: string[],
     activityStatus: string,
-    userStatus: [],
+    usersStatus: string[],
     date: string,
   ) {
     this.id = id;
@@ -21,7 +21,7 @@ export default class Activity {
     this.createdBy = createdBy;
     this.expenses = expenses;
     this.activityStatus = activityStatus;
-    this.userStatus = userStatus;
+    this.usersStatus = usersStatus;
     this.date = date;
   }
 }

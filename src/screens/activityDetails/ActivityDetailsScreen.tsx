@@ -1,40 +1,43 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import Activity from '../../model/Activity';
 import Expense from '../../model/Expense';
 import {getActivityById} from '../../api/ActivityService';
 import {getExpenseById} from '../../api/ExpenseService';
-import ExpensesDetails from './components/ExpensesDetails';
 import ActivityDetailsHeader from './components/ActivityDetailsHeader';
-import ActivityDetailsButtonGroup from './components/ActivityDetailsButtonGroup';
-import ActivityBottomHeader from './components/ActivityBottomHeader';
+import ActivityDetailsTab from './components/ActivityDetailsTab';
+import ActivityDetailsBottom from './components/ActivityDetailsBottom';
+import ExpensesView from './views/ExpensesView';
+import ExpensesBalanceView from './views/ExpensesBalanceView';
 
 const ActivityDetailsScreen = (route) => {
   const [selectedActivity, setSelectedActivity] = useState<Activity>();
   const [selectedExpenses, setSelectedExpenses] = useState<Expense[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
+  const [tabIndex, setTabIndex] = useState<number>(0);
 
   useEffect(() => {
     callGetActivity();
-  }, []);
+  }, [tabIndex]);
 
   async function callGetActivity() {
     const {activityId} = route.navigation.state.params;
     getActivityById(activityId)
       .then((a) => {
-        const foundActivity = new Activity(
+        const activity = new Activity(
           a.id,
           a.name,
           a.createdBy,
           a.expenses,
           a.activityStatus,
-          a.userStatus,
+          a.usersStatus,
           a.date,
         );
-        setSelectedActivity(foundActivity);
-        extractExpenses(foundActivity);
+        setSelectedActivity(activity);
+        extractExpenses(activity);
+        extractUsers(activity);
       })
       .catch((error) => {
         console.log(error);
@@ -77,21 +80,41 @@ const ActivityDetailsScreen = (route) => {
     }
   }
 
+  function extractUsers(activity: Activity) {
+    if (
+      activity.usersStatus === undefined ||
+      activity.usersStatus.length === 0
+    ) {
+      setSelectedUsers([]);
+    } else if (activity.usersStatus.length === 1) {
+      setSelectedUsers([activity.usersStatus[0].split('/')[0]]);
+    } else {
+      setSelectedUsers([
+        activity.usersStatus[0].split('/')[0],
+        activity.usersStatus[1].split('/')[0],
+      ]);
+    }
+  }
+
   return (
     <>
       <View>
         <ActivityDetailsHeader activityName={selectedActivity?.name} />
-        <ActivityDetailsButtonGroup />
+        <ActivityDetailsTab index={tabIndex} setIndex={setTabIndex} />
       </View>
       <ScrollView>
-        {selectedExpenses.length === 0 ? (
-          <Text>No expenses found</Text>
+        {tabIndex === 0 ? (
+          <ExpensesView expenses={selectedExpenses} />
         ) : (
-          <ExpensesDetails expenses={selectedExpenses} />
+          <ExpensesBalanceView
+            expenses={selectedExpenses}
+            users={selectedUsers}
+          />
         )}
       </ScrollView>
-      <ActivityBottomHeader
+      <ActivityDetailsBottom
         expenses={selectedExpenses}
+        active={selectedActivity?.activityStatus === 'IN_PROGRESS'}
         visible={visible}
         setVisible={setVisible}
       />
