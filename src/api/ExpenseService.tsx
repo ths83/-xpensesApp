@@ -1,7 +1,7 @@
 import {API} from 'aws-amplify';
 import {API_NAME} from '../config/AmplifyConfiguration';
 
-export async function create(
+export async function createExpense(
   amount: number,
   currency: string,
   userId: string,
