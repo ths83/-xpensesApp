@@ -13,7 +13,7 @@ export default class ActivityDetailsTab extends React.Component<{
     this.updateIndex = this.updateIndex.bind(this);
   }
 
-  updateIndex(selectedIndex: number) {
+  private updateIndex(selectedIndex: number) {
     this.setState({selectedIndex});
     this.props.setIndex(selectedIndex);
   }

@@ -4,9 +4,11 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Activity from '../../model/Activity';
 import {getActivityByUsername} from '../../api/ActivityService';
 import ActivityDetails from './components/ActivityDetails';
+import {useNavigation} from '@react-navigation/native';
 
-const ActivitiesScreen = (props) => {
+const ActivitiesScreen = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
+  const {navigate} = useNavigation();
 
   async function callGetActivities() {
     getActivityByUsername('test')
@@ -40,7 +42,7 @@ const ActivitiesScreen = (props) => {
           <ListItem
             key={i}
             onPress={() => {
-              props.navigation.navigate('ActivityDetails', {
+              navigate('ActivityDetails', {
                 activityId: activity.id,
               });
             }}
@@ -49,10 +51,7 @@ const ActivitiesScreen = (props) => {
           </ListItem>
         ))}
       </ScrollView>
-      <Button
-        title={'New activity'}
-        onPress={() => props.navigation.navigate('AddActivity')}
-      />
+      <Button title={'New activity'} onPress={() => navigate('AddActivity')} />
     </>
   );
 };

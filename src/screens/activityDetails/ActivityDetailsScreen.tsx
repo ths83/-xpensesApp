@@ -10,20 +10,22 @@ import ActivityDetailsTab from './components/ActivityDetailsTab';
 import ActivityDetailsBottom from './components/ActivityDetailsBottom';
 import ExpensesView from './views/ExpensesView';
 import ExpensesBalanceView from './views/ExpensesBalanceView';
+import {useRoute} from '@react-navigation/native';
 
-const ActivityDetailsScreen = (route) => {
+const ActivityDetailsScreen = () => {
   const [selectedActivity, setSelectedActivity] = useState<Activity>();
   const [selectedExpenses, setSelectedExpenses] = useState<Expense[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
   const [tabIndex, setTabIndex] = useState<number>(0);
+  const {params} = useRoute();
 
   useEffect(() => {
     callGetActivity();
   }, [tabIndex]);
 
   async function callGetActivity() {
-    const {activityId} = route.navigation.state.params;
+    const {activityId} = params;
     getActivityById(activityId)
       .then((a) => {
         const activity = new Activity(
@@ -99,7 +101,7 @@ const ActivityDetailsScreen = (route) => {
   return (
     <>
       <View>
-        <ActivityDetailsHeader activityName={selectedActivity?.name} />
+        <ActivityDetailsHeader title={selectedActivity?.name} />
         <ActivityDetailsTab index={tabIndex} setIndex={setTabIndex} />
       </View>
       <ScrollView>
@@ -114,6 +116,7 @@ const ActivityDetailsScreen = (route) => {
       </ScrollView>
       <ActivityDetailsBottom
         expenses={selectedExpenses}
+        activity={selectedActivity}
         active={selectedActivity?.activityStatus === 'IN_PROGRESS'}
         visible={visible}
         setVisible={setVisible}

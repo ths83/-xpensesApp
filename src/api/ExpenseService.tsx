@@ -2,7 +2,8 @@ import {API} from 'aws-amplify';
 import {API_NAME} from '../config/AmplifyConfiguration';
 
 export async function createExpense(
-  amount: number,
+  name: string,
+  amount: string,
   currency: string,
   userId: string,
   activityId: string,
@@ -12,6 +13,7 @@ export async function createExpense(
   const myInit = {
     headers: {},
     body: {
+      name: name,
       amount: amount,
       currency: currency,
       userId: userId,

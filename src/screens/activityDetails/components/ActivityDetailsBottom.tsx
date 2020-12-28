@@ -1,9 +1,12 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Button, Header, Overlay, Text} from 'react-native-elements';
 import Expense from '../../../model/Expense';
+import Activity from '../../../model/Activity';
 
-export default class ActivityDetailsBottom extends React.Component<{
+class ActivityDetailsBottom extends React.Component<{
   expenses: Expense[];
+  activity: Activity;
   active: boolean;
   visible: boolean;
   setVisible: (value: ((prevState: boolean) => boolean) | boolean) => void;
@@ -63,15 +66,22 @@ export default class ActivityDetailsBottom extends React.Component<{
           <Overlay
             isVisible={this.props.visible}
             onBackdropPress={() => this.props.setVisible(false)}>
-            {/* TODO add api call to add expense + add expense page*/}
             <Button
               title="Add expense"
-              onPress={() => console.log('Add expense clicked')}
+              onPress={() => {
+                this.props.setVisible(false);
+                this.props.navigation.navigate('AddExpense', {
+                  activity: this.props.activity,
+                });
+              }}
             />
             {/* TODO add api call to end activity*/}
             <Button
               title="End activity"
-              onPress={() => console.log('End activity clicked')}
+              onPress={() => {
+                this.props.setVisible(false);
+                console.log('End activity clicked');
+              }}
             />
             <Button
               title="Close"
@@ -82,4 +92,9 @@ export default class ActivityDetailsBottom extends React.Component<{
       )
     );
   }
+}
+
+export default function (props) {
+  const navigation = useNavigation();
+  return <ActivityDetailsBottom {...props} navigation={navigation} />;
 }

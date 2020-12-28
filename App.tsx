@@ -1,6 +1,5 @@
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-
+import 'react-native-gesture-handler';
+import React from 'react';
 import {Amplify} from 'aws-amplify';
 import {
   API_NAME,
@@ -9,9 +8,11 @@ import {
   USER_POOL_ID,
   USER_POOL_WEB_CLIENT_ID,
 } from './src/config/AmplifyConfiguration';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import ActivitiesScreen from './src/screens/activities/ActivitiesScreen';
 import AddActivityScreen from './src/screens/addActivity/AddActivityScreen';
 import ActivityDetailsScreen from './src/screens/activityDetails/ActivityDetailsScreen';
-import ActivitiesScreen from './src/screens/activities/ActivitiesScreen';
 import AddExpenseScreen from './src/screens/addExpense/AddExpenseScreen';
 
 Amplify.configure({
@@ -30,16 +31,21 @@ Amplify.configure({
   },
 });
 
-const navigator = createStackNavigator(
-  {
-    Activities: ActivitiesScreen,
-    AddActivity: AddActivityScreen,
-    ActivityDetails: ActivityDetailsScreen,
-    AddExpense: AddExpenseScreen,
-  },
-  {
-    initialRouteName: 'Activities',
-  },
-);
+const Stack = createStackNavigator();
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Activities" component={ActivitiesScreen} />
+        <Stack.Screen name="AddActivity" component={AddActivityScreen} />
+        <Stack.Screen
+          name="ActivityDetails"
+          component={ActivityDetailsScreen}
+        />
+        <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-export default createAppContainer(navigator);
+export default App;

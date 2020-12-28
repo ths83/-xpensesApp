@@ -2,7 +2,7 @@ import React from 'react';
 import {Header} from 'react-native-elements';
 
 export default class ActivityDetailsHeader extends React.Component<{
-  activityName: string;
+  title: string;
 }> {
   // FIXME get icons from header
   render() {
@@ -10,7 +10,7 @@ export default class ActivityDetailsHeader extends React.Component<{
       <Header
         // leftComponent={getHomeHeader()}
         centerComponent={{
-          text: this.props.activityName,
+          text: this.props.title,
           style: {color: '#fff'},
         }}
         // rightComponent={{icon: 'alert-circle-outline', color: '#fff'}}
