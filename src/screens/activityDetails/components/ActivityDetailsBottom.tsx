@@ -3,6 +3,7 @@ import React from 'react';
 import {Button, Header, Overlay, Text} from 'react-native-elements';
 import Expense from '../../../model/Expense';
 import Activity from '../../../model/Activity';
+import {TEST_USER} from '../../../config/UsersConfiguration';
 
 class ActivityDetailsBottom extends React.Component<{
   expenses: Expense[];
@@ -25,7 +26,7 @@ class ActivityDetailsBottom extends React.Component<{
     let userTotal = 0;
     this.props.expenses.map((expense) => {
       // TODO change by current user
-      if (expense.userId === 'test') {
+      if (expense.userId === TEST_USER) {
         userTotal += expense.amount;
       }
     });

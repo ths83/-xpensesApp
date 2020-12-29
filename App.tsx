@@ -11,7 +11,7 @@ import {
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import ActivitiesScreen from './src/screens/activities/ActivitiesScreen';
-import AddActivityScreen from './src/screens/addActivity/AddActivityScreen';
+import CreateActivityScreen from './src/screens/createActivity/CreateActivityScreen';
 import ActivityDetailsScreen from './src/screens/activityDetails/ActivityDetailsScreen';
 import AddExpenseScreen from './src/screens/addExpense/AddExpenseScreen';
 
@@ -37,7 +37,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Activities" component={ActivitiesScreen} />
-        <Stack.Screen name="AddActivity" component={AddActivityScreen} />
+        <Stack.Screen name="AddActivity" component={CreateActivityScreen} />
         <Stack.Screen
           name="ActivityDetails"
           component={ActivityDetailsScreen}

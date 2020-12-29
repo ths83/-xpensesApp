@@ -5,13 +5,14 @@ import Activity from '../../model/Activity';
 import {getActivityByUsername} from '../../api/ActivityService';
 import ActivityDetails from './components/ActivityDetails';
 import {useNavigation} from '@react-navigation/native';
+import {TEST_USER} from '../../config/UsersConfiguration';
 
 const ActivitiesScreen = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const {navigate} = useNavigation();
 
   async function callGetActivities() {
-    getActivityByUsername('test')
+    getActivityByUsername(TEST_USER)
       .then((activity) => {
         const mappedActivities = activity.map((a: any) => {
           return new Activity(

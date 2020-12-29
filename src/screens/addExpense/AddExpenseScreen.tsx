@@ -5,6 +5,9 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {Button, Input} from 'react-native-elements';
 import {useRoute} from '@react-navigation/native';
 import {createExpense} from '../../api/ExpenseService';
+import {TEST_USER} from '../../config/UsersConfiguration';
+
+const CANADIAN_CURRENCY = 'CAD';
 
 const AddExpenseScreen = () => {
   const [name, setName] = useState<string>('');
@@ -25,12 +28,22 @@ const AddExpenseScreen = () => {
           keyboardType={'decimal-pad'}
           onChangeText={(text) => setAmount(text)}
         />
-        <Input placeholder="Currency" defaultValue={'CAD'} editable={false} />
+        <Input
+          placeholder="Currency"
+          defaultValue={CANADIAN_CURRENCY}
+          editable={false}
+        />
       </ScrollView>
       <Button
         title={'Add expense'}
         onPress={() => {
-          createExpense(name, amount, 'CAD', 'test', activity.id);
+          createExpense(
+            name,
+            amount,
+            CANADIAN_CURRENCY,
+            TEST_USER,
+            activity.id,
+          ); //TODO get user id from cognito
         }}
       />
     </>

@@ -3,7 +3,7 @@ import {API_NAME} from '../config/AmplifyConfiguration';
 
 export async function createActivity(name: string, createdBy: string) {
   const apiName = API_NAME;
-  const path = '/activity';
+  const path = '/activities';
   const myInit = {
     headers: {},
     body: {
