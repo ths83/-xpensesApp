@@ -1,16 +1,18 @@
 import React from 'react';
 import Expense from '../../../model/Expense';
 import {Text} from 'react-native-elements';
-import ExpensesDetails from '../components/ExpensesDetails';
+import ExpensesDetails from '../component/expense/ExpensesDetails';
 
-export default class ExpensesView extends React.Component<{
+interface ExpensesViewInterface {
   expenses: Expense[];
-}> {
-  render() {
-    return this.props.expenses.length === 0 ? (
-      <Text>No expenses found</Text>
-    ) : (
-      <ExpensesDetails expenses={this.props.expenses} />
-    );
-  }
 }
+
+const ExpensesView = ({expenses}: ExpensesViewInterface) => {
+  return expenses.length === 0 ? (
+    <Text>No expenses found</Text>
+  ) : (
+    <ExpensesDetails expenses={expenses} />
+  );
+};
+
+export default ExpensesView;

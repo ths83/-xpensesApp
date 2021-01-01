@@ -5,18 +5,17 @@ import Activity from '../../model/Activity';
 import Expense from '../../model/Expense';
 import {getActivityById} from '../../api/ActivityService';
 import {getExpenseById} from '../../api/ExpenseService';
-import ActivityDetailsHeader from './components/ActivityDetailsHeader';
-import ActivityDetailsTab from './components/ActivityDetailsTab';
-import ActivityDetailsBottom from './components/ActivityDetailsBottom';
 import ExpensesView from './views/ExpensesView';
 import ExpensesBalanceView from './views/ExpensesBalanceView';
 import {useRoute} from '@react-navigation/native';
+import ActivityDetailsBottom from './component/activity/ActivityDetailsBottom';
+import ActivityDetailsTab from './component/activity/ActivityDetailsTab';
+import ActivityHeader from '../../shared/component/ActivityHeader';
 
 const ActivityDetailsScreen = () => {
   const [selectedActivity, setSelectedActivity] = useState<Activity>();
   const [selectedExpenses, setSelectedExpenses] = useState<Expense[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-  const [visible, setVisible] = useState<boolean>(false);
   const [tabIndex, setTabIndex] = useState<number>(0);
   const {params} = useRoute();
 
@@ -101,7 +100,7 @@ const ActivityDetailsScreen = () => {
   return (
     <>
       <View>
-        <ActivityDetailsHeader title={selectedActivity?.name} />
+        <ActivityHeader title={selectedActivity?.name} />
         <ActivityDetailsTab index={tabIndex} setIndex={setTabIndex} />
       </View>
       <ScrollView>
@@ -118,8 +117,6 @@ const ActivityDetailsScreen = () => {
         expenses={selectedExpenses}
         activity={selectedActivity}
         active={selectedActivity?.activityStatus === 'IN_PROGRESS'}
-        visible={visible}
-        setVisible={setVisible}
       />
     </>
   );

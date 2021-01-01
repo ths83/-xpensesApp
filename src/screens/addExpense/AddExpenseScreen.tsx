@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import ActivityDetailsHeader from '../activityDetails/components/ActivityDetailsHeader';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Button, Input} from 'react-native-elements';
 import {useRoute} from '@react-navigation/native';
 import {createExpense} from '../../api/ExpenseService';
 import {TEST_USER} from '../../config/UsersConfiguration';
-
-const CANADIAN_CURRENCY = 'CAD';
+import {CANADIAN_CURRENCY} from '../../shared/constant/CurrencyConstant';
+import ActivityHeader from '../../shared/component/ActivityHeader';
 
 const AddExpenseScreen = () => {
   const [name, setName] = useState<string>('');
@@ -19,7 +18,7 @@ const AddExpenseScreen = () => {
   return (
     <>
       <View>
-        <ActivityDetailsHeader title={activity.name} />
+        <ActivityHeader title={activity.name} />
       </View>
       <ScrollView>
         <Input placeholder="Name" onChangeText={(text) => setName(text)} />

@@ -3,7 +3,7 @@ import {Button, ListItem} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import Activity from '../../model/Activity';
 import {getActivityByUsername} from '../../api/ActivityService';
-import ActivityDetails from './components/ActivityDetails';
+import ActivityDetails from './component/ActivityDetails';
 import {useNavigation} from '@react-navigation/native';
 import {TEST_USER} from '../../config/UsersConfiguration';
 
@@ -21,7 +21,7 @@ const ActivitiesScreen = () => {
             a.createdBy,
             a.expenses,
             a.activityStatus,
-            a.userStatus,
+            a.usersStatus,
             a.date,
           );
         });

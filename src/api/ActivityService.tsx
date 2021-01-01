@@ -1,4 +1,4 @@
-import {API} from 'aws-amplify';
+import {API, Auth} from 'aws-amplify';
 import {API_NAME} from '../config/AmplifyConfiguration';
 
 export async function createActivity(name: string, createdBy: string) {
@@ -19,7 +19,11 @@ export async function getActivityByUsername(username: string) {
   const apiName = API_NAME;
   const path = '/activities?username=' + username;
   const myInit = {
-    headers: {},
+    headers: {
+      Authorization: `Bearer ${(await Auth.currentSession())
+        .getIdToken()
+        .getJwtToken()}`,
+    },
   };
   console.log('Retrieving activity by username...');
   return await API.get(apiName, path, myInit);

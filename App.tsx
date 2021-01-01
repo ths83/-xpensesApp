@@ -14,6 +14,7 @@ import ActivitiesScreen from './src/screens/activities/ActivitiesScreen';
 import CreateActivityScreen from './src/screens/createActivity/CreateActivityScreen';
 import ActivityDetailsScreen from './src/screens/activityDetails/ActivityDetailsScreen';
 import AddExpenseScreen from './src/screens/addExpense/AddExpenseScreen';
+import {withAuthenticator} from 'aws-amplify-react-native';
 
 Amplify.configure({
   Auth: {
@@ -48,4 +49,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default withAuthenticator(App);

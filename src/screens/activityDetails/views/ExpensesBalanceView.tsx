@@ -2,17 +2,25 @@ import React from 'react';
 import {Text} from 'react-native-elements';
 import Expense from '../../../model/Expense';
 
-export default class ExpensesBalanceView extends React.Component<{
+interface ExpensesBalanceViewInterface {
   expenses: Expense[];
   users: string[];
-}> {
-  render() {
+}
+
+const ExpensesBalanceView = ({
+  expenses,
+  users,
+}: ExpensesBalanceViewInterface) => {
+  return render();
+
+  function render() {
     let firstUserTotalAmount = 0;
     let secondUserTotalAmount = 0;
-    this.props.expenses.map((expense) => {
-      if (expense.userId === this.props.users[0]) {
+
+    expenses.map((expense: Expense) => {
+      if (expense.userId === users[0]) {
         firstUserTotalAmount += expense.amount;
-      } else if (expense.userId === this.props.users[1]) {
+      } else if (expense.userId === users[1]) {
         secondUserTotalAmount += expense.amount;
       }
     });
@@ -22,17 +30,17 @@ export default class ExpensesBalanceView extends React.Component<{
     } else if (firstUserTotalAmount > secondUserTotalAmount) {
       return (
         <Text>
-          {this.props.users[1]} owes {secondUserTotalAmount / 2} CAD to{' '}
-          {this.props.users[0]}
+          {users[1]} owes {secondUserTotalAmount / 2} CAD to {users[0]}
         </Text>
       );
     } else {
       return (
         <Text>
-          {this.props.users[0]} owes {secondUserTotalAmount / 2} CAD to{' '}
-          {this.props.users[1]}
+          {users[0]} owes {secondUserTotalAmount / 2} CAD to {users[1]}
         </Text>
       );
     }
   }
-}
+};
+
+export default ExpensesBalanceView;
