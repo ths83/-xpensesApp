@@ -5,7 +5,11 @@ export async function createActivity(name: string, createdBy: string) {
   const apiName = API_NAME;
   const path = '/activities';
   const myInit = {
-    headers: {},
+    headers: {
+      Authorization: `Bearer ${(await Auth.currentSession())
+        .getIdToken()
+        .getJwtToken()}`,
+    },
     body: {
       name: name,
       createdBy: createdBy,
@@ -17,7 +21,7 @@ export async function createActivity(name: string, createdBy: string) {
 
 export async function getActivityByUsername(username: string) {
   const apiName = API_NAME;
-  const path = '/activities?username=' + username;
+  const path = `/activities?username=${username}`;
   const myInit = {
     headers: {
       Authorization: `Bearer ${(await Auth.currentSession())
@@ -25,16 +29,39 @@ export async function getActivityByUsername(username: string) {
         .getJwtToken()}`,
     },
   };
-  console.log('Retrieving activity by username...');
+  console.log(`Retrieving activity from username '${username}'...`);
   return await API.get(apiName, path, myInit);
 }
 
 export async function getActivityById(id: string) {
   const apiName = API_NAME;
-  const path = '/activities/' + id;
+  const path = `/activities/${id}`;
   const myInit = {
-    headers: {},
+    headers: {
+      Authorization: `Bearer ${(await Auth.currentSession())
+        .getIdToken()
+        .getJwtToken()}`,
+    },
   };
-  console.log('Retrieving activity by id...');
+  console.log(`Retrieving activity ${id}...`);
   return await API.get(apiName, path, myInit);
+}
+
+export async function delExpenseFromActivity(
+  activityId: string,
+  expenseId: string,
+) {
+  const apiName = API_NAME;
+  const path = `/activities/${activityId}/expenses/${expenseId}`;
+  const myInit = {
+    headers: {
+      Authorization: `Bearer ${(await Auth.currentSession())
+        .getIdToken()
+        .getJwtToken()}`,
+    },
+  };
+  console.log(
+    `Deleting expense '${expenseId}' from activity '${expenseId}'...`,
+  );
+  return await API.del(apiName, path, myInit);
 }

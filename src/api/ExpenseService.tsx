@@ -1,4 +1,4 @@
-import {API} from 'aws-amplify';
+import {API, Auth} from 'aws-amplify';
 import {API_NAME} from '../config/AmplifyConfiguration';
 
 export async function createExpense(
@@ -11,7 +11,11 @@ export async function createExpense(
   const apiName = API_NAME;
   const path = '/expenses';
   const myInit = {
-    headers: {},
+    headers: {
+      Authorization: `Bearer ${(await Auth.currentSession())
+        .getIdToken()
+        .getJwtToken()}`,
+    },
     body: {
       name: name,
       amount: amount,
@@ -26,10 +30,14 @@ export async function createExpense(
 
 export async function getExpenseById(id: string) {
   const apiName = API_NAME;
-  const path = '/expenses/' + id;
+  const path = `/expenses/${id}`;
   const myInit = {
-    headers: {},
+    headers: {
+      Authorization: `Bearer ${(await Auth.currentSession())
+        .getIdToken()
+        .getJwtToken()}`,
+    },
   };
-  console.log('Retrieving expense by id...');
+  console.log(`Retrieving expense '${id}'...`);
   return await API.get(apiName, path, myInit);
 }

@@ -45,20 +45,6 @@ const ActivityDetailsScreen = () => {
       });
   }
 
-  function getExpenses(expenses: Expense[]) {
-    return expenses
-      .sort((ex1, ex2) => {
-        if (ex1.date > ex2.date) {
-          return 1;
-        }
-        if (ex1.date < ex2.date) {
-          return -1;
-        }
-        return 0;
-      })
-      .reverse();
-  }
-
   async function extractExpenses(activity: Activity) {
     if (activity?.expenses === undefined || activity?.expenses.length === 0) {
       setSelectedExpenses([]);
@@ -79,6 +65,20 @@ const ActivityDetailsScreen = () => {
         setSelectedExpenses(getExpenses(mappedExpenses));
       });
     }
+  }
+
+  function getExpenses(expenses: Expense[]) {
+    return expenses
+      .sort((ex1, ex2) => {
+        if (ex1.date > ex2.date) {
+          return 1;
+        }
+        if (ex1.date < ex2.date) {
+          return -1;
+        }
+        return 0;
+      })
+      .reverse();
   }
 
   function extractUsers(activity: Activity) {
@@ -105,7 +105,10 @@ const ActivityDetailsScreen = () => {
       </View>
       <ScrollView>
         {tabIndex === 0 ? (
-          <ExpensesView expenses={selectedExpenses} />
+          <ExpensesView
+            activity={selectedActivity}
+            expenses={selectedExpenses}
+          />
         ) : (
           <ExpensesBalanceView
             expenses={selectedExpenses}

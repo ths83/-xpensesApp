@@ -1,13 +1,17 @@
 import {ListItem} from 'react-native-elements';
 import React, {useState} from 'react';
 import Expense from '../../../../model/Expense';
+import ExpenseActions from './ExpenseActions';
+import Activity from '../../../../model/Activity';
 
 interface ExpensesDetailsInterface {
+  activity: Activity;
   expenses: Expense[];
 }
 
-const ExpensesDetails = ({expenses}: ExpensesDetailsInterface) => {
+const ExpensesDetails = ({activity, expenses}: ExpensesDetailsInterface) => {
   const [actionVisible, setActionVisible] = useState<boolean>(false);
+  const [selectedExpense, setSelectedExpense] = useState<Expense>();
 
   return (
     <>
@@ -15,7 +19,10 @@ const ExpensesDetails = ({expenses}: ExpensesDetailsInterface) => {
         <ListItem
           key={i}
           bottomDivider
-          onLongPress={() => setActionVisible(true)}>
+          onLongPress={() => {
+            setSelectedExpense(expense);
+            setActionVisible(true);
+          }}>
           <ListItem.Content>
             <ListItem.Title>{expense.name}</ListItem.Title>
             <ListItem.Subtitle>Paid by {expense.userId}</ListItem.Subtitle>
@@ -29,21 +36,14 @@ const ExpensesDetails = ({expenses}: ExpensesDetailsInterface) => {
           </ListItem.Content>
         </ListItem>
       ))}
+      <ExpenseActions
+        activity={activity}
+        expense={selectedExpense}
+        isVisible={actionVisible}
+        setVisible={setActionVisible}
+      />
     </>
   );
-
-  // TODO expense action delete + update
-  // private actionAlert() {
-  //   return (
-  //     <>
-  //       <Overlay
-  //         isVisible={this.props.updateIndicator}
-  //         onBackdropPress={() => this.props.setUpdateIndicator(false)}>
-  //         <Text>Hello from Overlay!</Text>
-  //       </Overlay>
-  //     </>
-  //   );
-  // }
 };
 
 export default ExpensesDetails;
