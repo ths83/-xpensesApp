@@ -19,7 +19,7 @@ const ExpensesDetails = ({activity, expenses}: ExpensesDetailsInterface) => {
         <ListItem
           key={i}
           bottomDivider
-          onLongPress={() => {
+          onPress={() => {
             setSelectedExpense(expense);
             setActionVisible(true);
           }}>

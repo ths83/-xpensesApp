@@ -17,31 +17,28 @@ const ExpenseActions = ({
   isVisible,
   setVisible,
 }: ExpenseActionsInterface) => {
+  function deleteExpense() {
+    delExpenseFromActivity(activity.id, expense.id)
+      .then(() =>
+        console.log(
+          `Successfully deleted expense ${expense.id} from activity ${activity.id}`,
+        ),
+      )
+      .catch((error) =>
+        console.log(
+          `An error occurred while deleting expense ${expense.id} from activity ${activity.id}`,
+          error,
+        ),
+      );
+  }
+
   return (
     <>
       <Overlay isVisible={isVisible} onBackdropPress={() => setVisible(false)}>
-        {/* TODO add api call to update expense*/}
-        <Button
-          title="Update expense"
-          onPress={() => {
-            setVisible(false);
-          }}
-        />
         <Button
           title="Delete expense"
           onPress={() => {
-            delExpenseFromActivity(activity.id, expense.id)
-              .then(() =>
-                console.log(
-                  `Successfully deleted expense ${expense.id} from activity ${activity.id}`,
-                ),
-              )
-              .catch((error) =>
-                console.log(
-                  `An error occurred while deleting expense ${expense.id} from activity ${activity.id}`,
-                  error,
-                ),
-              );
+            deleteExpense();
             setVisible(false);
           }}
         />
