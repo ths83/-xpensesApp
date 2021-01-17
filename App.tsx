@@ -15,6 +15,7 @@ import CreateActivityScreen from './src/screens/createActivity/CreateActivityScr
 import ActivityDetailsScreen from './src/screens/activityDetails/ActivityDetailsScreen';
 import AddExpenseScreen from './src/screens/addExpense/AddExpenseScreen';
 import {withAuthenticator} from 'aws-amplify-react-native';
+import AppHeader from './src/shared/component/AppHeader';
 
 Amplify.configure({
   Auth: {
@@ -37,13 +38,34 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Activities" component={ActivitiesScreen} />
-        <Stack.Screen name="AddActivity" component={CreateActivityScreen} />
+        <Stack.Screen
+          name="Activities"
+          component={ActivitiesScreen}
+          options={{
+            header: () => <AppHeader />,
+          }}
+        />
+        <Stack.Screen
+          name="AddActivity"
+          component={CreateActivityScreen}
+          options={{
+            header: () => <AppHeader />,
+          }}
+        />
         <Stack.Screen
           name="ActivityDetails"
           component={ActivityDetailsScreen}
+          options={{
+            header: () => <AppHeader />,
+          }}
         />
-        <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
+        <Stack.Screen
+          name="AddExpense"
+          component={AddExpenseScreen}
+          options={{
+            header: () => <AppHeader />,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
