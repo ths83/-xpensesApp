@@ -1,3 +1,5 @@
+import {toYYYY_MM_DD} from '../shared/utils/DateFormatter';
+
 export default class Activity {
   id: string;
   name: string;
@@ -22,6 +24,6 @@ export default class Activity {
     this.expenses = expenses;
     this.activityStatus = activityStatus;
     this.usersStatus = usersStatus;
-    this.date = date;
+    this.date = toYYYY_MM_DD(date);
   }
 }
