@@ -28,14 +28,6 @@ const ActivityDetailsActions = ({
             });
           }}
         />
-        {/* TODO add api call to end activity*/}
-        <Button
-          title="End activity"
-          onPress={() => {
-            setActive(false);
-            console.log('End activity clicked');
-          }}
-        />
         <Button title="Close" onPress={() => setActive(false)} />
       </Overlay>
     </>

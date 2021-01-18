@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Activity from '../../model/Activity';
@@ -10,20 +10,28 @@ import ExpensesBalanceView from './views/ExpensesBalanceView';
 import {useRoute} from '@react-navigation/native';
 import ActivityDetailsBottom from './component/activity/ActivityDetailsBottom';
 import ActivityDetailsTab from './component/activity/ActivityDetailsTab';
-import ActivityHeader from '../../shared/component/ActivityHeader';
+import {getUsers} from '../../config/UsersConfiguration';
+import {sortByLastDate} from '../../shared/utils/ExpenseFormatter';
+import {Status} from '../../shared/constant/Status';
+import {Text} from 'react-native-elements';
 
 const ActivityDetailsScreen = () => {
-  const [selectedActivity, setSelectedActivity] = useState<Activity>();
-  const [selectedExpenses, setSelectedExpenses] = useState<Expense[]>([]);
-  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [activity, setActivity] = useState<Activity>();
+  const [expenses, setExpenses] = useState<Expense[]>([]);
   const [tabIndex, setTabIndex] = useState<number>(0);
+
+  const [status, setStatus] = useState<Status>(Status.IDLE);
+
+  const users = useRef<string[]>(getUsers());
+
   const {params} = useRoute();
 
   useEffect(() => {
-    callGetActivity();
-  }, [tabIndex]);
+    fetchActivity();
+  }, []);
 
-  async function callGetActivity() {
+  async function fetchActivity() {
+    setStatus(Status.IN_PROGRESS);
     const {activityId} = params;
     getActivityById(activityId)
       .then((a) => {
@@ -36,93 +44,73 @@ const ActivityDetailsScreen = () => {
           a.usersStatus,
           a.date,
         );
-        setSelectedActivity(activity);
-        extractExpenses(activity);
-        extractUsers(activity);
+        setActivity(activity);
+        fetchExpenses(activity);
       })
       .catch((error) => {
+        setStatus(Status.ERROR);
         console.log(error);
       });
   }
 
-  async function extractExpenses(activity: Activity) {
+  async function fetchExpenses(activity: Activity) {
     if (activity?.expenses === undefined || activity?.expenses.length === 0) {
-      setSelectedExpenses([]);
+      setExpenses([]);
+      setStatus(Status.SUCCESS);
     } else {
       Promise.all(
         activity?.expenses.map((expenseId) => getExpenseById(expenseId)),
-      ).then((response) => {
-        const mappedExpenses = response.map((ex: any) => {
-          return new Expense(
-            ex.id,
-            ex.userId,
-            ex.amount,
-            ex.currency,
-            ex.date,
-            ex.name,
-          );
+      )
+        .then((response) => {
+          const mappedExpenses = response.map((ex: any) => {
+            return new Expense(
+              ex.id,
+              ex.userId,
+              ex.amount,
+              ex.currency,
+              ex.date,
+              ex.name,
+            );
+          });
+          setExpenses(sortByLastDate(mappedExpenses));
+          setStatus(Status.SUCCESS);
+        })
+        .catch((error) => {
+          setStatus(Status.ERROR);
+          console.log(error);
         });
-        setSelectedExpenses(getExpenses(mappedExpenses));
-      });
     }
   }
 
-  function getExpenses(expenses: Expense[]) {
-    return expenses
-      .sort((ex1, ex2) => {
-        if (ex1.date > ex2.date) {
-          return 1;
-        }
-        if (ex1.date < ex2.date) {
-          return -1;
-        }
-        return 0;
-      })
-      .reverse();
-  }
-
-  function extractUsers(activity: Activity) {
-    if (
-      activity.usersStatus === undefined ||
-      activity.usersStatus.length === 0
-    ) {
-      setSelectedUsers([]);
-    } else if (activity.usersStatus.length === 1) {
-      setSelectedUsers([activity.usersStatus[0].split('/')[0]]);
-    } else {
-      setSelectedUsers([
-        activity.usersStatus[0].split('/')[0],
-        activity.usersStatus[1].split('/')[0],
-      ]);
+  function render() {
+    if (status === Status.IDLE || status === Status.IN_PROGRESS) {
+      return <Text>Loading...</Text>;
+    } else if (status === Status.ERROR) {
+      return <Text>An error occurred while fetching expenses</Text>;
+    } else if (status === Status.SUCCESS) {
+      return (
+        <>
+          <View>
+            <ActivityDetailsTab index={tabIndex} setIndex={setTabIndex} />
+          </View>
+          <ScrollView>
+            {tabIndex === 0 ? (
+              <ExpensesView activity={activity} expenses={expenses} />
+            ) : (
+              <ExpensesBalanceView expenses={expenses} users={users.current} />
+            )}
+          </ScrollView>
+          <ActivityDetailsBottom
+            expenses={expenses}
+            activity={activity}
+            active={activity?.activityStatus === Status.IN_PROGRESS}
+          />
+        </>
+      );
     }
   }
 
-  return (
-    <>
-      <View>
-        <ActivityHeader title={selectedActivity?.name} />
-        <ActivityDetailsTab index={tabIndex} setIndex={setTabIndex} />
-      </View>
-      <ScrollView>
-        {tabIndex === 0 ? (
-          <ExpensesView
-            activity={selectedActivity}
-            expenses={selectedExpenses}
-          />
-        ) : (
-          <ExpensesBalanceView
-            expenses={selectedExpenses}
-            users={selectedUsers}
-          />
-        )}
-      </ScrollView>
-      <ActivityDetailsBottom
-        expenses={selectedExpenses}
-        activity={selectedActivity}
-        active={selectedActivity?.activityStatus === 'IN_PROGRESS'}
-      />
-    </>
-  );
+  return render();
 };
 
 export default ActivityDetailsScreen;
