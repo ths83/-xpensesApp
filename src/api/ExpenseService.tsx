@@ -1,10 +1,10 @@
 import {API, Auth} from 'aws-amplify';
 import {API_NAME} from '../config/AmplifyConfiguration';
+import {Currency} from '../shared/constant/Currency';
 
 export async function createExpense(
   name: string,
   amount: string,
-  currency: string,
   userId: string,
   activityId: string,
 ) {
@@ -19,7 +19,7 @@ export async function createExpense(
     body: {
       name: name,
       amount: amount,
-      currency: currency,
+      currency: Currency.CANADA,
       userId: userId,
       activityId: activityId,
     },

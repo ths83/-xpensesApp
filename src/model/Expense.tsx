@@ -1,3 +1,5 @@
+import {toYYYY_MM_DD} from '../shared/utils/DateFormatter';
+
 export default class Expense {
   id: string;
   userId: string;
@@ -18,7 +20,7 @@ export default class Expense {
     this.userId = userId;
     this.amount = amount;
     this.currency = currency;
-    this.date = date;
+    this.date = toYYYY_MM_DD(date);
     this.name = name;
   }
 }

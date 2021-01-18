@@ -31,7 +31,6 @@ const ExpensesDetails = ({activity, expenses}: ExpensesDetailsInterface) => {
             <ListItem.Title>
               {expense.amount} {expense.currency}
             </ListItem.Title>
-            {/*TODO format date => YYYY-MM-DD*/}
             <ListItem.Subtitle>{expense.date}</ListItem.Subtitle>
           </ListItem.Content>
         </ListItem>

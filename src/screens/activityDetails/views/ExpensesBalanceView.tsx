@@ -30,7 +30,7 @@ const ExpensesBalanceView = ({
     } else if (firstUserTotalAmount > secondUserTotalAmount) {
       return (
         <Text>
-          {users[1]} owes {secondUserTotalAmount / 2} CAD to {users[0]}
+          {users[1]} owes {firstUserTotalAmount / 2} CAD to {users[0]}
         </Text>
       );
     } else {
