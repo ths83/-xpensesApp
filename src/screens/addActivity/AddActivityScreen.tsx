@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Button, CheckBox, Input} from 'react-native-elements';
+import {Button, CheckBox, Input, Text} from 'react-native-elements';
 import {
   FIRST_USER,
   SECOND_USER,
@@ -9,22 +9,19 @@ import {
 } from '../../config/UsersConfiguration';
 import {createActivity} from '../../api/ActivityService';
 import {useNavigation} from '@react-navigation/native';
+import {useAtom} from 'jotai';
+import {activityAtom} from '../../../App';
+import {Status} from '../../commons/enums/Status';
 
-const CreateActivityScreen = () => {
+const AddActivityScreen = () => {
   const [name, setName] = useState<string>('');
   const [testUserSelected, setTestUserSelected] = useState<boolean>(false);
   const [firstUserSelected, setFirstUserSelected] = useState<boolean>(false);
   const [secondUserSelected, setSecondUserSelected] = useState<boolean>(false);
-  const [activityId, setActivityId] = useState<string>();
-  const {navigate} = useNavigation();
+  const [status, setStatus] = useState<Status>(Status.IDLE);
+  const [, setActivity] = useAtom(activityAtom);
 
-  async function callCreateActivity() {
-    createActivity(name, TEST_USER)
-      .then((a) => setActivityId(a.id))
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  const {navigate} = useNavigation();
 
   return (
     <>
@@ -38,6 +35,7 @@ const CreateActivityScreen = () => {
           checked={testUserSelected}
           onPress={() => setTestUserSelected(!testUserSelected)}
         />
+        {/*TODO END*/}
         <CheckBox
           title={FIRST_USER}
           checked={firstUserSelected}
@@ -49,18 +47,28 @@ const CreateActivityScreen = () => {
           onPress={() => setSecondUserSelected(!secondUserSelected)}
         />
       </ScrollView>
+      <Text>
+        {status === Status.ERROR &&
+          'An error occurred while adding new activity'}
+      </Text>
       <Button
         title={'Create'}
         onPress={() => {
-          callCreateActivity();
-          console.log(activityId);
-          navigate('ActivityDetails', {
-            activityId: activityId,
-          });
+          createActivity(name, TEST_USER)
+            .then((response) => {
+              console.log(`Successfully added activity '${response.id}'`);
+              setStatus(Status.SUCCESS);
+              setActivity(response);
+              navigate('ActivityDetails');
+            })
+            .catch((error) => {
+              console.log(error);
+              setStatus(Status.ERROR);
+            });
         }}
       />
     </>
   );
 };
 
-export default CreateActivityScreen;
+export default AddActivityScreen;
