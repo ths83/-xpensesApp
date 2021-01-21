@@ -7,7 +7,7 @@ const LogoutHeaderComponent = () => {
 
   async function signOut() {
     await Auth.signOut()
-      .then(() => console.log('Logout clicked by user'))
+      .then(() => console.log('User has signed out'))
       .catch((err) => console.log(err));
   }
 
