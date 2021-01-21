@@ -2,16 +2,14 @@ import {ListItem} from 'react-native-elements';
 import React, {useState} from 'react';
 import Expense from '../../../../model/Expense';
 import ExpenseActions from './ExpenseActions';
-import Activity from '../../../../model/Activity';
 
-interface ExpensesDetailsInterface {
-  activity: Activity;
+interface Props {
   expenses: Expense[];
 }
 
-const ExpensesDetails = ({activity, expenses}: ExpensesDetailsInterface) => {
+const ExpensesDetails = ({expenses}: Props) => {
   const [actionVisible, setActionVisible] = useState<boolean>(false);
-  const [selectedExpense, setSelectedExpense] = useState<Expense>();
+  const [expense, setExpense] = useState<Expense>();
 
   return (
     <>
@@ -20,7 +18,7 @@ const ExpensesDetails = ({activity, expenses}: ExpensesDetailsInterface) => {
           key={i}
           bottomDivider
           onPress={() => {
-            setSelectedExpense(expense);
+            setExpense(expense);
             setActionVisible(true);
           }}>
           <ListItem.Content>
@@ -36,8 +34,7 @@ const ExpensesDetails = ({activity, expenses}: ExpensesDetailsInterface) => {
         </ListItem>
       ))}
       <ExpenseActions
-        activity={activity}
-        expense={selectedExpense}
+        expense={expense}
         isVisible={actionVisible}
         setVisible={setActionVisible}
       />

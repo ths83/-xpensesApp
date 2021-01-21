@@ -1,6 +1,6 @@
 import {API, Auth} from 'aws-amplify';
 import {API_NAME} from '../config/AmplifyConfiguration';
-import {Currency} from '../shared/constant/Currency';
+import {Currency} from '../commons/enums/Currency';
 
 export async function createExpense(
   name: string,
@@ -20,11 +20,11 @@ export async function createExpense(
       name: name,
       amount: amount,
       currency: Currency.CANADA,
-      userId: userId,
+      user: userId,
       activityId: activityId,
     },
   };
-  console.log('Creating new expense...');
+  console.log('Adding new expense...');
   return await API.post(apiName, path, myInit);
 }
 

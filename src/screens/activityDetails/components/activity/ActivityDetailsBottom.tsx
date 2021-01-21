@@ -1,23 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, Header, Text} from 'react-native-elements';
-
-import ActivityDetailsActions from './ActivityDetailsActions';
 import Expense from '../../../../model/Expense';
-import Activity from '../../../../model/Activity';
 import {TEST_USER} from '../../../../config/UsersConfiguration';
+import {useNavigation} from '@react-navigation/native';
 
-interface ActivityDetailsBottomInterface {
+interface Props {
   expenses: Expense[];
-  activity: Activity;
-  active: boolean;
 }
 
-const ActivityDetailsBottom = ({
-  expenses,
-  activity,
-  active,
-}: ActivityDetailsBottomInterface) => {
-  const [visible, setVisible] = useState<boolean>(false);
+const ActivityDetailsBottom = ({expenses}: Props) => {
+  const {navigate} = useNavigation();
 
   return (
     <Header
@@ -59,23 +51,18 @@ const ActivityDetailsBottom = ({
   // TODO resolve icon issue
   function renderCenter() {
     return (
-      active && (
-        <>
-          <Button
-            onPress={() => setVisible(true)}
-            icon={{
-              name: 'arrow-right',
-              size: 10,
-              color: 'white',
-            }}
-          />
-          <ActivityDetailsActions
-            activity={activity}
-            active={visible}
-            setActive={setVisible}
-          />
-        </>
-      )
+      <>
+        <Button
+          onPress={() => {
+            navigate('AddExpense');
+          }}
+          icon={{
+            name: 'arrow-right',
+            size: 10,
+            color: 'white',
+          }}
+        />
+      </>
     );
   }
 };

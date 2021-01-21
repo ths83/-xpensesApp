@@ -1,19 +1,17 @@
 import React from 'react';
 import Expense from '../../../model/Expense';
 import {Text} from 'react-native-elements';
-import ExpensesDetails from '../component/expense/ExpensesDetails';
-import Activity from '../../../model/Activity';
+import ExpensesDetails from '../components/expense/ExpensesDetails';
 
-interface ExpensesViewInterface {
-  activity: Activity;
+interface Props {
   expenses: Expense[];
 }
 
-const ExpensesView = ({activity, expenses}: ExpensesViewInterface) => {
+const ExpensesView = ({expenses}: Props) => {
   return expenses.length === 0 ? (
     <Text>No expenses found</Text>
   ) : (
-    <ExpensesDetails activity={activity} expenses={expenses} />
+    <ExpensesDetails expenses={expenses} />
   );
 };
 

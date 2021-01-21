@@ -1,17 +1,14 @@
 import React from 'react';
 import {Text} from 'react-native-elements';
 import Expense from '../../../model/Expense';
+import {getUsers} from '../../../config/UsersConfiguration';
 
-interface ExpensesBalanceViewInterface {
+interface Props {
   expenses: Expense[];
-  users: string[];
 }
 
-const ExpensesBalanceView = ({
-  expenses,
-  users,
-}: ExpensesBalanceViewInterface) => {
-  return render();
+const ExpensesBalanceView = ({expenses}: Props) => {
+  const users = getUsers(); //TODO remove for v2
 
   function render() {
     let firstUserTotalAmount = 0;
@@ -41,6 +38,8 @@ const ExpensesBalanceView = ({
       );
     }
   }
+
+  return render();
 };
 
 export default ExpensesBalanceView;

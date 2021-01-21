@@ -1,4 +1,4 @@
-import Expense from '../../model/Expense';
+import Expense from '../model/Expense';
 
 export function sortByLastDate(expenses: Expense[]) {
   return expenses

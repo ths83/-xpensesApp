@@ -1,4 +1,4 @@
-import {toYYYY_MM_DD} from '../shared/utils/DateFormatter';
+import {toYYYY_MM_DD} from '../utils/DateFormatter';
 
 export default class Expense {
   id: string;

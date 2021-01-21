@@ -11,11 +11,13 @@ import {
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import ActivitiesScreen from './src/screens/activities/ActivitiesScreen';
-import CreateActivityScreen from './src/screens/createActivity/CreateActivityScreen';
+import AddActivityScreen from './src/screens/addActivity/AddActivityScreen';
 import ActivityDetailsScreen from './src/screens/activityDetails/ActivityDetailsScreen';
 import AddExpenseScreen from './src/screens/addExpense/AddExpenseScreen';
 import {withAuthenticator} from 'aws-amplify-react-native';
-import AppHeader from './src/shared/component/AppHeader';
+import AppHeader from './src/commons/components/AppHeader';
+import {atom, Provider} from 'jotai';
+import Activity from './src/model/Activity';
 
 Amplify.configure({
   Auth: {
@@ -33,41 +35,48 @@ Amplify.configure({
   },
 });
 
+export const activityAtom = atom(new Activity('', '', '', [], [], ''));
+
+// TODO
+export const currentUsernameAtom = atom('');
+
 const Stack = createStackNavigator();
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Activities"
-          component={ActivitiesScreen}
-          options={{
-            header: () => <AppHeader />,
-          }}
-        />
-        <Stack.Screen
-          name="AddActivity"
-          component={CreateActivityScreen}
-          options={{
-            header: () => <AppHeader />,
-          }}
-        />
-        <Stack.Screen
-          name="ActivityDetails"
-          component={ActivityDetailsScreen}
-          options={{
-            header: () => <AppHeader />,
-          }}
-        />
-        <Stack.Screen
-          name="AddExpense"
-          component={AddExpenseScreen}
-          options={{
-            header: () => <AppHeader />,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Activities"
+            component={ActivitiesScreen}
+            options={{
+              header: () => <AppHeader />,
+            }}
+          />
+          <Stack.Screen
+            name="AddActivity"
+            component={AddActivityScreen}
+            options={{
+              header: () => <AppHeader />,
+            }}
+          />
+          <Stack.Screen
+            name="ActivityDetails"
+            component={ActivityDetailsScreen}
+            options={{
+              header: () => <AppHeader />,
+            }}
+          />
+          <Stack.Screen
+            name="AddExpense"
+            component={AddExpenseScreen}
+            options={{
+              header: () => <AppHeader />,
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
