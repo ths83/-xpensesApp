@@ -15,7 +15,7 @@ export async function createActivity(name: string, createdBy: string) {
       createdBy: createdBy,
     },
   };
-  console.log('Creating new activity...');
+  console.log('Adding new activity...');
   return await API.post(apiName, path, myInit);
 }
 
@@ -30,20 +30,6 @@ export async function getActivityByUsername(username: string) {
     },
   };
   console.log(`Retrieving activity from username '${username}'...`);
-  return await API.get(apiName, path, myInit);
-}
-
-export async function getActivityById(id: string) {
-  const apiName = API_NAME;
-  const path = `/activities/${id}`;
-  const myInit = {
-    headers: {
-      Authorization: `Bearer ${(await Auth.currentSession())
-        .getIdToken()
-        .getJwtToken()}`,
-    },
-  };
-  console.log(`Retrieving activity ${id}...`);
   return await API.get(apiName, path, myInit);
 }
 

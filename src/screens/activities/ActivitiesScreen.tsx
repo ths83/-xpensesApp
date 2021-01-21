@@ -3,18 +3,22 @@ import {Button, ListItem, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import Activity from '../../model/Activity';
 import {getActivityByUsername} from '../../api/ActivityService';
-import ActivityDetails from './component/ActivityDetails';
+import ActivityDetails from './components/ActivityDetails';
 import {useNavigation} from '@react-navigation/native';
 import {TEST_USER} from '../../config/UsersConfiguration';
 import {RefreshControl} from 'react-native';
-import {Status} from '../../shared/constant/Status';
+import {Status} from '../../commons/enums/Status';
+import {useAtom} from 'jotai';
+import {activityAtom} from '../../../App';
 
 const ActivitiesScreen = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
-  const {navigate} = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
-
   const [status, setStatus] = useState<Status>(Status.IDLE);
+
+  const [, setActivity] = useAtom(activityAtom);
+
+  const {navigate} = useNavigation();
 
   async function getActivities() {
     setStatus(Status.IN_PROGRESS);
@@ -26,8 +30,7 @@ const ActivitiesScreen = () => {
             a.name,
             a.createdBy,
             a.expenses,
-            a.activityStatus,
-            a.usersStatus,
+            a.users,
             a.date,
           );
         });
@@ -55,9 +58,8 @@ const ActivitiesScreen = () => {
       <ListItem
         key={i}
         onPress={() => {
-          navigate('ActivityDetails', {
-            activityId: activity.id,
-          });
+          setActivity(activity);
+          navigate('ActivityDetails');
         }}
         bottomDivider>
         <ActivityDetails activity={activity} />
