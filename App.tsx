@@ -18,6 +18,7 @@ import {withAuthenticator} from 'aws-amplify-react-native';
 import AppHeader from './src/commons/components/AppHeader';
 import {atom, Provider} from 'jotai';
 import Activity from './src/model/Activity';
+import {setCustomText, setCustomTextInput} from 'react-native-global-props';
 
 Amplify.configure({
   Auth: {
@@ -42,6 +43,15 @@ export const currentUsernameAtom = atom('');
 
 const Stack = createStackNavigator();
 const App = () => {
+  const customTextProps = {
+    style: {
+      fontFamily: 'Arial',
+    },
+  };
+
+  setCustomText(customTextProps);
+  setCustomTextInput(customTextProps);
+
   return (
     <Provider>
       <NavigationContainer>
