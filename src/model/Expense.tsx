@@ -2,7 +2,7 @@ import {toYYYY_MM_DD} from '../utils/DateFormatter';
 
 export default class Expense {
   id: string;
-  userId: string;
+  user: string;
   amount: number;
   currency: string;
   date: string;
@@ -10,14 +10,14 @@ export default class Expense {
 
   constructor(
     id: string,
-    userId: string,
+    user: string,
     amount: number,
     currency: string,
     date: string,
     name: string,
   ) {
     this.id = id;
-    this.userId = userId;
+    this.user = user;
     this.amount = amount;
     this.currency = currency;
     this.date = toYYYY_MM_DD(date);

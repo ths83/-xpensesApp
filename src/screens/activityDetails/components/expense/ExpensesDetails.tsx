@@ -2,6 +2,7 @@ import {ListItem} from 'react-native-elements';
 import React, {useState} from 'react';
 import Expense from '../../../../model/Expense';
 import ExpenseActions from './ExpenseActions';
+import {activityAtom} from '../../../../../App';
 
 interface Props {
   expenses: Expense[];
@@ -23,7 +24,7 @@ const ExpensesDetails = ({expenses}: Props) => {
           }}>
           <ListItem.Content>
             <ListItem.Title>{expense.name}</ListItem.Title>
-            <ListItem.Subtitle>Paid by {expense.userId}</ListItem.Subtitle>
+            <ListItem.Subtitle>Paid by {expense.user}</ListItem.Subtitle>
           </ListItem.Content>
           <ListItem.Content right>
             <ListItem.Title>
@@ -34,7 +35,7 @@ const ExpensesDetails = ({expenses}: Props) => {
         </ListItem>
       ))}
       <ExpenseActions
-        expense={expense}
+        expenseId={expense?.id}
         isVisible={actionVisible}
         setVisible={setActionVisible}
       />

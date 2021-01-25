@@ -1,50 +1,96 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Button, Input} from 'react-native-elements';
-import {useRoute} from '@react-navigation/native';
+import {Button, Input, Text} from 'react-native-elements';
 import {createExpense} from '../../api/ExpenseService';
 import {TEST_USER} from '../../config/UsersConfiguration';
-import {CANADIAN_CURRENCY} from '../../shared/constant/CurrencyConstant';
-import ActivityHeader from '../../shared/component/ActivityHeader';
+import {Currency} from '../../commons/enums/Currency';
+import {Status} from '../../commons/enums/Status';
+import {useAtom} from 'jotai';
+import {activityAtom, expensesAtom} from '../../../App';
+import {useNavigation} from '@react-navigation/native';
+import Expense from '../../model/Expense';
 
 const AddExpenseScreen = () => {
   const [name, setName] = useState<string>('');
+  const [errorName, setErrorName] = useState<string>('');
   const [amount, setAmount] = useState<string>('');
-  const {params} = useRoute();
+  const [errorAmount, setErrorAmount] = useState<string>('');
+  const [status, setStatus] = useState<Status>(Status.IDLE);
+  const [activity] = useAtom(activityAtom);
 
-  const {activity} = params;
+  const {navigate} = useNavigation();
+
+  function isValidName() {
+    if (name === '') {
+      setErrorName('Name is required');
+      return false;
+    } else {
+      setErrorName('');
+      return true;
+    }
+  }
+
+  function isValidAmount() {
+    if (amount === '') {
+      setErrorAmount('Amount is required');
+      return false;
+    } else {
+      setErrorAmount('');
+      return true;
+    }
+  }
+
+  function handleAddExpense() {
+    setStatus(Status.IN_PROGRESS);
+    const nameValue = isValidName();
+    const amountValue = isValidAmount();
+    if (nameValue && amountValue) {
+      return createExpense(name, amount, TEST_USER, activity.id) //TODO get user id from cognito
+        .then(() => {
+          console.log(
+            `Successfully added new expense to activity '${activity.id}'`,
+          );
+          setStatus(Status.SUCCESS);
+          navigate('ActivityDetails');
+        })
+        .catch((error) => {
+          console.log(error);
+          setStatus(Status.ERROR);
+        });
+    } else {
+      setStatus(Status.IDLE);
+    }
+  }
 
   return (
     <>
-      <View>
-        <ActivityHeader title={activity.name} />
-      </View>
       <ScrollView>
-        <Input placeholder="Name" onChangeText={(text) => setName(text)} />
+        <Input
+          placeholder="Name"
+          onChangeText={(text) => setName(text)}
+          errorMessage={errorName}
+        />
         <Input
           placeholder="Amount"
           keyboardType={'decimal-pad'}
           onChangeText={(text) => setAmount(text)}
+          errorMessage={errorAmount}
         />
         <Input
           placeholder="Currency"
-          defaultValue={CANADIAN_CURRENCY}
-          editable={false}
+          defaultValue={Currency.CANADA}
+          editable={false} //TODO v2
         />
+        {status === Status.SUCCESS && (
+          <Text>
+            Successfully added new expense to activity {activity.name}
+          </Text>
+        )}
+        {status === Status.ERROR && (
+          <Text>An error occurred while adding expense to {activity.name}</Text>
+        )}
       </ScrollView>
-      <Button
-        title={'Add expense'}
-        onPress={() => {
-          createExpense(
-            name,
-            amount,
-            CANADIAN_CURRENCY,
-            TEST_USER,
-            activity.id,
-          ); //TODO get user id from cognito
-        }}
-      />
+      <Button title={'Add expense'} onPress={handleAddExpense} />
     </>
   );
 };

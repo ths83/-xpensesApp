@@ -28,9 +28,9 @@ export async function createExpense(
   return await API.post(apiName, path, myInit);
 }
 
-export async function getExpenseById(id: string) {
+export async function getExpensesByActivity(activityId: string) {
   const apiName = API_NAME;
-  const path = `/expenses/${id}`;
+  const path = `/expenses?activityId=${activityId}`;
   const myInit = {
     headers: {
       Authorization: `Bearer ${(await Auth.currentSession())
@@ -38,6 +38,6 @@ export async function getExpenseById(id: string) {
         .getJwtToken()}`,
     },
   };
-  console.log(`Retrieving expense '${id}'...`);
+  console.log(`Retrieving expenses for activity '${activityId}'...`);
   return await API.get(apiName, path, myInit);
 }
