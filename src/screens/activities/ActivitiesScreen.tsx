@@ -4,7 +4,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Activity from '../../model/Activity';
 import {getActivityByUsername} from '../../api/ActivityService';
 import ActivityDetails from './components/ActivityDetails';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {TEST_USER} from '../../config/UsersConfiguration';
 import {RefreshControl} from 'react-native';
 import {Status} from '../../commons/enums/Status';
@@ -19,6 +19,8 @@ const ActivitiesScreen = () => {
   const [, setActivity] = useAtom(activityAtom);
 
   const {navigate} = useNavigation();
+
+  const isFocused = useIsFocused()
 
   async function getActivities() {
     setStatus(Status.IN_PROGRESS);
@@ -44,8 +46,10 @@ const ActivitiesScreen = () => {
   }
 
   useEffect(() => {
+    console.log('Activities fetched !')
     getActivities();
-  }, []);
+  }, [isFocused]);
+
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
