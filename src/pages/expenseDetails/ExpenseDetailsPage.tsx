@@ -7,7 +7,7 @@ import {expenseAtom} from '../../../App';
 import {delExpenseFromActivity} from '../../api/ActivityService';
 import Expense from '../../model/Expense';
 
-const ExpenseDetailsScreen = () => {
+const ExpenseDetailsPage = () => {
   const [expense, setExpense] = useAtom(expenseAtom);
 
   const {navigate} = useNavigation();
@@ -15,8 +15,6 @@ const ExpenseDetailsScreen = () => {
   const {params} = useRoute();
 
   const {activityId} = params;
-
-  //TODO add expenseActions and all expense information
 
   function deleteExpense() {
     delExpenseFromActivity(activityId, expense.id)
@@ -35,6 +33,7 @@ const ExpenseDetailsScreen = () => {
       );
   }
 
+  // TODO CSS
   return (
     <>
       <View>
@@ -54,4 +53,4 @@ const ExpenseDetailsScreen = () => {
   );
 };
 
-export default ExpenseDetailsScreen;
+export default ExpenseDetailsPage;

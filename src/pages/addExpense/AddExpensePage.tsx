@@ -1,16 +1,15 @@
+import {useNavigation} from '@react-navigation/native';
+import {useAtom} from 'jotai';
 import React, {useState} from 'react';
-import {ScrollView} from 'react-native-gesture-handler';
 import {Button, Input, Text} from 'react-native-elements';
+import {ScrollView} from 'react-native-gesture-handler';
+import {activityAtom} from '../../../App';
 import {createExpense} from '../../api/ExpenseService';
-import {TEST_USER} from '../../config/UsersConfiguration';
 import {Currency} from '../../commons/enums/Currency';
 import {Status} from '../../commons/enums/Status';
-import {useAtom} from 'jotai';
-import {activityAtom, expensesAtom} from '../../../App';
-import {useNavigation} from '@react-navigation/native';
-import Expense from '../../model/Expense';
+import {TEST_USER} from '../../config/UsersConfiguration';
 
-const AddExpenseScreen = () => {
+const AddExpensePage = () => {
   const [name, setName] = useState<string>('');
   const [errorName, setErrorName] = useState<string>('');
   const [amount, setAmount] = useState<string>('');
@@ -95,4 +94,4 @@ const AddExpenseScreen = () => {
   );
 };
 
-export default AddExpenseScreen;
+export default AddExpensePage;

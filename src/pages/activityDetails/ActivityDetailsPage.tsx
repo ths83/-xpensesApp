@@ -15,7 +15,7 @@ import ActivityDetailsTab from './components/ActivityDetailsTab';
 import ExpensesBalanceView from './views/ExpensesBalanceView';
 import ExpensesView from './views/ExpensesView';
 
-function ActivityDetailsScreen() {
+function ActivityDetailsPage() {
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [status, setStatus] = useState<Status>(Status.IDLE);
   const [refreshing, setRefreshing] = useState(false);
@@ -168,4 +168,4 @@ function ActivityDetailsScreen() {
   return render();
 }
 
-export default ActivityDetailsScreen;
+export default ActivityDetailsPage;

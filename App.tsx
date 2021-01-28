@@ -10,16 +10,16 @@ import {
 } from './src/config/AmplifyConfiguration';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import ActivitiesScreen from './src/screens/activities/ActivitiesScreen';
-import AddActivityScreen from './src/screens/addActivity/AddActivityScreen';
-import ActivityDetailsScreen from './src/screens/activityDetails/ActivityDetailsScreen';
-import AddExpenseScreen from './src/screens/addExpense/AddExpenseScreen';
+import ActivitiesPage from './src/pages/activities/ActivitiesPage';
+import AddActivityPage from './src/pages/addActivity/AddActivityPage';
+import ActivityDetailsPage from './src/pages/activityDetails/ActivityDetailsPage';
+import AddExpensePage from './src/pages/addExpense/AddExpensePage';
 import {withAuthenticator} from 'aws-amplify-react-native';
 import AppHeader from './src/commons/components/AppHeader';
 import {atom, Provider} from 'jotai';
 import Activity from './src/model/Activity';
 import {setCustomText, setCustomTextInput} from 'react-native-global-props';
-import ExpenseDetailsScreen from './src/screens/expenseDetails/ExpenseDetailsScreen';
+import ExpenseDetailsPage from './src/pages/expenseDetails/ExpenseDetailsPage';
 import Expense from './src/model/Expense';
 
 Amplify.configure({
@@ -60,35 +60,35 @@ const App = () => {
         <Stack.Navigator>
           <Stack.Screen
             name="Activities"
-            component={ActivitiesScreen}
+            component={ActivitiesPage}
             options={{
               header: () => <AppHeader />,
             }}
           />
           <Stack.Screen
             name="AddActivity"
-            component={AddActivityScreen}
+            component={AddActivityPage}
             options={{
               header: () => <AppHeader />,
             }}
           />
           <Stack.Screen
             name="ActivityDetails"
-            component={ActivityDetailsScreen}
+            component={ActivityDetailsPage}
             options={{
               header: () => <AppHeader />,
             }}
           />
           <Stack.Screen
             name="AddExpense"
-            component={AddExpenseScreen}
+            component={AddExpensePage}
             options={{
               header: () => <AppHeader />,
             }}
           />
           <Stack.Screen
             name="ExpenseDetails"
-            component={ExpenseDetailsScreen}
+            component={ExpenseDetailsPage}
             options={{
               header: () => <AppHeader />,
             }}

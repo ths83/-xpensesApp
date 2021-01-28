@@ -13,7 +13,7 @@ import {useAtom} from 'jotai';
 import {activityAtom} from '../../../App';
 import {Status} from '../../commons/enums/Status';
 
-const AddActivityScreen = () => {
+const AddActivityPage = () => {
   const [name, setName] = useState<string>('');
   const [testUserSelected, setTestUserSelected] = useState<boolean>(false);
   const [firstUserSelected, setFirstUserSelected] = useState<boolean>(false);
@@ -71,4 +71,4 @@ const AddActivityScreen = () => {
   );
 };
 
-export default AddActivityScreen;
+export default AddActivityPage;

@@ -11,7 +11,7 @@ import {TEST_USER} from '../../config/UsersConfiguration';
 import Activity from '../../model/Activity';
 import ActivitySummary from './components/ActivitySummary';
 
-const ActivitiesScreen = () => {
+const ActivitiesPage = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [status, setStatus] = useState<Status>(Status.IDLE);
@@ -98,4 +98,4 @@ const ActivitiesScreen = () => {
   return render();
 };
 
-export default ActivitiesScreen;
+export default ActivitiesPage;

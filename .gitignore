@@ -70,4 +70,4 @@ buck-out/
 *.jsbundle
 
 # Application
-src/config/AmplifyConfiguration.tsx
+src/config/**
