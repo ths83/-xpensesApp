@@ -19,6 +19,8 @@ import AppHeader from './src/commons/components/AppHeader';
 import {atom, Provider} from 'jotai';
 import Activity from './src/model/Activity';
 import {setCustomText, setCustomTextInput} from 'react-native-global-props';
+import ExpenseDetailsScreen from './src/screens/expenseDetails/ExpenseDetailsScreen';
+import Expense from './src/model/Expense';
 
 Amplify.configure({
   Auth: {
@@ -37,9 +39,9 @@ Amplify.configure({
 });
 
 export const activityAtom = atom(new Activity('', '', '', [], [], ''));
+export const expenseAtom = atom(new Expense('', '', 0, '', '', ''));
 
-// TODO
-export const currentUsernameAtom = atom('');
+// TODO export const currentUsernameAtom = atom('');
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -80,6 +82,13 @@ const App = () => {
           <Stack.Screen
             name="AddExpense"
             component={AddExpenseScreen}
+            options={{
+              header: () => <AppHeader />,
+            }}
+          />
+          <Stack.Screen
+            name="ExpenseDetails"
+            component={ExpenseDetailsScreen}
             options={{
               header: () => <AppHeader />,
             }}

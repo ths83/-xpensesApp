@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text} from 'react-native-elements';
-import Expense from '../../../model/Expense';
 import {getUsers} from '../../../config/UsersConfiguration';
+import Expense from '../../../model/Expense';
 
 interface Props {
   expenses: Expense[];
@@ -15,9 +15,9 @@ const ExpensesBalanceView = ({expenses}: Props) => {
     let secondUserTotalAmount = 0;
 
     expenses.map((expense: Expense) => {
-      if (expense.userId === users[0]) {
+      if (expense.user === users[0]) {
         firstUserTotalAmount += expense.amount;
-      } else if (expense.userId === users[1]) {
+      } else if (expense.user === users[1]) {
         secondUserTotalAmount += expense.amount;
       }
     });

@@ -33,12 +33,9 @@ export async function getActivityByUsername(username: string) {
   return await API.get(apiName, path, myInit);
 }
 
-export async function delExpenseFromActivity(
-  activityId: string,
-  expenseId: string,
-) {
+export async function getActivityById(id: string) {
   const apiName = API_NAME;
-  const path = `/activities/${activityId}/expenses/${expenseId}`;
+  const path = `/activities/${id}`;
   const myInit = {
     headers: {
       Authorization: `Bearer ${(await Auth.currentSession())
@@ -46,8 +43,20 @@ export async function delExpenseFromActivity(
         .getJwtToken()}`,
     },
   };
-  console.log(
-    `Deleting expense '${expenseId}' from activity '${expenseId}'...`,
-  );
+  console.log(`Retrieving activity ${id}...`);
+  return await API.get(apiName, path, myInit);
+}
+
+export async function delExpenseFromActivity(id: string, expenseId: string) {
+  const apiName = API_NAME;
+  const path = `/activities/${id}/expenses/${expenseId}`;
+  const myInit = {
+    headers: {
+      Authorization: `Bearer ${(await Auth.currentSession())
+        .getIdToken()
+        .getJwtToken()}`,
+    },
+  };
+  console.log(`Deleting expense '${expenseId}' from activity '${id}'...`);
   return await API.del(apiName, path, myInit);
 }

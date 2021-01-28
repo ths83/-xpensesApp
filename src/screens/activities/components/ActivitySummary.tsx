@@ -6,7 +6,7 @@ interface Props {
   activity: Activity;
 }
 
-const ActivityDetails = ({activity}: Props) => {
+const ActivitySummary = ({activity}: Props) => {
   return (
     <ListItem.Content>
       <ListItem.Title>{activity.name}</ListItem.Title>
@@ -17,4 +17,4 @@ const ActivityDetails = ({activity}: Props) => {
   );
 };
 
-export default ActivityDetails;
+export default ActivitySummary;
