@@ -5,6 +5,7 @@ import {View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {expenseAtom} from '../../../App';
 import {ACTIVITY_API} from '../../api/ActivityApi';
+import {Pages} from '../../commons/enums/Pages';
 import {EMPTY_EXPENSE} from '../../model/Expense';
 
 const ExpenseDetailsPage = () => {
@@ -23,7 +24,7 @@ const ExpenseDetailsPage = () => {
           `Successfully deleted expense '${expense.id}' from activity '${activityId}'`,
         );
         setExpense(EMPTY_EXPENSE);
-        navigate('ActivityDetails');
+        navigate(Pages.ACTIVITY_DETAILS);
       })
       .catch((error) =>
         console.debug(
@@ -47,7 +48,10 @@ const ExpenseDetailsPage = () => {
       </View>
       <View>
         <Button title={'Delete'} onPress={deleteExpense} />
-        <Button title={'Back'} onPress={() => navigate('ActivityDetails')} />
+        <Button
+          title={'Back'}
+          onPress={() => navigate(Pages.ACTIVITY_DETAILS)}
+        />
       </View>
     </>
   );

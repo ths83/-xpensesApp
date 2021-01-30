@@ -3,7 +3,6 @@ import {Header} from 'react-native-elements';
 import HomeHeaderComponent from './HomeHeaderComponent';
 import LogoutHeaderComponent from './LogoutHeaderComponent';
 
-// TODO get icons from header
 const AppHeader = () => {
   return (
     <Header

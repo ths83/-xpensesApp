@@ -6,6 +6,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {activityAtom} from '../../../App';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import {Currency} from '../../commons/enums/Currency';
+import {Pages} from '../../commons/enums/Pages';
 import {Status} from '../../commons/enums/Status';
 
 const AddExpensePage = () => {
@@ -50,7 +51,7 @@ const AddExpensePage = () => {
             `Successfully added new expense to activity '${activity.id}'`,
           );
           setStatus(Status.SUCCESS);
-          navigate('ActivityDetails');
+          navigate(Pages.ACTIVITY_DETAILS);
         })
         .catch((error) => {
           console.debug(error);

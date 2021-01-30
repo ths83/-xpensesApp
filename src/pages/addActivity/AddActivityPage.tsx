@@ -5,6 +5,7 @@ import {View} from 'react-native';
 import {Button, Input, Text} from 'react-native-elements';
 import {activityAtom} from '../../../App';
 import {ACTIVITY_API} from '../../api/ActivityApi';
+import {Pages} from '../../commons/enums/Pages';
 import {Status} from '../../commons/enums/Status';
 
 const AddActivityPage = () => {
@@ -32,7 +33,7 @@ const AddActivityPage = () => {
               console.debug(`Successfully added activity '${response.id}'`);
               setStatus(Status.SUCCESS);
               setActivity(response);
-              navigate('ActivityDetails');
+              navigate(Pages.ACTIVITY_DETAILS);
             })
             .catch((error) => {
               console.debug(error);

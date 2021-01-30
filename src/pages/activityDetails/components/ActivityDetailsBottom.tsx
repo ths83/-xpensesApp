@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Header, Icon, Text} from 'react-native-elements';
+import {Pages} from '../../../commons/enums/Pages';
 import Expense from '../../../model/Expense';
 
 interface ActivityDetailsBottomProps {
@@ -48,7 +49,7 @@ const ActivityDetailsBottom = ({
         <Icon
           name="add"
           onPress={() => {
-            navigate('AddExpense');
+            navigate(Pages.ADD_EXPENSE);
           }}
         />
       </>

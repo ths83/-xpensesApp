@@ -3,11 +3,11 @@ import {Text} from 'react-native-elements';
 import {getUsers} from '../../../config/UsersConfiguration';
 import Expense from '../../../model/Expense';
 
-interface Props {
+interface ExpensesBalanceViewProps {
   expenses: Expense[];
 }
 
-const ExpensesBalanceView = ({expenses}: Props) => {
+const ExpensesBalanceView = ({expenses}: ExpensesBalanceViewProps) => {
   const users = getUsers(); //TODO remove for v2
 
   function render() {

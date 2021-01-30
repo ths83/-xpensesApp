@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Icon} from 'react-native-elements';
+import {Pages} from '../enums/Pages';
 
 const HomeHeaderComponent = () => {
   const {navigate} = useNavigation();
@@ -9,7 +10,7 @@ const HomeHeaderComponent = () => {
     <Icon
       name="home"
       onPress={() => {
-        navigate('Activities');
+        navigate(Pages.ACTIVITIES);
       }}
     />
   );

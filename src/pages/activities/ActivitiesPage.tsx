@@ -8,6 +8,7 @@ import {Button, ListItem, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {activityAtom} from '../../../App';
 import {ACTIVITY_API} from '../../api/ActivityApi';
+import {Pages} from '../../commons/enums/Pages';
 import {Status} from '../../commons/enums/Status';
 import Activity from '../../model/Activity';
 import ActivitySummary from './components/ActivitySummary';
@@ -63,7 +64,7 @@ const ActivitiesPage = () => {
         key={i}
         onPress={() => {
           setActivity(activity);
-          navigate('ActivityDetails');
+          navigate(Pages.ACTIVITY_DETAILS);
         }}
         bottomDivider>
         <ActivitySummary activity={activity} />
@@ -88,7 +89,7 @@ const ActivitiesPage = () => {
           <View>
             <Button
               title={'New activity'}
-              onPress={() => navigate('AddActivity')}
+              onPress={() => navigate(Pages.ADD_ACTIVITY)}
             />
           </View>
         </>

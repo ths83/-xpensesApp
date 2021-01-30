@@ -3,14 +3,15 @@ import {useAtom} from 'jotai';
 import React from 'react';
 import {ListItem} from 'react-native-elements';
 import {expenseAtom} from '../../../../App';
+import {Pages} from '../../../commons/enums/Pages';
 import Expense from '../../../model/Expense';
 
-interface Props {
+interface ExpensesViewProps {
   activityId: string;
   expenses: Expense[];
 }
 
-const ExpensesView = ({activityId, expenses}: Props) => {
+const ExpensesView = ({activityId, expenses}: ExpensesViewProps) => {
   const [, setExpense] = useAtom<Expense>(expenseAtom);
 
   const {navigate} = useNavigation();
@@ -23,7 +24,7 @@ const ExpensesView = ({activityId, expenses}: Props) => {
           bottomDivider
           onPress={() => {
             setExpense(expenses[i]);
-            navigate('ExpenseDetails', {
+            navigate(Pages.EXPENSE_DETAILS, {
               activityId: activityId,
             });
           }}>

@@ -2,11 +2,11 @@ import React from 'react';
 import {ListItem} from 'react-native-elements';
 import Activity from '../../../model/Activity';
 
-interface Props {
+interface ActivitySummaryProps {
   activity: Activity;
 }
 
-const ActivitySummary = ({activity}: Props) => {
+const ActivitySummary = ({activity}: ActivitySummaryProps) => {
   return (
     <ListItem.Content>
       <ListItem.Title>{activity.name}</ListItem.Title>
