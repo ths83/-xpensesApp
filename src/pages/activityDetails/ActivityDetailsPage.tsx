@@ -1,8 +1,9 @@
 import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {Auth} from 'aws-amplify';
 import {useAtom} from 'jotai';
 import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl, View} from 'react-native';
-import {Button, Header, Text} from 'react-native-elements';
+import {Header, Icon, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {activityAtom} from '../../../App';
 import {ACTIVITY_API} from '../../api/ActivityApi';
@@ -20,6 +21,7 @@ function ActivityDetailsPage() {
   const [status, setStatus] = useState<Status>(Status.IDLE);
   const [refreshing, setRefreshing] = useState(false);
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [user, setUser] = useState<string>('');
 
   const [activity, setActivity] = useAtom<Activity>(activityAtom);
 
@@ -29,6 +31,7 @@ function ActivityDetailsPage() {
 
   useEffect(() => {
     fetchActivity();
+    getCurrentUser();
   }, [isFocused]);
 
   const onRefresh = useCallback(() => {
@@ -41,7 +44,7 @@ function ActivityDetailsPage() {
     setStatus(Status.IN_PROGRESS);
     ACTIVITY_API.getById(activity.id)
       .then((response) => {
-        console.log(`Successfully fetched activity ${activity.id}`);
+        console.debug(`Successfully fetched activity ${activity.id}`);
         const fetchedActivity = new Activity(
           response.id,
           response.name,
@@ -55,8 +58,13 @@ function ActivityDetailsPage() {
       })
       .catch((error) => {
         setStatus(Status.ERROR);
-        console.log(error);
+        console.debug(error);
       });
+  }
+
+  async function getCurrentUser() {
+    const user = await Auth.currentAuthenticatedUser();
+    setUser(user.username);
   }
 
   async function fetchExpenses() {
@@ -78,11 +86,11 @@ function ActivityDetailsPage() {
           });
           setExpenses(mappedExpenses);
           setStatus(Status.SUCCESS);
-          console.log(`Successfully fetched ${expenses.length} expense(s)`);
+          console.debug(`Successfully fetched ${expenses.length} expense(s)`);
         })
         .catch((error) => {
           setStatus(Status.ERROR);
-          console.log(error);
+          console.debug(error);
         });
     }
   }
@@ -90,8 +98,7 @@ function ActivityDetailsPage() {
   function renderBottomLeft() {
     let userTotal = 0;
     expenses.map((expense: Expense) => {
-      // TODO change by current user
-      if (expense.user === TEST_USER) {
+      if (expense.user === user) {
         userTotal += expense.amount;
       }
     });
@@ -116,19 +123,14 @@ function ActivityDetailsPage() {
     );
   }
 
-  // TODO resolve icon issue
   function renderBottomCenter() {
     return (
       <>
-        <Button
+        <Icon
+          name="add"
           onPress={() => {
             navigate('AddExpense');
           }}
-          // icon={{
-          //   name: 'arrow-right',
-          //   size: 10,
-          //   color: 'white',
-          // }}
         />
       </>
     );

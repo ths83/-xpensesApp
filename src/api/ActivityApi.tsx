@@ -20,7 +20,7 @@ export class ActivityApi {
         createdBy: user.username,
       },
     };
-    console.log('Adding new activity...');
+    console.debug('Adding new activity...');
     return await API.post(apiName, path, myInit);
   }
 
@@ -36,7 +36,7 @@ export class ActivityApi {
           .getJwtToken()}`,
       },
     };
-    console.log(`Retrieving activities from username '${user.username}'...`);
+    console.debug(`Retrieving activities from username '${user.username}'...`);
     return await API.get(apiName, path, myInit);
   }
 
@@ -50,7 +50,7 @@ export class ActivityApi {
           .getJwtToken()}`,
       },
     };
-    console.log(`Retrieving activity ${id}...`);
+    console.debug(`Retrieving activity ${id}...`);
     return await API.get(apiName, path, myInit);
   }
 
@@ -64,7 +64,7 @@ export class ActivityApi {
           .getJwtToken()}`,
       },
     };
-    console.log(`Deleting expense '${expenseId}' from activity '${id}'...`);
+    console.debug(`Deleting expense '${expenseId}' from activity '${id}'...`);
     return await API.del(apiName, path, myInit);
   }
 }

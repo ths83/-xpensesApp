@@ -24,7 +24,7 @@ export class ExpenseApi {
         activityId: activityId,
       },
     };
-    console.log('Adding new expense...');
+    console.debug('Adding new expense...');
     return await API.post(apiName, path, myInit);
   }
 
@@ -38,7 +38,7 @@ export class ExpenseApi {
           .getJwtToken()}`,
       },
     };
-    console.log(`Retrieving expenses for activity '${activityId}'...`);
+    console.debug(`Retrieving expenses for activity '${activityId}'...`);
     return await API.get(apiName, path, myInit);
   }
 }

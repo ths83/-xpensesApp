@@ -19,14 +19,14 @@ const ExpenseDetailsPage = () => {
   function deleteExpense() {
     ACTIVITY_API.deleteExpense(activityId, expense.id)
       .then(() => {
-        console.log(
+        console.debug(
           `Successfully deleted expense '${expense.id}' from activity '${activityId}'`,
         );
         setExpense(EMPTY_EXPENSE);
         navigate('ActivityDetails');
       })
       .catch((error) =>
-        console.log(
+        console.debug(
           `An error occurred while deleting expense '${expense.id}' from activity '${activityId}'`,
           error,
         ),

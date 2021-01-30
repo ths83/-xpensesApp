@@ -29,13 +29,13 @@ const AddActivityPage = () => {
         onPress={() => {
           ACTIVITY_API.create(name)
             .then((response) => {
-              console.log(`Successfully added activity '${response.id}'`);
+              console.debug(`Successfully added activity '${response.id}'`);
               setStatus(Status.SUCCESS);
               setActivity(response);
               navigate('ActivityDetails');
             })
             .catch((error) => {
-              console.log(error);
+              console.debug(error);
               setStatus(Status.ERROR);
             });
         }}

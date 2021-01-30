@@ -7,8 +7,8 @@ const LogoutHeaderComponent = () => {
 
   async function signOut() {
     await Auth.signOut()
-      .then(() => console.log('User has signed out'))
-      .catch((err) => console.log(err));
+      .then(() => console.debug('User has signed out'))
+      .catch((err) => console.debug(err));
   }
 
   function confirmLogout() {
@@ -31,7 +31,7 @@ const LogoutHeaderComponent = () => {
   return (
     <>
       <Icon
-        name={'alert-circle'}
+        name="logout"
         onPress={() => {
           setVisible(true);
         }}

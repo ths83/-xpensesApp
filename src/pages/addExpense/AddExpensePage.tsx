@@ -46,14 +46,14 @@ const AddExpensePage = () => {
     if (nameValue && amountValue) {
       return EXPENSE_API.create(name, amount, activity.id)
         .then(() => {
-          console.log(
+          console.debug(
             `Successfully added new expense to activity '${activity.id}'`,
           );
           setStatus(Status.SUCCESS);
           navigate('ActivityDetails');
         })
         .catch((error) => {
-          console.log(error);
+          console.debug(error);
           setStatus(Status.ERROR);
         });
     } else {
