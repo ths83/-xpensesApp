@@ -24,3 +24,5 @@ export default class Activity {
     this.date = toYYYY_MM_DD(date);
   }
 }
+
+export const EMPTY_ACTIVITY = new Activity('', '', '', [], [], '');

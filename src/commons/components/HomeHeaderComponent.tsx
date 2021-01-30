@@ -1,12 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Button} from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 
 const HomeHeaderComponent = () => {
   const {navigate} = useNavigation();
 
   return (
-    <Button
+    <Icon
+      name="home"
       onPress={() => {
         navigate('Activities');
       }}

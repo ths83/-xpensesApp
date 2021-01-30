@@ -1,6 +1,12 @@
-import 'react-native-gesture-handler';
-import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import {Amplify} from 'aws-amplify';
+import {withAuthenticator} from 'aws-amplify-react-native';
+import {atom, Provider} from 'jotai';
+import React from 'react';
+import 'react-native-gesture-handler';
+import {setCustomText, setCustomTextInput} from 'react-native-global-props';
+import AppHeader from './src/commons/components/AppHeader';
 import {
   API_NAME,
   ENDPOINT,
@@ -8,19 +14,13 @@ import {
   USER_POOL_ID,
   USER_POOL_WEB_CLIENT_ID,
 } from './src/config/AmplifyConfiguration';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import Activity, {EMPTY_ACTIVITY} from './src/model/Activity';
+import Expense, {EMPTY_EXPENSE} from './src/model/Expense';
 import ActivitiesPage from './src/pages/activities/ActivitiesPage';
-import AddActivityPage from './src/pages/addActivity/AddActivityPage';
 import ActivityDetailsPage from './src/pages/activityDetails/ActivityDetailsPage';
+import AddActivityPage from './src/pages/addActivity/AddActivityPage';
 import AddExpensePage from './src/pages/addExpense/AddExpensePage';
-import {withAuthenticator} from 'aws-amplify-react-native';
-import AppHeader from './src/commons/components/AppHeader';
-import {atom, Provider} from 'jotai';
-import Activity from './src/model/Activity';
-import {setCustomText, setCustomTextInput} from 'react-native-global-props';
 import ExpenseDetailsPage from './src/pages/expenseDetails/ExpenseDetailsPage';
-import Expense from './src/model/Expense';
 
 Amplify.configure({
   Auth: {
@@ -38,10 +38,8 @@ Amplify.configure({
   },
 });
 
-export const activityAtom = atom(new Activity('', '', '', [], [], ''));
-export const expenseAtom = atom(new Expense('', '', 0, '', '', ''));
-
-// TODO export const currentUsernameAtom = atom('');
+export const activityAtom = atom<Activity>(EMPTY_ACTIVITY);
+export const expenseAtom = atom<Expense>(EMPTY_EXPENSE);
 
 const Stack = createStackNavigator();
 const App = () => {

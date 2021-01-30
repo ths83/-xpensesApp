@@ -4,10 +4,9 @@ import React, {useState} from 'react';
 import {Button, Input, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {activityAtom} from '../../../App';
-import {createExpense} from '../../api/ExpenseService';
+import {EXPENSE_API} from '../../api/ExpenseApi';
 import {Currency} from '../../commons/enums/Currency';
 import {Status} from '../../commons/enums/Status';
-import {TEST_USER} from '../../config/UsersConfiguration';
 
 const AddExpensePage = () => {
   const [name, setName] = useState<string>('');
@@ -15,6 +14,7 @@ const AddExpensePage = () => {
   const [amount, setAmount] = useState<string>('');
   const [errorAmount, setErrorAmount] = useState<string>('');
   const [status, setStatus] = useState<Status>(Status.IDLE);
+
   const [activity] = useAtom(activityAtom);
 
   const {navigate} = useNavigation();
@@ -44,7 +44,7 @@ const AddExpensePage = () => {
     const nameValue = isValidName();
     const amountValue = isValidAmount();
     if (nameValue && amountValue) {
-      return createExpense(name, amount, TEST_USER, activity.id) //TODO get user id from cognito
+      return EXPENSE_API.create(name, amount, activity.id)
         .then(() => {
           console.log(
             `Successfully added new expense to activity '${activity.id}'`,

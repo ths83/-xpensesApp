@@ -1,4 +1,4 @@
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React from 'react';
 import {ListItem} from 'react-native-elements';
@@ -11,11 +11,9 @@ interface Props {
 }
 
 const ExpensesView = ({activityId, expenses}: Props) => {
-  const [, setExpense] = useAtom(expenseAtom);
+  const [, setExpense] = useAtom<Expense>(expenseAtom);
 
   const {navigate} = useNavigation();
-
-  const isFocused = useIsFocused();
 
   return (
     <>

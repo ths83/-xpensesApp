@@ -4,8 +4,8 @@ import React from 'react';
 import {View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {expenseAtom} from '../../../App';
-import {delExpenseFromActivity} from '../../api/ActivityService';
-import Expense from '../../model/Expense';
+import {ACTIVITY_API} from '../../api/ActivityApi';
+import {EMPTY_EXPENSE} from '../../model/Expense';
 
 const ExpenseDetailsPage = () => {
   const [expense, setExpense] = useAtom(expenseAtom);
@@ -17,12 +17,12 @@ const ExpenseDetailsPage = () => {
   const {activityId} = params;
 
   function deleteExpense() {
-    delExpenseFromActivity(activityId, expense.id)
+    ACTIVITY_API.deleteExpense(activityId, expense.id)
       .then(() => {
         console.log(
           `Successfully deleted expense '${expense.id}' from activity '${activityId}'`,
         );
-        setExpense(new Expense('', '', 0, '', '', ''));
+        setExpense(EMPTY_EXPENSE);
         navigate('ActivityDetails');
       })
       .catch((error) =>

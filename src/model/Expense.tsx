@@ -24,3 +24,5 @@ export default class Expense {
     this.name = name;
   }
 }
+
+export const EMPTY_EXPENSE = new Expense('', '', 0, '', '', '');

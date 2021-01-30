@@ -1,0 +1,6 @@
+{
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "media-feature-parentheses-space-inside": "always"
+    }
+  }

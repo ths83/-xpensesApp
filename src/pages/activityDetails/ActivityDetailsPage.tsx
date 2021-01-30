@@ -5,8 +5,8 @@ import {RefreshControl, View} from 'react-native';
 import {Button, Header, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {activityAtom} from '../../../App';
-import {getActivityById} from '../../api/ActivityService';
-import {getExpensesByActivity} from '../../api/ExpenseService';
+import {ACTIVITY_API} from '../../api/ActivityApi';
+import {EXPENSE_API} from '../../api/ExpenseApi';
 import {Status} from '../../commons/enums/Status';
 import {TEST_USER} from '../../config/UsersConfiguration';
 import Activity from '../../model/Activity';
@@ -39,7 +39,7 @@ function ActivityDetailsPage() {
 
   async function fetchActivity() {
     setStatus(Status.IN_PROGRESS);
-    getActivityById(activity.id)
+    ACTIVITY_API.getById(activity.id)
       .then((response) => {
         console.log(`Successfully fetched activity ${activity.id}`);
         const fetchedActivity = new Activity(
@@ -64,12 +64,12 @@ function ActivityDetailsPage() {
       setExpenses([]);
       setStatus(Status.SUCCESS);
     } else {
-      getExpensesByActivity(activity.id)
+      EXPENSE_API.getByActivityId(activity.id)
         .then((response) => {
           const mappedExpenses = response.map((ex: any) => {
             return new Expense(
               ex.id,
-              ex.userId,
+              ex.user,
               ex.amount,
               ex.currency,
               ex.date,

@@ -3,7 +3,7 @@ import React from 'react';
 
 export default class ActivityDetailsTab extends React.Component<{
   index: number;
-  setIndex: (value: ((prevState: number) => number) | number) => void;
+  setIndex: (value: number) => void;
 }> {
   constructor(props) {
     super(props);

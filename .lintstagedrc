@@ -1,0 +1,18 @@
+{
+  "*.{ts,tsx}": [
+    "yarn run beautify",
+    "git add"
+  ],
+  "package.json": [
+    "yarn run beautify",
+    "git add"
+  ],
+  "*.css": [
+    "stylelint --fix",
+    "git add"
+  ],
+  "*.scss": [
+    "stylelint --fix --syntax=scss",
+    "git add"
+  ]
+}

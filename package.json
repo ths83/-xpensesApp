@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "beautify": "prettier --single-quote --trailing-comma 'all' --write"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
@@ -24,7 +25,7 @@
     "react-native-gesture-handler": "^1.9.0",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.16.1",
-    "react-native-vector-icons": "^7.1.0",
+    "react-native-vector-icons": "^8.0.0",
     "scheduler": "^0.20.1"
   },
   "devDependencies": {
@@ -39,10 +40,14 @@
     "@typescript-eslint/parser": "^2.27.0",
     "babel-jest": "^25.1.0",
     "eslint": "^6.5.1",
+    "husky": "^4.3.8",
     "jest": "^25.1.0",
+    "lint-staged": "^10.5.3",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-native-global-props": "^1.1.5",
     "react-test-renderer": "16.13.1",
+    "stylelint": "^13.9.0",
+    "stylelint-config-standard": "^20.0.0",
     "typescript": "^4.1.3"
   },
   "jest": {
@@ -55,5 +60,10 @@
       "json",
       "node"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
