@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "beautify": "prettier --single-quote --trailing-comma 'all' --write"
+    "beautify": "prettier --trailing-comma 'all' --write"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
