@@ -1,11 +1,13 @@
+import {CognitoUser} from 'amazon-cognito-identity-js';
 import {API, Auth} from 'aws-amplify';
 import {API_NAME} from '../config/AmplifyConfiguration';
+import Activity from '../model/Activity';
 
 export class ActivityApi {
   constructor() {}
 
-  async create(name: string) {
-    const user = await Auth.currentAuthenticatedUser();
+  async create(name: string): Promise<Activity> {
+    const user: CognitoUser = await Auth.currentAuthenticatedUser();
 
     const apiName = API_NAME;
     const path = '/activities';
@@ -17,18 +19,18 @@ export class ActivityApi {
       },
       body: {
         name: name,
-        createdBy: user.username,
+        createdBy: user.getUsername(),
       },
     };
     console.debug('Adding new activity...');
     return await API.post(apiName, path, myInit);
   }
 
-  async getByUser() {
-    const user = await Auth.currentAuthenticatedUser();
+  async getByUser(): Promise<Activity[]> {
+    const user: CognitoUser = await Auth.currentAuthenticatedUser();
 
     const apiName = API_NAME;
-    const path = `/activities?username=${user.username}`;
+    const path = `/activities?username=${user.getUsername()}`;
     const myInit = {
       headers: {
         Authorization: `Bearer ${(await Auth.currentSession())
@@ -36,11 +38,13 @@ export class ActivityApi {
           .getJwtToken()}`,
       },
     };
-    console.debug(`Retrieving activities from username '${user.username}'...`);
+    console.debug(
+      `Retrieving activities from username '${user.getUsername()}'...`,
+    );
     return await API.get(apiName, path, myInit);
   }
 
-  async getById(id: string) {
+  async getById(id: string): Promise<Activity> {
     const apiName = API_NAME;
     const path = `/activities/${id}`;
     const myInit = {
@@ -50,11 +54,11 @@ export class ActivityApi {
           .getJwtToken()}`,
       },
     };
-    console.debug(`Retrieving activity ${id}...`);
+    console.debug(`Retrieving activity '${id}'...`);
     return await API.get(apiName, path, myInit);
   }
 
-  async deleteExpense(id: string, expenseId: string) {
+  async deleteExpense(id: string, expenseId: string): Promise<void> {
     const apiName = API_NAME;
     const path = `/activities/${id}/expenses/${expenseId}`;
     const myInit = {

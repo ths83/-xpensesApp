@@ -5,6 +5,7 @@ import {ListItem} from 'react-native-elements';
 import {expenseAtom} from '../../../../App';
 import {Pages} from '../../../commons/enums/Pages';
 import Expense from '../../../model/Expense';
+import PureExpenseDetails from '../components/ExpenseDetails';
 
 interface ExpensesViewProps {
   activityId: string;
@@ -12,7 +13,7 @@ interface ExpensesViewProps {
 }
 
 const ExpensesView = ({activityId, expenses}: ExpensesViewProps) => {
-  const [, setExpense] = useAtom<Expense>(expenseAtom);
+  const [, setExpense] = useAtom(expenseAtom);
 
   const {navigate} = useNavigation();
 
@@ -24,24 +25,12 @@ const ExpensesView = ({activityId, expenses}: ExpensesViewProps) => {
           bottomDivider
           onPress={() => {
             setExpense(expenses[i]);
-            navigate(Pages.EXPENSE_DETAILS, {
-              activityId: activityId,
-            });
+            navigate(Pages.EXPENSE_DETAILS, {activityId: activityId});
           }}>
-          <ListItem.Content>
-            <ListItem.Title>{expense.name}</ListItem.Title>
-            <ListItem.Subtitle>Paid by {expense.user}</ListItem.Subtitle>
-          </ListItem.Content>
-          <ListItem.Content right>
-            <ListItem.Title>
-              {expense.amount} {expense.currency}
-            </ListItem.Title>
-            <ListItem.Subtitle>{expense.date}</ListItem.Subtitle>
-          </ListItem.Content>
+          <PureExpenseDetails expense={expense} />
         </ListItem>
       ))}
     </>
   );
 };
-
 export default ExpensesView;

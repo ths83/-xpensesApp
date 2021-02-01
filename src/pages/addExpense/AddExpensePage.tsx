@@ -1,9 +1,7 @@
-import {useNavigation} from '@react-navigation/native';
-import {useAtom} from 'jotai';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Button, Input, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
-import {activityAtom} from '../../../App';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import {Currency} from '../../commons/enums/Currency';
 import {Pages} from '../../commons/enums/Pages';
@@ -16,9 +14,10 @@ const AddExpensePage = () => {
   const [errorAmount, setErrorAmount] = useState<string>('');
   const [status, setStatus] = useState<Status>(Status.IDLE);
 
-  const [activity] = useAtom(activityAtom);
-
   const {navigate} = useNavigation();
+
+  const {params} = useRoute();
+  const {activityId} = params;
 
   function isValidName() {
     if (name === '') {
@@ -40,18 +39,16 @@ const AddExpensePage = () => {
     }
   }
 
-  function handleAddExpense() {
+  function createExpense() {
     setStatus(Status.IN_PROGRESS);
-    const nameValue = isValidName();
-    const amountValue = isValidAmount();
-    if (nameValue && amountValue) {
-      return EXPENSE_API.create(name, amount, activity.id)
+    if (isValidName() && isValidAmount()) {
+      return EXPENSE_API.create(name, amount, activityId)
         .then(() => {
           console.debug(
-            `Successfully added new expense to activity '${activity.id}'`,
+            `Successfully added new expense to activity '${activityId}'`,
           );
           setStatus(Status.SUCCESS);
-          navigate(Pages.ACTIVITY_DETAILS);
+          navigate(Pages.ACTIVITY_DETAILS, {activityId: activityId});
         })
         .catch((error) => {
           console.debug(error);
@@ -81,16 +78,11 @@ const AddExpensePage = () => {
           defaultValue={Currency.CANADA}
           editable={false} //TODO v2
         />
-        {status === Status.SUCCESS && (
-          <Text>
-            Successfully added new expense to activity {activity.name}
-          </Text>
-        )}
         {status === Status.ERROR && (
-          <Text>An error occurred while adding expense to {activity.name}</Text>
+          <Text>An error occurred while adding expense</Text>
         )}
       </ScrollView>
-      <Button title={'Add expense'} onPress={handleAddExpense} />
+      <Button title={'Add expense'} onPress={createExpense} />
     </>
   );
 };

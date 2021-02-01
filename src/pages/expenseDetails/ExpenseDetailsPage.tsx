@@ -14,7 +14,6 @@ const ExpenseDetailsPage = () => {
   const {navigate} = useNavigation();
 
   const {params} = useRoute();
-
   const {activityId} = params;
 
   function deleteExpense() {
@@ -50,7 +49,9 @@ const ExpenseDetailsPage = () => {
         <Button title={'Delete'} onPress={deleteExpense} />
         <Button
           title={'Back'}
-          onPress={() => navigate(Pages.ACTIVITY_DETAILS)}
+          onPress={() =>
+            navigate(Pages.ACTIVITY_DETAILS, {activityId: activityId})
+          }
         />
       </View>
     </>

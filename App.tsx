@@ -5,7 +5,6 @@ import {withAuthenticator} from 'aws-amplify-react-native';
 import {atom, Provider} from 'jotai';
 import React from 'react';
 import 'react-native-gesture-handler';
-import {setCustomText, setCustomTextInput} from 'react-native-global-props';
 import AppHeader from './src/commons/components/AppHeader';
 import {
   API_NAME,
@@ -14,7 +13,6 @@ import {
   USER_POOL_ID,
   USER_POOL_WEB_CLIENT_ID,
 } from './src/config/AmplifyConfiguration';
-import Activity, {EMPTY_ACTIVITY} from './src/model/Activity';
 import Expense, {EMPTY_EXPENSE} from './src/model/Expense';
 import ActivitiesPage from './src/pages/activities/ActivitiesPage';
 import ActivityDetailsPage from './src/pages/activityDetails/ActivityDetailsPage';
@@ -38,20 +36,11 @@ Amplify.configure({
   },
 });
 
-export const activityAtom = atom<Activity>(EMPTY_ACTIVITY);
+export const currentUserAtom = atom<string>('');
 export const expenseAtom = atom<Expense>(EMPTY_EXPENSE);
 
 const Stack = createStackNavigator();
 const App = () => {
-  const customTextProps = {
-    style: {
-      fontFamily: 'Arial',
-    },
-  };
-
-  setCustomText(customTextProps);
-  setCustomTextInput(customTextProps);
-
   return (
     <Provider>
       <NavigationContainer>

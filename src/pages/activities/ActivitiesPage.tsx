@@ -6,39 +6,54 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl, View} from 'react-native';
 import {Button, ListItem, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
-import {activityAtom} from '../../../App';
+import {currentUserAtom} from '../../../App';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {Pages} from '../../commons/enums/Pages';
 import {Status} from '../../commons/enums/Status';
 import Activity from '../../model/Activity';
-import ActivitySummary from './components/ActivitySummary';
+import {toYYYY_MM_DD} from '../../utils/DateFormatter';
+import PureActivitySummary from './components/ActivitySummary';
 
 const ActivitiesPage = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [status, setStatus] = useState<Status>(Status.IDLE);
 
-  const [, setActivity] = useAtom(activityAtom);
+  const [, setUsername] = useAtom(currentUserAtom);
 
   const {navigate} = useNavigation();
 
   const isFocused = useIsFocused();
 
+  useEffect(() => {
+    getCurrentUsername();
+  }, [isFocused]);
+
+  useEffect(() => {
+    getActivities();
+  }, [isFocused]);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getActivities();
+    setRefreshing(false);
+  }, []);
+
+  async function getCurrentUsername() {
+    console.debug('Getting current username...');
+    const user: CognitoUser = await Auth.currentAuthenticatedUser();
+    setUsername(user.getUsername());
+  }
+
   async function getActivities() {
     setStatus(Status.IN_PROGRESS);
     ACTIVITY_API.getByUser()
-      .then((activity) => {
-        const mappedActivities = activity.map((a: any) => {
-          return new Activity(
-            a.id,
-            a.name,
-            a.createdBy,
-            a.expenses,
-            a.users,
-            a.date,
-          );
+      .then((fetchedActivities) => {
+        fetchedActivities.map((activity: Activity) => {
+          activity.date = toYYYY_MM_DD(activity.date);
+          return activity;
         });
-        setActivities(mappedActivities);
+        setActivities(fetchedActivities);
         setStatus(Status.SUCCESS);
       })
       .catch(() => {
@@ -46,29 +61,18 @@ const ActivitiesPage = () => {
       });
   }
 
-  function refreshActivities() {
-    setRefreshing(true);
-    getActivities();
-    setRefreshing(false);
-  }
-
-  const onRefresh = useCallback(refreshActivities, []);
-
-  useEffect(() => {
-    getActivities();
-  }, [isFocused]);
-
   function renderActivities() {
     return activities.map((activity, i) => (
-      <ListItem
-        key={i}
-        onPress={() => {
-          setActivity(activity);
-          navigate(Pages.ACTIVITY_DETAILS);
-        }}
-        bottomDivider>
-        <ActivitySummary activity={activity} />
-      </ListItem>
+      <>
+        <ListItem
+          key={i}
+          onPress={() => {
+            console.debug(`Render details from activity '${activity.id}'`);
+            navigate(Pages.ACTIVITY_DETAILS, {activityId: activity.id});
+          }}>
+          <PureActivitySummary activity={activity} />
+        </ListItem>
+      </>
     ));
   }
 
@@ -86,6 +90,7 @@ const ActivitiesPage = () => {
             }>
             {renderActivities()}
           </ScrollView>
+
           <View>
             <Button
               title={'New activity'}

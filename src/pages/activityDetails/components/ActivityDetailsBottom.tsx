@@ -5,11 +5,13 @@ import {Pages} from '../../../commons/enums/Pages';
 import Expense from '../../../model/Expense';
 
 interface ActivityDetailsBottomProps {
+  activityId: string;
   expenses: Expense[];
   username: string;
 }
 
 const ActivityDetailsBottom = ({
+  activityId,
   expenses,
   username,
 }: ActivityDetailsBottomProps) => {
@@ -49,7 +51,7 @@ const ActivityDetailsBottom = ({
         <Icon
           name="add"
           onPress={() => {
-            navigate(Pages.ADD_EXPENSE);
+            navigate(Pages.ADD_EXPENSE, {activityId: activityId});
           }}
         />
       </>
