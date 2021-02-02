@@ -8,11 +8,11 @@ import {Button, ListItem, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {currentUserAtom} from '../../../App';
 import {ACTIVITY_API} from '../../api/ActivityApi';
-import {Pages} from '../../commons/enums/Pages';
-import {Status} from '../../commons/enums/Status';
+import {Pages} from '../../enums/Pages';
+import {Status} from '../../enums/Status';
 import Activity from '../../model/Activity';
 import {toYYYY_MM_DD} from '../../utils/DateFormatter';
-import PureActivitySummary from './components/ActivitySummary';
+import PureActivitySummary from '../../components/activities/ActivitySummary';
 
 const ActivitiesPage = () => {
   const [activities, setActivities] = useState<Activity[]>([]);

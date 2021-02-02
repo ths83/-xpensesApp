@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {ListItem} from 'react-native-elements';
-import Activity from '../../../model/Activity';
+import Activity from '../../model/Activity';
 
 interface ActivitySummaryProps {
   activity: Activity;

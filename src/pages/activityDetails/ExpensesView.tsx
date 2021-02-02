@@ -2,10 +2,10 @@ import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React from 'react';
 import {ListItem} from 'react-native-elements';
-import {expenseAtom} from '../../../../App';
-import {Pages} from '../../../commons/enums/Pages';
-import Expense from '../../../model/Expense';
-import PureExpenseDetails from '../components/ExpenseDetails';
+import {expenseAtom} from '../../../App';
+import {Pages} from '../../enums/Pages';
+import Expense from '../../model/Expense';
+import PureExpenseDetails from '../../components/expenses/ExpenseDetails';
 
 interface ExpensesViewProps {
   activityId: string;

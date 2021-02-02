@@ -3,9 +3,9 @@ import React, {useState} from 'react';
 import {Button, Input, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {EXPENSE_API} from '../../api/ExpenseApi';
-import {Currency} from '../../commons/enums/Currency';
-import {Pages} from '../../commons/enums/Pages';
-import {Status} from '../../commons/enums/Status';
+import {Currency} from '../../enums/Currency';
+import {Pages} from '../../enums/Pages';
+import {Status} from '../../enums/Status';
 
 const AddExpensePage = () => {
   const [name, setName] = useState<string>('');

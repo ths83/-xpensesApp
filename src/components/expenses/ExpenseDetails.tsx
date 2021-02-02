@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {ListItem} from 'react-native-elements';
-import Expense from '../../../model/Expense';
+import Expense from '../../model/Expense';
 
 interface ExpenseDetailsProps {
   expense: Expense;

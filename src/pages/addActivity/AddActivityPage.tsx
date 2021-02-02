@@ -3,8 +3,8 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import {Button, Input, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
-import {Pages} from '../../commons/enums/Pages';
-import {Status} from '../../commons/enums/Status';
+import {Pages} from '../../enums/Pages';
+import {Status} from '../../enums/Status';
 
 const AddActivityPage = () => {
   const [name, setName] = useState<string>('');

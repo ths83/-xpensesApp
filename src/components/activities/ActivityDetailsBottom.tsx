@@ -1,8 +1,8 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Header, Icon, Text} from 'react-native-elements';
-import {Pages} from '../../../commons/enums/Pages';
-import Expense from '../../../model/Expense';
+import {Pages} from '../../enums/Pages';
+import Expense from '../../model/Expense';
 
 interface ActivityDetailsBottomProps {
   activityId: string;

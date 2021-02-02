@@ -5,7 +5,7 @@ import {withAuthenticator} from 'aws-amplify-react-native';
 import {atom, Provider} from 'jotai';
 import React from 'react';
 import 'react-native-gesture-handler';
-import AppHeader from './src/commons/components/AppHeader';
+import AppHeader from './src/components/header/AppHeader';
 import {
   API_NAME,
   ENDPOINT,

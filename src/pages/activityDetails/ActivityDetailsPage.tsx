@@ -7,14 +7,14 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {currentUserAtom} from '../../../App';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {EXPENSE_API} from '../../api/ExpenseApi';
-import {Status} from '../../commons/enums/Status';
+import {Status} from '../../enums/Status';
 import Activity from '../../model/Activity';
 import Expense from '../../model/Expense';
 import {toYYYY_MM_DD} from '../../utils/DateFormatter';
-import ActivityDetailsBottom from './components/ActivityDetailsBottom';
-import ActivityDetailsTab from './components/ActivityDetailsTab';
-import ExpensesBalanceView from './views/ExpensesBalanceView';
-import ExpensesView from './views/ExpensesView';
+import ActivityDetailsBottom from '../../components/activities/ActivityDetailsBottom';
+import ActivityDetailsTab from '../../components/activities/ActivityDetailsTab';
+import ExpensesBalanceView from './ExpensesBalanceView';
+import ExpensesView from './ExpensesView';
 
 const ActivityDetailsPage = () => {
   const [tabIndex, setTabIndex] = useState<number>(0);

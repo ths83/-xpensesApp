@@ -5,7 +5,7 @@ import {View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {expenseAtom} from '../../../App';
 import {ACTIVITY_API} from '../../api/ActivityApi';
-import {Pages} from '../../commons/enums/Pages';
+import {Pages} from '../../enums/Pages';
 import {EMPTY_EXPENSE} from '../../model/Expense';
 
 const ExpenseDetailsPage = () => {
