@@ -28,14 +28,10 @@ const AddActivityPage = () => {
       setStatus(Status.IN_PROGRESS);
       ACTIVITY_API.create(name)
         .then((activity) => {
-          console.debug(`Successfully added activity '${activity.id}'`);
           setStatus(Status.SUCCESS);
           navigate(Pages.ACTIVITY_DETAILS, {activityId: activity.id});
         })
-        .catch((error) => {
-          console.debug(error);
-          setStatus(Status.ERROR);
-        });
+        .catch(() => setStatus(Status.ERROR));
     } else {
       setStatus(Status.IDLE);
     }

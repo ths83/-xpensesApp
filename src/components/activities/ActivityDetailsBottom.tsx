@@ -2,16 +2,14 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Header, Icon, Text} from 'react-native-elements';
 import {Pages} from '../../enums/Pages';
-import Expense from '../../model/Expense';
+import {Expense} from '../../model/Expense';
 
 interface ActivityDetailsBottomProps {
-  activityId: string;
   expenses: Expense[];
   username: string;
 }
 
 const ActivityDetailsBottom = ({
-  activityId,
   expenses,
   username,
 }: ActivityDetailsBottomProps) => {
@@ -19,7 +17,7 @@ const ActivityDetailsBottom = ({
 
   const renderTotalUserExpense = () => {
     let userTotal = 0;
-    expenses.map((expense: Expense) => {
+    expenses.map((expense) => {
       if (expense.user === username) {
         userTotal += expense.amount;
       }
@@ -34,7 +32,7 @@ const ActivityDetailsBottom = ({
 
   const renderTotalExpense = () => {
     let total = 0;
-    expenses.map((expense: Expense) => {
+    expenses.map((expense) => {
       total += expense.amount;
     });
     return (
@@ -48,12 +46,7 @@ const ActivityDetailsBottom = ({
   const addExpense = () => {
     return (
       <>
-        <Icon
-          name="add"
-          onPress={() => {
-            navigate(Pages.ADD_EXPENSE, {activityId: activityId});
-          }}
-        />
+        <Icon name="add" onPress={() => navigate(Pages.ADD_EXPENSE)} />
       </>
     );
   };

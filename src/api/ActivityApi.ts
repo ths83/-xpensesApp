@@ -1,7 +1,7 @@
 import {CognitoUser} from 'amazon-cognito-identity-js';
 import {API, Auth} from 'aws-amplify';
 import {API_NAME} from '../config/AmplifyConfiguration';
-import Activity from '../model/Activity';
+import {Activity} from '../model/Activity';
 
 export class ActivityApi {
   constructor() {}

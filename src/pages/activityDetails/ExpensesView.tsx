@@ -2,17 +2,16 @@ import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React from 'react';
 import {ListItem} from 'react-native-elements';
-import {expenseAtom} from '../../../App';
+import ExpenseDetails from '../../components/expenses/ExpenseDetails';
 import {Pages} from '../../enums/Pages';
-import Expense from '../../model/Expense';
-import PureExpenseDetails from '../../components/expenses/ExpenseDetails';
+import {Expense} from '../../model/Expense';
+import expenseAtom from '../../state/expense';
 
 interface ExpensesViewProps {
-  activityId: string;
   expenses: Expense[];
 }
 
-const ExpensesView = ({activityId, expenses}: ExpensesViewProps) => {
+const ExpensesView = ({expenses}: ExpensesViewProps) => {
   const [, setExpense] = useAtom(expenseAtom);
 
   const {navigate} = useNavigation();
@@ -25,12 +24,13 @@ const ExpensesView = ({activityId, expenses}: ExpensesViewProps) => {
           bottomDivider
           onPress={() => {
             setExpense(expenses[i]);
-            navigate(Pages.EXPENSE_DETAILS, {activityId: activityId});
+            navigate(Pages.EXPENSE_DETAILS);
           }}>
-          <PureExpenseDetails expense={expense} />
+          <ExpenseDetails expense={expense} />
         </ListItem>
       ))}
     </>
   );
 };
+
 export default ExpensesView;

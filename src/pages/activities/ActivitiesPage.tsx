@@ -6,20 +6,22 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl, View} from 'react-native';
 import {Button, ListItem, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
-import {currentUserAtom} from '../../../App';
 import {ACTIVITY_API} from '../../api/ActivityApi';
+import ActivitySummary from '../../components/activities/ActivitySummary';
 import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
-import Activity from '../../model/Activity';
+import {Activity} from '../../model/Activity';
+import activityAtom from '../../state/activity';
+import userAtom from '../../state/user';
 import {toYYYY_MM_DD} from '../../utils/DateFormatter';
-import PureActivitySummary from '../../components/activities/ActivitySummary';
 
 const ActivitiesPage = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [status, setStatus] = useState<Status>(Status.IDLE);
 
-  const [, setUsername] = useAtom(currentUserAtom);
+  const [, setUsername] = useAtom(userAtom);
+  const [, setActivity] = useAtom(activityAtom);
 
   const {navigate} = useNavigation();
 
@@ -27,7 +29,7 @@ const ActivitiesPage = () => {
 
   useEffect(() => {
     getCurrentUsername();
-  }, [isFocused]);
+  }, []);
 
   useEffect(() => {
     getActivities();
@@ -40,7 +42,6 @@ const ActivitiesPage = () => {
   }, []);
 
   async function getCurrentUsername() {
-    console.debug('Getting current username...');
     const user: CognitoUser = await Auth.currentAuthenticatedUser();
     setUsername(user.getUsername());
   }
@@ -67,10 +68,12 @@ const ActivitiesPage = () => {
         <ListItem
           key={i}
           onPress={() => {
-            console.debug(`Render details from activity '${activity.id}'`);
-            navigate(Pages.ACTIVITY_DETAILS, {activityId: activity.id});
+            // does not set activity the first time, need to call it again (component issue ?)
+            setActivity(activity);
+            setActivity(activity);
+            navigate(Pages.ACTIVITY_DETAILS);
           }}>
-          <PureActivitySummary activity={activity} />
+          <ActivitySummary activity={activity} />
         </ListItem>
       </>
     ));

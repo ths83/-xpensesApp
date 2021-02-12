@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {Button, Icon, Overlay} from 'react-native-elements';
 import {Auth} from 'aws-amplify';
 
@@ -6,9 +6,7 @@ const LogoutHeaderComponent = () => {
   const [visible, setVisible] = useState(false);
 
   async function signOut() {
-    await Auth.signOut()
-      .then(() => console.debug('User has signed out'))
-      .catch((err) => console.debug(err));
+    await Auth.signOut();
   }
 
   function confirmLogout() {
@@ -30,15 +28,10 @@ const LogoutHeaderComponent = () => {
 
   return (
     <>
-      <Icon
-        name="logout"
-        onPress={() => {
-          setVisible(true);
-        }}
-      />
+      <Icon name="logout" onPress={() => setVisible(true)} />
       {confirmLogout()}
     </>
   );
 };
 
-export default LogoutHeaderComponent;
+export default memo(LogoutHeaderComponent);

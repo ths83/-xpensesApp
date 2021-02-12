@@ -1,39 +1,27 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React from 'react';
 import {View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
-import {expenseAtom} from '../../../App';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {Pages} from '../../enums/Pages';
 import {EMPTY_EXPENSE} from '../../model/Expense';
+import activityAtom from '../../state/activity';
+import expenseAtom from '../../state/expense';
 
 const ExpenseDetailsPage = () => {
   const [expense, setExpense] = useAtom(expenseAtom);
+  const [activity] = useAtom(activityAtom);
 
-  const {navigate} = useNavigation();
-
-  const {params} = useRoute();
-  const {activityId} = params;
+  const {navigate, goBack} = useNavigation();
 
   function deleteExpense() {
-    ACTIVITY_API.deleteExpense(activityId, expense.id)
-      .then(() => {
-        console.debug(
-          `Successfully deleted expense '${expense.id}' from activity '${activityId}'`,
-        );
-        setExpense(EMPTY_EXPENSE);
-        navigate(Pages.ACTIVITY_DETAILS);
-      })
-      .catch((error) =>
-        console.debug(
-          `An error occurred while deleting expense '${expense.id}' from activity '${activityId}'`,
-          error,
-        ),
-      );
+    ACTIVITY_API.deleteExpense(activity.id, expense.id).then(() => {
+      setExpense(EMPTY_EXPENSE);
+      navigate(Pages.ACTIVITY_DETAILS);
+    });
   }
 
-  // TODO CSS
   return (
     <>
       <View>
@@ -47,12 +35,7 @@ const ExpenseDetailsPage = () => {
       </View>
       <View>
         <Button title={'Delete'} onPress={deleteExpense} />
-        <Button
-          title={'Back'}
-          onPress={() =>
-            navigate(Pages.ACTIVITY_DETAILS, {activityId: activityId})
-          }
-        />
+        <Button title={'Back'} onPress={() => goBack()} />
       </View>
     </>
   );

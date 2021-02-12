@@ -2,7 +2,7 @@ import {CognitoUser} from 'amazon-cognito-identity-js';
 import {API, Auth} from 'aws-amplify';
 import {Currency} from '../enums/Currency';
 import {API_NAME} from '../config/AmplifyConfiguration';
-import Expense from '../model/Expense';
+import {Expense} from '../model/Expense';
 
 export class ExpenseApi {
   constructor() {}

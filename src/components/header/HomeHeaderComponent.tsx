@@ -1,19 +1,24 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import {useAtom} from 'jotai';
+import React, {memo} from 'react';
 import {Icon} from 'react-native-elements';
-import {Pages} from '../../enums/Pages';
+import {EMPTY_ACTIVITY} from '../../model/Activity';
+import activityAtom from '../../state/activity';
 
 const HomeHeaderComponent = () => {
-  const {navigate} = useNavigation();
+  const [, setActivity] = useAtom(activityAtom);
+
+  const {popToTop} = useNavigation();
 
   return (
     <Icon
       name="home"
       onPress={() => {
-        navigate(Pages.ACTIVITIES);
+        setActivity(EMPTY_ACTIVITY);
+        popToTop();
       }}
     />
   );
 };
 
-export default HomeHeaderComponent;
+export default memo(HomeHeaderComponent);

@@ -1,18 +1,19 @@
-import {useIsFocused, useRoute} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/core';
 import {useAtom} from 'jotai';
 import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl} from 'react-native';
 import {Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
-import {currentUserAtom} from '../../../App';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {EXPENSE_API} from '../../api/ExpenseApi';
-import {Status} from '../../enums/Status';
-import Activity from '../../model/Activity';
-import Expense from '../../model/Expense';
-import {toYYYY_MM_DD} from '../../utils/DateFormatter';
 import ActivityDetailsBottom from '../../components/activities/ActivityDetailsBottom';
 import ActivityDetailsTab from '../../components/activities/ActivityDetailsTab';
+import {Status} from '../../enums/Status';
+import {Activity} from '../../model/Activity';
+import {Expense} from '../../model/Expense';
+import activityAtom from '../../state/activity';
+import userAtom from '../../state/user';
+import {toYYYY_MM_DD} from '../../utils/DateFormatter';
 import ExpensesBalanceView from './ExpensesBalanceView';
 import ExpensesView from './ExpensesView';
 
@@ -22,39 +23,32 @@ const ActivityDetailsPage = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
-  const [username] = useAtom(currentUserAtom);
+  const [activity, setActivity] = useAtom<Activity>(activityAtom);
+  const [username] = useAtom(userAtom);
 
   const isFocused = useIsFocused();
 
-  const {params} = useRoute();
-  const {activityId} = params;
-
   useEffect(() => {
-    fetchActivity();
+    fetchExpenses();
   }, [isFocused]);
 
   const onRefresh = useCallback(() => {
-    console.debug('Refreshing activity...');
     setRefreshing(true);
-    fetchActivity();
+    fetchExpenses();
     setRefreshing(false);
   }, []);
 
   async function fetchActivity() {
     setStatus(Status.IN_PROGRESS);
-    ACTIVITY_API.getById(activityId)
-      .then((fetchedActivity) => {
-        console.debug(`Successfully fetched activity '${fetchedActivity.id}'`);
-        fetchExpenses(fetchedActivity);
-      })
-      .catch((error) => {
-        setStatus(Status.ERROR);
-        console.debug(error);
-      });
+    console.log({activity});
+    ACTIVITY_API.getById(activity.id)
+      .then((fetchedActivity) => setActivity(fetchedActivity))
+      .catch(() => setStatus(Status.ERROR));
   }
 
-  async function fetchExpenses(activity: Activity) {
-    if (activity?.expenses === undefined || activity?.expenses.length === 0) {
+  async function fetchExpenses() {
+    fetchActivity();
+    if (activity?.expenses === undefined || activity?.expenses?.length === 0) {
       setExpenses([]);
       setStatus(Status.SUCCESS);
     } else {
@@ -66,12 +60,10 @@ const ActivityDetailsPage = () => {
           });
           setExpenses(fetchedExpenses);
           setStatus(Status.SUCCESS);
-          console.debug(`Successfully fetched ${expenses.length} expense(s)`);
         })
-        .catch((error) => {
+        .catch(() => {
           setExpenses([]);
           setStatus(Status.ERROR);
-          console.debug(error);
         });
     }
   }
@@ -90,16 +82,12 @@ const ActivityDetailsPage = () => {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
             {tabIndex === 0 ? (
-              <ExpensesView activityId={activityId} expenses={expenses} />
+              <ExpensesView expenses={expenses} />
             ) : (
               <ExpensesBalanceView expenses={expenses} />
             )}
           </ScrollView>
-          <ActivityDetailsBottom
-            activityId={activityId}
-            expenses={expenses}
-            username={username}
-          />
+          <ActivityDetailsBottom expenses={expenses} username={username} />
         </>
       );
     }

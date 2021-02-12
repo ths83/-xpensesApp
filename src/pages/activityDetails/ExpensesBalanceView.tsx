@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text} from 'react-native-elements';
 import {getUsers} from '../../config/UsersConfiguration';
-import Expense from '../../model/Expense';
+import {Expense} from '../../model/Expense';
 
 interface ExpensesBalanceViewProps {
   expenses: Expense[];

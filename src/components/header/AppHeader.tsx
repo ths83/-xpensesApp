@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {Header} from 'react-native-elements';
 import HomeHeaderComponent from './HomeHeaderComponent';
 import LogoutHeaderComponent from './LogoutHeaderComponent';
@@ -16,4 +16,4 @@ const AppHeader = () => {
   );
 };
 
-export default AppHeader;
+export default memo(AppHeader);

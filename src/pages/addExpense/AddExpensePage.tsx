@@ -1,11 +1,12 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {Button, Input, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import {Currency} from '../../enums/Currency';
-import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
+import activityAtom from '../../state/activity';
 
 const AddExpensePage = () => {
   const [name, setName] = useState<string>('');
@@ -14,10 +15,9 @@ const AddExpensePage = () => {
   const [errorAmount, setErrorAmount] = useState<string>('');
   const [status, setStatus] = useState<Status>(Status.IDLE);
 
-  const {navigate} = useNavigation();
+  const [activity] = useAtom(activityAtom);
 
-  const {params} = useRoute();
-  const {activityId} = params;
+  const {goBack} = useNavigation();
 
   function isValidName() {
     if (name === '') {
@@ -42,18 +42,12 @@ const AddExpensePage = () => {
   function createExpense() {
     setStatus(Status.IN_PROGRESS);
     if (isValidName() && isValidAmount()) {
-      return EXPENSE_API.create(name, amount, activityId)
+      return EXPENSE_API.create(name, amount, activity.id)
         .then(() => {
-          console.debug(
-            `Successfully added new expense to activity '${activityId}'`,
-          );
           setStatus(Status.SUCCESS);
-          navigate(Pages.ACTIVITY_DETAILS, {activityId: activityId});
+          goBack();
         })
-        .catch((error) => {
-          console.debug(error);
-          setStatus(Status.ERROR);
-        });
+        .catch(() => setStatus(Status.ERROR));
     } else {
       setStatus(Status.IDLE);
     }

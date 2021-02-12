@@ -2,7 +2,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Amplify} from 'aws-amplify';
 import {withAuthenticator} from 'aws-amplify-react-native';
-import {atom, Provider} from 'jotai';
+import {Provider} from 'jotai';
 import React from 'react';
 import 'react-native-gesture-handler';
 import AppHeader from './src/components/header/AppHeader';
@@ -13,7 +13,6 @@ import {
   USER_POOL_ID,
   USER_POOL_WEB_CLIENT_ID,
 } from './src/config/AmplifyConfiguration';
-import Expense, {EMPTY_EXPENSE} from './src/model/Expense';
 import ActivitiesPage from './src/pages/activities/ActivitiesPage';
 import ActivityDetailsPage from './src/pages/activityDetails/ActivityDetailsPage';
 import AddActivityPage from './src/pages/addActivity/AddActivityPage';
@@ -35,9 +34,6 @@ Amplify.configure({
     ],
   },
 });
-
-export const currentUserAtom = atom<string>('');
-export const expenseAtom = atom<Expense>(EMPTY_EXPENSE);
 
 const Stack = createStackNavigator();
 const App = () => {
