@@ -11,8 +11,8 @@ import ActivitySummary from '../../components/activities/ActivitySummary';
 import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
 import {Activity} from '../../model/Activity';
-import activityAtom from '../../state/activity';
-import userAtom from '../../state/user';
+import activityAtom from '../../state/Activity';
+import userAtom from '../../state/User';
 import {toYYYY_MM_DD} from '../../utils/DateFormatter';
 
 const ActivitiesPage = () => {

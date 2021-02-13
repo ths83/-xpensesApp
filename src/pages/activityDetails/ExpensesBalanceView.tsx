@@ -1,13 +1,13 @@
+import {useAtom} from 'jotai';
 import React from 'react';
 import {Text} from 'react-native-elements';
 import {getUsers} from '../../config/UsersConfiguration';
 import {Expense} from '../../model/Expense';
+import expensesAtom from '../../state/Expenses';
 
-interface ExpensesBalanceViewProps {
-  expenses: Expense[];
-}
+const ExpensesBalanceView = () => {
+  const [expenses] = useAtom(expensesAtom);
 
-const ExpensesBalanceView = ({expenses}: ExpensesBalanceViewProps) => {
   const users = getUsers(); //TODO remove for v2
 
   function render() {

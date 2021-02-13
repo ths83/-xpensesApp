@@ -3,7 +3,7 @@ import {useAtom} from 'jotai';
 import React, {memo} from 'react';
 import {Icon} from 'react-native-elements';
 import {EMPTY_ACTIVITY} from '../../model/Activity';
-import activityAtom from '../../state/activity';
+import activityAtom from '../../state/Activity';
 
 const HomeHeaderComponent = () => {
   const [, setActivity] = useAtom(activityAtom);

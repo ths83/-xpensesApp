@@ -4,14 +4,11 @@ import React from 'react';
 import {ListItem} from 'react-native-elements';
 import ExpenseDetails from '../../components/expenses/ExpenseDetails';
 import {Pages} from '../../enums/Pages';
-import {Expense} from '../../model/Expense';
-import expenseAtom from '../../state/expense';
+import expenseAtom from '../../state/Expense';
+import expensesAtom from '../../state/Expenses';
 
-interface ExpensesViewProps {
-  expenses: Expense[];
-}
-
-const ExpensesView = ({expenses}: ExpensesViewProps) => {
+const ExpensesView = () => {
+  const [expenses] = useAtom(expensesAtom);
   const [, setExpense] = useAtom(expenseAtom);
 
   const {navigate} = useNavigation();

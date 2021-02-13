@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {ButtonGroup, Text} from 'react-native-elements';
 
 interface ActivityDetailsTabProps {
@@ -23,4 +23,4 @@ const ActivityDetailsTab = ({index, setIndex}: ActivityDetailsTabProps) => {
   );
 };
 
-export default ActivityDetailsTab;
+export default memo(ActivityDetailsTab);

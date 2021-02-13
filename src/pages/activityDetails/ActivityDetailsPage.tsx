@@ -9,10 +9,9 @@ import {EXPENSE_API} from '../../api/ExpenseApi';
 import ActivityDetailsBottom from '../../components/activities/ActivityDetailsBottom';
 import ActivityDetailsTab from '../../components/activities/ActivityDetailsTab';
 import {Status} from '../../enums/Status';
-import {Activity} from '../../model/Activity';
-import {Expense} from '../../model/Expense';
-import activityAtom from '../../state/activity';
-import userAtom from '../../state/user';
+import activityAtom from '../../state/Activity';
+import expensesAtom from '../../state/Expenses';
+import userAtom from '../../state/User';
 import {toYYYY_MM_DD} from '../../utils/DateFormatter';
 import ExpensesBalanceView from './ExpensesBalanceView';
 import ExpensesView from './ExpensesView';
@@ -21,10 +20,9 @@ const ActivityDetailsPage = () => {
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [status, setStatus] = useState<Status>(Status.IDLE);
   const [refreshing, setRefreshing] = useState(false);
-  const [expenses, setExpenses] = useState<Expense[]>([]);
 
-  const [activity, setActivity] = useAtom<Activity>(activityAtom);
-  const [username] = useAtom(userAtom);
+  const [activity, setActivity] = useAtom(activityAtom);
+  const [, setExpenses] = useAtom(expensesAtom);
 
   const isFocused = useIsFocused();
 
@@ -40,7 +38,6 @@ const ActivityDetailsPage = () => {
 
   async function fetchActivity() {
     setStatus(Status.IN_PROGRESS);
-    console.log({activity});
     ACTIVITY_API.getById(activity.id)
       .then((fetchedActivity) => setActivity(fetchedActivity))
       .catch(() => setStatus(Status.ERROR));
@@ -81,13 +78,9 @@ const ActivityDetailsPage = () => {
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
-            {tabIndex === 0 ? (
-              <ExpensesView expenses={expenses} />
-            ) : (
-              <ExpensesBalanceView expenses={expenses} />
-            )}
+            {tabIndex === 0 ? <ExpensesView /> : <ExpensesBalanceView />}
           </ScrollView>
-          <ActivityDetailsBottom expenses={expenses} username={username} />
+          <ActivityDetailsBottom />
         </>
       );
     }

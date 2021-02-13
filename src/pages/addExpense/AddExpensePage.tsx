@@ -6,7 +6,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import {Currency} from '../../enums/Currency';
 import {Status} from '../../enums/Status';
-import activityAtom from '../../state/activity';
+import activityAtom from '../../state/Activity';
 
 const AddExpensePage = () => {
   const [name, setName] = useState<string>('');
@@ -77,6 +77,7 @@ const AddExpensePage = () => {
         )}
       </ScrollView>
       <Button title={'Add expense'} onPress={createExpense} />
+      <Button title={'Back'} onPress={goBack} />
     </>
   );
 };

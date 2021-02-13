@@ -6,8 +6,8 @@ import {Button, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {Pages} from '../../enums/Pages';
 import {EMPTY_EXPENSE} from '../../model/Expense';
-import activityAtom from '../../state/activity';
-import expenseAtom from '../../state/expense';
+import activityAtom from '../../state/Activity';
+import expenseAtom from '../../state/Expense';
 
 const ExpenseDetailsPage = () => {
   const [expense, setExpense] = useAtom(expenseAtom);
@@ -35,7 +35,7 @@ const ExpenseDetailsPage = () => {
       </View>
       <View>
         <Button title={'Delete'} onPress={deleteExpense} />
-        <Button title={'Back'} onPress={() => goBack()} />
+        <Button title={'Back'} onPress={goBack} />
       </View>
     </>
   );

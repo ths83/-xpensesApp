@@ -1,19 +1,15 @@
-import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import {useAtom} from 'jotai';
+import React, {useState} from 'react';
 import {Header, Icon, Text} from 'react-native-elements';
-import {Pages} from '../../enums/Pages';
-import {Expense} from '../../model/Expense';
+import expensesAtom from '../../state/Expenses';
+import userAtom from '../../state/User';
+import ActivityDetailsActions from './ActivityDetailsActions';
 
-interface ActivityDetailsBottomProps {
-  expenses: Expense[];
-  username: string;
-}
+const ActivityDetailsBottom = () => {
+  const [visible, setVisible] = useState(false);
 
-const ActivityDetailsBottom = ({
-  expenses,
-  username,
-}: ActivityDetailsBottomProps) => {
-  const {navigate} = useNavigation();
+  const [expenses] = useAtom(expensesAtom);
+  const [username] = useAtom(userAtom);
 
   const renderTotalUserExpense = () => {
     let userTotal = 0;
@@ -43,20 +39,21 @@ const ActivityDetailsBottom = ({
     );
   };
 
-  const addExpense = () => {
-    return (
-      <>
-        <Icon name="add" onPress={() => navigate(Pages.ADD_EXPENSE)} />
-      </>
-    );
-  };
+  const actions = (
+    <>
+      <Icon name="info" onPress={() => setVisible(true)} />
+    </>
+  );
 
   return (
-    <Header
-      leftComponent={renderTotalUserExpense()}
-      centerComponent={addExpense()}
-      rightComponent={renderTotalExpense()}
-    />
+    <>
+      <Header
+        leftComponent={renderTotalUserExpense()}
+        centerComponent={actions}
+        rightComponent={renderTotalExpense()}
+      />
+      <ActivityDetailsActions visible={visible} setVisible={setVisible} />
+    </>
   );
 };
 
