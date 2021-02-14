@@ -1,17 +1,20 @@
 import {useNavigation} from '@react-navigation/native';
+import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import {Button, Input, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
+import activityAtom from '../../state/Activity';
 
 const AddActivityPage = () => {
   const [name, setName] = useState<string>('');
   const [errorName, setErrorName] = useState<string>('');
   const [status, setStatus] = useState<Status>(Status.IDLE);
 
-  const {navigate} = useNavigation();
+  const [, setActivity] = useAtom(activityAtom);
+  const {goBack, navigate} = useNavigation();
 
   function isValidName() {
     if (name === '') {
@@ -29,7 +32,8 @@ const AddActivityPage = () => {
       ACTIVITY_API.create(name)
         .then((activity) => {
           setStatus(Status.SUCCESS);
-          navigate(Pages.ACTIVITY_DETAILS, {activityId: activity.id});
+          setActivity(activity);
+          navigate(Pages.ACTIVITY_DETAILS);
         })
         .catch(() => setStatus(Status.ERROR));
     } else {
@@ -51,6 +55,7 @@ const AddActivityPage = () => {
           'An error occurred while adding new activity'}
       </Text>
       <Button title={'Create'} onPress={createActivity} />
+      <Button title={'Back'} onPress={goBack} />
     </>
   );
 };

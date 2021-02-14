@@ -1,5 +1,5 @@
 import {atom} from 'jotai';
-import {Expense, EMPTY_EXPENSE} from '../model/Expense';
+import {EMPTY_EXPENSE, Expense} from '../../model/Expense';
 
 const expenseAtom = atom<Expense>(EMPTY_EXPENSE);
 

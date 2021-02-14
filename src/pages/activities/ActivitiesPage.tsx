@@ -80,11 +80,9 @@ const ActivitiesPage = () => {
   }
 
   function render() {
-    if (status === Status.IDLE || status === Status.IN_PROGRESS) {
-      return <Text>Loading...</Text>;
-    } else if (status === Status.ERROR) {
+    if (status === Status.ERROR) {
       return <Text>An error occurred while fetching activities</Text>;
-    } else if (status === Status.SUCCESS) {
+    } else {
       return (
         <>
           <ScrollView
@@ -93,7 +91,6 @@ const ActivitiesPage = () => {
             }>
             {renderActivities()}
           </ScrollView>
-
           <View>
             <Button
               title={'New activity'}

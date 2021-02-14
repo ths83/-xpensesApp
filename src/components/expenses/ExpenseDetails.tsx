@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {ListItem} from 'react-native-elements';
 import {Expense} from '../../model/Expense';
+import {formatAmount} from '../../utils/AmountFormatter';
 
 interface ExpenseDetailsProps {
   expense: Expense;
@@ -15,7 +16,7 @@ const ExpenseDetails = ({expense}: ExpenseDetailsProps) => {
       </ListItem.Content>
       <ListItem.Content right>
         <ListItem.Title>
-          {expense.amount} {expense.currency}
+          {formatAmount(expense.amount)} {expense.currency}
         </ListItem.Title>
         <ListItem.Subtitle>{expense.date}</ListItem.Subtitle>
       </ListItem.Content>

@@ -3,41 +3,47 @@ import React from 'react';
 import {Text} from 'react-native-elements';
 import {getUsers} from '../../config/UsersConfiguration';
 import {Expense} from '../../model/Expense';
-import expensesAtom from '../../state/Expenses';
+import expensesAtom from '../../state/expenses/Expenses';
+import userAtom from '../../state/User';
+import {formatAmount} from '../../utils/AmountFormatter';
 
 const ExpensesBalanceView = () => {
+  const [username] = useAtom(userAtom);
   const [expenses] = useAtom(expensesAtom);
 
   const users = getUsers(); //TODO remove for v2
 
-  function render() {
-    let firstUserTotalAmount = 0;
-    let secondUserTotalAmount = 0;
+  const sumAmounts = (expenses: Expense[]) =>
+    expenses
+      .map((expense) => expense.amount)
+      .reduce((sum, current) => (sum += current));
 
-    expenses.map((expense: Expense) => {
-      if (expense.user === users[0]) {
-        firstUserTotalAmount += expense.amount;
-      } else if (expense.user === users[1]) {
-        secondUserTotalAmount += expense.amount;
-      }
-    });
+  const render = () => {
+    const currentUserAmount = sumAmounts(expenses.currentUser);
+    const otherUserAmount = sumAmounts(expenses.otherUser);
 
-    if (firstUserTotalAmount === secondUserTotalAmount) {
+    const otherUser = users.filter((user) => user != username);
+
+    if (currentUserAmount === otherUserAmount) {
       return <Text>Everything is fine !</Text>;
-    } else if (firstUserTotalAmount > secondUserTotalAmount) {
+    } else if (currentUserAmount > otherUserAmount) {
       return (
         <Text>
-          {users[1]} owes {firstUserTotalAmount / 2} CAD to {users[0]}
+          {otherUser} owes{' '}
+          {formatAmount((currentUserAmount - otherUserAmount) / 2)} CAD to{' '}
+          {username}
         </Text>
       );
     } else {
       return (
         <Text>
-          {users[0]} owes {secondUserTotalAmount / 2} CAD to {users[1]}
+          {username} owes{' '}
+          {formatAmount((otherUserAmount - currentUserAmount) / 2)} CAD to{' '}
+          {otherUser}
         </Text>
       );
     }
-  }
+  };
 
   return render();
 };

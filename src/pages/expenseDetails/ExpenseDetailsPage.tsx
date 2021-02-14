@@ -7,7 +7,7 @@ import {ACTIVITY_API} from '../../api/ActivityApi';
 import {Pages} from '../../enums/Pages';
 import {EMPTY_EXPENSE} from '../../model/Expense';
 import activityAtom from '../../state/Activity';
-import expenseAtom from '../../state/Expense';
+import expenseAtom from '../../state/expenses/Expense';
 
 const ExpenseDetailsPage = () => {
   const [expense, setExpense] = useAtom(expenseAtom);

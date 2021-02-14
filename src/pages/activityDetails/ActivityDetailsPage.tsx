@@ -8,19 +8,27 @@ import {ACTIVITY_API} from '../../api/ActivityApi';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import ActivityDetailsBottom from '../../components/activities/ActivityDetailsBottom';
 import ActivityDetailsTab from '../../components/activities/ActivityDetailsTab';
+import {ExpensesFilter} from '../../enums/ExpensesFilter';
+import {ExpensesTabIndex} from '../../enums/ExpensesTabIndex';
 import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
-import expensesAtom from '../../state/Expenses';
+import expensesAtom, {buildExpenses} from '../../state/expenses/Expenses';
 import userAtom from '../../state/User';
 import {toYYYY_MM_DD} from '../../utils/DateFormatter';
 import ExpensesBalanceView from './ExpensesBalanceView';
 import ExpensesView from './ExpensesView';
 
 const ActivityDetailsPage = () => {
-  const [tabIndex, setTabIndex] = useState<number>(0);
+  const [tabIndex, setTabIndex] = useState<ExpensesTabIndex>(
+    ExpensesTabIndex.LIST,
+  );
   const [status, setStatus] = useState<Status>(Status.IDLE);
   const [refreshing, setRefreshing] = useState(false);
+  const [expensesIndex, setExpenseIndex] = useState<ExpensesFilter>(
+    ExpensesFilter.NO,
+  );
 
+  const [username] = useAtom(userAtom);
   const [activity, setActivity] = useAtom(activityAtom);
   const [, setExpenses] = useAtom(expensesAtom);
 
@@ -46,7 +54,7 @@ const ActivityDetailsPage = () => {
   async function fetchExpenses() {
     fetchActivity();
     if (activity?.expenses === undefined || activity?.expenses?.length === 0) {
-      setExpenses([]);
+      setExpenses(buildExpenses([], ''));
       setStatus(Status.SUCCESS);
     } else {
       EXPENSE_API.getByActivityId(activity.id)
@@ -55,22 +63,20 @@ const ActivityDetailsPage = () => {
             fetchedExpense.date = toYYYY_MM_DD(fetchedExpense.date);
             return fetchedExpense;
           });
-          setExpenses(fetchedExpenses);
+          setExpenses(buildExpenses(fetchedExpenses, username));
           setStatus(Status.SUCCESS);
         })
         .catch(() => {
-          setExpenses([]);
+          setExpenses(buildExpenses([], ''));
           setStatus(Status.ERROR);
         });
     }
   }
 
   function render() {
-    if (status === Status.IDLE || status === Status.IN_PROGRESS) {
-      return <Text>Loading...</Text>;
-    } else if (status === Status.ERROR) {
+    if (status === Status.ERROR) {
       return <Text>An error occurred while fetching expenses</Text>;
-    } else if (status === Status.SUCCESS) {
+    } else {
       return (
         <>
           <ActivityDetailsTab index={tabIndex} setIndex={setTabIndex} />
@@ -78,9 +84,13 @@ const ActivityDetailsPage = () => {
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
-            {tabIndex === 0 ? <ExpensesView /> : <ExpensesBalanceView />}
+            {tabIndex === ExpensesTabIndex.LIST ? (
+              <ExpensesView index={expensesIndex} />
+            ) : (
+              <ExpensesBalanceView />
+            )}
           </ScrollView>
-          <ActivityDetailsBottom />
+          <ActivityDetailsBottom setExpensesIndex={setExpenseIndex} />
         </>
       );
     }

@@ -1,40 +1,40 @@
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {Header, Icon, Text} from 'react-native-elements';
-import expensesAtom from '../../state/Expenses';
-import userAtom from '../../state/User';
+import expensesAtom from '../../state/expenses/Expenses';
+import {formatAmount} from '../../utils/AmountFormatter';
+
 import ActivityDetailsActions from './ActivityDetailsActions';
 
-const ActivityDetailsBottom = () => {
+interface ActivityDetailsBottomProps {
+  setExpensesIndex: (value: number) => void;
+}
+
+const ActivityDetailsBottom = ({
+  setExpensesIndex,
+}: ActivityDetailsBottomProps) => {
   const [visible, setVisible] = useState(false);
 
   const [expenses] = useAtom(expensesAtom);
-  const [username] = useAtom(userAtom);
 
   const renderTotalUserExpense = () => {
     let userTotal = 0;
-    expenses.map((expense) => {
-      if (expense.user === username) {
-        userTotal += expense.amount;
-      }
-    });
+    expenses.currentUser.map((expense) => (userTotal += expense.amount));
     return (
       <>
         <Text>My total</Text>
-        <Text>{userTotal}</Text>
+        <Text>{formatAmount(userTotal)}</Text>
       </>
     );
   };
 
   const renderTotalExpense = () => {
     let total = 0;
-    expenses.map((expense) => {
-      total += expense.amount;
-    });
+    expenses.all.map((expense) => (total += expense.amount));
     return (
       <>
         <Text>Total</Text>
-        <Text>{total}</Text>
+        <Text>{formatAmount(total)}</Text>
       </>
     );
   };
@@ -52,7 +52,11 @@ const ActivityDetailsBottom = () => {
         centerComponent={actions}
         rightComponent={renderTotalExpense()}
       />
-      <ActivityDetailsActions visible={visible} setVisible={setVisible} />
+      <ActivityDetailsActions
+        visible={visible}
+        setVisible={setVisible}
+        setExpensesIndex={setExpensesIndex}
+      />
     </>
   );
 };

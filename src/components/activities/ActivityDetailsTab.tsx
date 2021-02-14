@@ -1,15 +1,15 @@
 import React, {memo} from 'react';
 import {ButtonGroup, Text} from 'react-native-elements';
+import {ExpensesTabIndex} from '../../enums/ExpensesTabIndex';
 
 interface ActivityDetailsTabProps {
-  index: number;
-  setIndex: (value: number) => void;
+  index: ExpensesTabIndex;
+  setIndex: (value: ExpensesTabIndex) => void;
 }
 
 const ActivityDetailsTab = ({index, setIndex}: ActivityDetailsTabProps) => {
-  function updateIndex(selectedIndex: number) {
+  const updateIndex = (selectedIndex: ExpensesTabIndex) =>
     setIndex(selectedIndex);
-  }
 
   return (
     <ButtonGroup
