@@ -33,7 +33,7 @@ const AddActivityPage = () => {
         .then((activity) => {
           setStatus(Status.SUCCESS);
           setActivity(activity);
-          navigate(Pages.ACTIVITY_DETAILS);
+          navigate(Pages.EXPENSES);
         })
         .catch(() => setStatus(Status.ERROR));
     } else {

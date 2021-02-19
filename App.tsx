@@ -13,11 +13,13 @@ import {
   USER_POOL_ID,
   USER_POOL_WEB_CLIENT_ID,
 } from './src/config/AmplifyConfiguration';
+import {Pages} from './src/enums/Pages';
 import ActivitiesPage from './src/pages/activities/ActivitiesPage';
-import ActivityDetailsPage from './src/pages/activityDetails/ActivityDetailsPage';
+import UpdateActivityPage from './src/pages/activityDetails/ActivityDetailsPage';
 import AddActivityPage from './src/pages/addActivity/AddActivityPage';
 import AddExpensePage from './src/pages/addExpense/AddExpensePage';
 import ExpenseDetailsPage from './src/pages/expenseDetails/ExpenseDetailsPage';
+import ExpensesPage from './src/pages/expenses/ExpensesPage';
 
 Amplify.configure({
   Auth: {
@@ -42,36 +44,43 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            name="Activities"
+            name={Pages.ACTIVITIES}
             component={ActivitiesPage}
             options={{
               header: () => <AppHeader />,
             }}
           />
           <Stack.Screen
-            name="AddActivity"
+            name={Pages.ADD_ACTIVITY}
             component={AddActivityPage}
             options={{
               header: () => <AppHeader />,
             }}
           />
           <Stack.Screen
-            name="ActivityDetails"
-            component={ActivityDetailsPage}
+            name={Pages.ACTIVITY_DETAILS}
+            component={UpdateActivityPage}
             options={{
               header: () => <AppHeader />,
             }}
           />
           <Stack.Screen
-            name="AddExpense"
+            name={Pages.ADD_EXPENSE}
             component={AddExpensePage}
             options={{
               header: () => <AppHeader />,
             }}
           />
           <Stack.Screen
-            name="ExpenseDetails"
+            name={Pages.EXPENSE_DETAILS}
             component={ExpenseDetailsPage}
+            options={{
+              header: () => <AppHeader />,
+            }}
+          />
+          <Stack.Screen
+            name={Pages.EXPENSES}
+            component={ExpensesPage}
             options={{
               header: () => <AppHeader />,
             }}

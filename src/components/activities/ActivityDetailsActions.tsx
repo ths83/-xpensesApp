@@ -62,10 +62,15 @@ const ActivityDetailsActions = ({
     </ListItem>
   );
 
-  const deleteActivity = (
-    <ListItem key={2}>
+  const updateActivity = (
+    <ListItem
+      key={2}
+      onPress={() => {
+        setVisible(false);
+        navigate(Pages.ACTIVITY_DETAILS);
+      }}>
       <ListItem.Content>
-        <ListItem.Title>Delete activity</ListItem.Title>
+        <ListItem.Title>Update activity</ListItem.Title>
       </ListItem.Content>
     </ListItem>
   );
@@ -78,15 +83,11 @@ const ActivityDetailsActions = ({
     </ListItem>
   );
 
-  const actions = [filter, addExpense, deleteActivity, cancel];
+  const actions = [filter, addExpense, updateActivity, cancel];
 
   return (
     <>
-      <BottomSheet
-        isVisible={visible}
-        containerStyle={{backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)'}}>
-        {actions}
-      </BottomSheet>
+      <BottomSheet isVisible={visible}>{actions}</BottomSheet>
     </>
   );
 };

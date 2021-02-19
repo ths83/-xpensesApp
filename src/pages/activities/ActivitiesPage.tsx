@@ -71,7 +71,7 @@ const ActivitiesPage = () => {
             // does not set activity the first time, need to call it again (component issue ?)
             setActivity(activity);
             setActivity(activity);
-            navigate(Pages.ACTIVITY_DETAILS);
+            navigate(Pages.EXPENSES);
           }}>
           <ActivitySummary activity={activity} />
         </ListItem>

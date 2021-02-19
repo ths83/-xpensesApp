@@ -4,4 +4,5 @@ export enum Pages {
   ACTIVITY_DETAILS = 'ActivityDetails',
   ADD_EXPENSE = 'AddExpense',
   EXPENSE_DETAILS = 'ExpenseDetails',
+  EXPENSES = 'Expenses',
 }

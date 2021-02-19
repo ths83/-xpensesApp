@@ -18,7 +18,7 @@ const ExpenseDetailsPage = () => {
   function deleteExpense() {
     ACTIVITY_API.deleteExpense(activity.id, expense.id).then(() => {
       setExpense(EMPTY_EXPENSE);
-      navigate(Pages.ACTIVITY_DETAILS);
+      navigate(Pages.EXPENSES);
     });
   }
 
