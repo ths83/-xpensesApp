@@ -11,7 +11,15 @@ const ExpenseDetails = ({expense}: ExpenseDetailsProps) => {
   return (
     <>
       <ListItem.Content>
-        <ListItem.Title>{expense.name}</ListItem.Title>
+        <ListItem.Title>
+          {/* name is a restricted field from AWS dynamoDB
+           has been changed later in the api by expenseName
+           migration is not completed for every expense
+           */}
+          {expense.expenseName === undefined
+            ? expense.name
+            : expense.expenseName}
+        </ListItem.Title>
         <ListItem.Subtitle>Paid by {expense.user}</ListItem.Subtitle>
       </ListItem.Content>
       <ListItem.Content right>

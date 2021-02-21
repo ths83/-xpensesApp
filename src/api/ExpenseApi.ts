@@ -23,7 +23,7 @@ export class ExpenseApi {
           .getJwtToken()}`,
       },
       body: {
-        name: name,
+        expenseName: name,
         amount: amount,
         currency: Currency.CANADA, //TODO remove for v2
         user: user.getUsername(),

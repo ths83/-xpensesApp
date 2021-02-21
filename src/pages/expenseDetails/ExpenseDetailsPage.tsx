@@ -25,7 +25,15 @@ const ExpenseDetailsPage = () => {
   return (
     <>
       <View>
-        <Text h3>{expense.name}</Text>
+        <Text h3>
+          {/* name is a restricted field from AWS dynamoDB
+           has been changed later in the api by expenseName
+           migration is not completed for every expense
+           */}
+          {expense.expenseName === undefined
+            ? expense.name
+            : expense.expenseName}
+        </Text>
         <Text>
           Added the {expense.date} by {expense.user}
         </Text>

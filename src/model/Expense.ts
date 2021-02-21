@@ -4,7 +4,7 @@ export type Expense = {
   amount: number;
   currency: string;
   date: string;
-  name: string;
+  expenseName: string;
 };
 
 export const EMPTY_EXPENSE = {
@@ -13,5 +13,5 @@ export const EMPTY_EXPENSE = {
   amount: 0,
   currency: '',
   date: '',
-  name: '',
+  expenseName: '',
 };

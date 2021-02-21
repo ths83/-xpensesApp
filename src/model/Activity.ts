@@ -1,6 +1,6 @@
 export type Activity = {
   id: string;
-  name: string;
+  activityName: string;
   createdBy: string;
   expenses: string[];
   users: string[];
@@ -9,7 +9,7 @@ export type Activity = {
 
 export const EMPTY_ACTIVITY = {
   id: '',
-  name: '',
+  activityName: '',
   createdBy: '',
   expenses: [],
   users: [],

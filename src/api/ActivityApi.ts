@@ -18,7 +18,7 @@ export class ActivityApi {
           .getJwtToken()}`,
       },
       body: {
-        name: name,
+        activityName: name,
         createdBy: user.getUsername(),
       },
     };
@@ -70,6 +70,24 @@ export class ActivityApi {
     };
     console.debug(`Deleting expense '${expenseId}' from activity '${id}'...`);
     return await API.del(apiName, path, myInit);
+  }
+
+  // TODO test
+  async update(id: string, name: string): Promise<void> {
+    const apiName = API_NAME;
+    const path = `/activities/${id}`;
+    const myInit = {
+      headers: {
+        Authorization: `Bearer ${(await Auth.currentSession())
+          .getIdToken()
+          .getJwtToken()}`,
+      },
+      body: {
+        activityName: name,
+      },
+    };
+    console.debug(`Updating activity '${id}'...`);
+    return await API.put(apiName, path, myInit);
   }
 }
 export const ACTIVITY_API = new ActivityApi();
