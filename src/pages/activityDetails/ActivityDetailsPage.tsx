@@ -23,6 +23,10 @@ const ActivityDetailsPage = () => {
     );
   }
 
+  async function del() {
+    ACTIVITY_API.delete(activity.id).then(() => navigate(Pages.ACTIVITIES));
+  }
+
   return (
     <>
       <ScrollView>
@@ -43,6 +47,7 @@ const ActivityDetailsPage = () => {
       </ScrollView>
       <View>
         <Button title={'Update'} onPress={update} />
+        <Button title={'Delete'} onPress={del} />
         <Button title={'Back'} onPress={goBack} />
       </View>
     </>

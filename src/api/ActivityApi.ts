@@ -72,7 +72,6 @@ export class ActivityApi {
     return await API.del(apiName, path, myInit);
   }
 
-  // TODO test
   async update(id: string, name: string): Promise<void> {
     const apiName = API_NAME;
     const path = `/activities/${id}`;
@@ -88,6 +87,23 @@ export class ActivityApi {
     };
     console.debug(`Updating activity '${id}'...`);
     return await API.put(apiName, path, myInit);
+  }
+
+  async delete(id: string): Promise<void> {
+    const apiName = API_NAME;
+    const path = `/activities/${id}`;
+    const myInit = {
+      headers: {
+        Authorization: `Bearer ${(await Auth.currentSession())
+          .getIdToken()
+          .getJwtToken()}`,
+      },
+      body: {
+        id: id,
+      },
+    };
+    console.debug(`Deleting activity '${id}'...`);
+    return await API.del(apiName, path, myInit);
   }
 }
 export const ACTIVITY_API = new ActivityApi();
