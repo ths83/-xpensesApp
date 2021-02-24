@@ -27,12 +27,18 @@ const ActivitiesPage = () => {
 
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-    getCurrentUsername();
+  const getCurrentUsername = useCallback(async () => {
+    return await Auth.currentAuthenticatedUser();
   }, []);
 
   useEffect(() => {
-    getActivities();
+    getCurrentUsername().then((response) => setUsername(response.username));
+  }, [getCurrentUsername, setUsername]);
+
+  useEffect(() => {
+    if (isFocused) {
+      getActivities();
+    }
   }, [isFocused]);
 
   const onRefresh = useCallback(() => {
@@ -40,11 +46,6 @@ const ActivitiesPage = () => {
     getActivities();
     setRefreshing(false);
   }, []);
-
-  async function getCurrentUsername() {
-    const user: CognitoUser = await Auth.currentAuthenticatedUser();
-    setUsername(user.getUsername());
-  }
 
   async function getActivities() {
     setStatus(Status.IN_PROGRESS);

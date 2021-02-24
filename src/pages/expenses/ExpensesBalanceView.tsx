@@ -22,7 +22,7 @@ const ExpensesBalanceView = () => {
     const currentUserAmount = sumAmounts(expenses.currentUser);
     const otherUserAmount = sumAmounts(expenses.otherUser);
 
-    const otherUser = users.filter((user) => user != username);
+    const otherUser = users.filter((user) => user !== username);
 
     if (currentUserAmount === otherUserAmount) {
       return <Text>Everything is fine !</Text>;

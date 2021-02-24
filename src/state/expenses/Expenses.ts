@@ -20,7 +20,7 @@ export default expensesAtom;
 export const buildExpenses = (expenses: Expense[], username: string) => {
   return {
     all: expenses,
-    currentUser: expenses.filter((expense) => expense.user == username),
-    otherUser: expenses.filter((expense) => expense.user != username),
+    currentUser: expenses.filter((expense) => expense.user === username),
+    otherUser: expenses.filter((expense) => expense.user !== username),
   };
 };

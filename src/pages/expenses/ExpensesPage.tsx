@@ -4,7 +4,6 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl} from 'react-native';
 import {Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
-import {ACTIVITY_API} from '../../api/ActivityApi';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import ActivityDetailsBottom from '../../components/activities/ActivityDetailsBottom';
 import ActivityDetailsTab from '../../components/activities/ActivityDetailsTab';
@@ -27,49 +26,39 @@ const ExpensesPage = () => {
   const [expensesIndex, setExpenseIndex] = useState(ExpensesFilter.NO);
 
   const [username] = useAtom(userAtom);
-  const [activity, setActivity] = useAtom(activityAtom);
+  const [activity] = useAtom(activityAtom);
   const [, setExpenses] = useAtom(expensesAtom);
 
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-    fetchExpenses();
-  }, [isFocused]);
-
-  const onRefresh = useCallback(() => {
+  const onRefresh = () => {
     setRefreshing(true);
     fetchExpenses();
     setRefreshing(false);
-  }, []);
+  };
 
-  async function fetchActivity() {
+  const fetchExpenses = useCallback(() => {
     setStatus(Status.IN_PROGRESS);
-    ACTIVITY_API.getById(activity.id)
-      .then((fetchedActivity) => setActivity(fetchedActivity))
-      .catch(() => setStatus(Status.ERROR));
-  }
-
-  async function fetchExpenses() {
-    fetchActivity();
-    if (activity?.expenses === undefined || activity?.expenses?.length === 0) {
-      setExpenses(buildExpenses([], ''));
-      setStatus(Status.SUCCESS);
-    } else {
-      EXPENSE_API.getByActivityId(activity.id)
-        .then((fetchedExpenses) => {
-          fetchedExpenses.map((fetchedExpense) => {
-            fetchedExpense.date = toYYYY_MM_DD(fetchedExpense.date);
-            return fetchedExpense;
-          });
-          setExpenses(buildExpenses(fetchedExpenses, username));
-          setStatus(Status.SUCCESS);
-        })
-        .catch(() => {
-          setExpenses(buildExpenses([], ''));
-          setStatus(Status.ERROR);
+    EXPENSE_API.getByActivityId(activity.id)
+      .then((fetchedExpenses) => {
+        fetchedExpenses.map((fetchedExpense) => {
+          fetchedExpense.date = toYYYY_MM_DD(fetchedExpense.date);
+          return fetchedExpense;
         });
+        setExpenses(buildExpenses(fetchedExpenses, username));
+        setStatus(Status.SUCCESS);
+      })
+      .catch(() => {
+        setExpenses(buildExpenses([], ''));
+        setStatus(Status.ERROR);
+      });
+  }, [activity.id, setExpenses, username]);
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchExpenses();
     }
-  }
+  }, [isFocused, fetchExpenses]);
 
   function render() {
     if (status === Status.ERROR) {

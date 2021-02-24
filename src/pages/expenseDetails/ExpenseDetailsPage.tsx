@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {Pages} from '../../enums/Pages';
@@ -24,7 +24,7 @@ const ExpenseDetailsPage = () => {
 
   return (
     <>
-      <View>
+      <ScrollView>
         <Text h3>
           {/* name is a restricted field from AWS dynamoDB
            has been changed later in the api by expenseName
@@ -40,7 +40,7 @@ const ExpenseDetailsPage = () => {
         <Text>
           Amount : {expense.amount} {expense.currency}
         </Text>
-      </View>
+      </ScrollView>
       <View>
         <Button title={'Delete'} onPress={deleteExpense} />
         <Button title={'Back'} onPress={goBack} />
