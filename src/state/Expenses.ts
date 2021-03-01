@@ -1,5 +1,5 @@
 import {atom} from 'jotai';
-import {Expense} from '../../model/Expense';
+import {Expense} from '../model/Expense';
 
 type Expenses = {
   all: Expense[];

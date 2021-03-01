@@ -4,7 +4,7 @@ export type Activity = {
   createdBy: string;
   expenses: string[];
   users: string[];
-  date: string;
+  startDate: string;
 };
 
 export const EMPTY_ACTIVITY = {
@@ -13,5 +13,5 @@ export const EMPTY_ACTIVITY = {
   createdBy: '',
   expenses: [],
   users: [],
-  date: '',
+  startDate: '',
 };

@@ -1,5 +1,4 @@
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {CognitoUser} from 'amazon-cognito-identity-js';
 import {Auth} from 'aws-amplify';
 import {useAtom} from 'jotai';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -52,7 +51,7 @@ const ActivitiesPage = () => {
     ACTIVITY_API.getByUser()
       .then((fetchedActivities) => {
         fetchedActivities.map((activity: Activity) => {
-          activity.date = toYYYY_MM_DD(activity.date);
+          activity.startDate = toYYYY_MM_DD(activity.startDate);
           return activity;
         });
         setActivities(fetchedActivities);
@@ -69,8 +68,6 @@ const ActivitiesPage = () => {
         <ListItem
           key={i}
           onPress={() => {
-            // does not set activity the first time, need to call it again (component issue ?)
-            setActivity(activity);
             setActivity(activity);
             navigate(Pages.EXPENSES);
           }}>

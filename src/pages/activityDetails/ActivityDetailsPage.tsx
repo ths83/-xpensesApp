@@ -42,7 +42,7 @@ const ActivityDetailsPage = () => {
           </Text>
         )}
         <Text>Created by : {activity?.createdBy}</Text>
-        <Text>Date : {toYYYY_MM_DD(activity?.date)}</Text>
+        <Text>Date : {toYYYY_MM_DD(activity?.startDate)}</Text>
         <Text>Number of expenses : {activity?.expenses?.length}</Text>
       </ScrollView>
       <View>

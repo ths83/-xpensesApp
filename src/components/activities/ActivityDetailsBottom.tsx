@@ -1,7 +1,7 @@
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {Header, Icon, Text} from 'react-native-elements';
-import expensesAtom from '../../state/expenses/Expenses';
+import expensesAtom from '../../state/Expenses';
 import {formatAmount} from '../../utils/AmountFormatter';
 
 import ActivityDetailsActions from './ActivityDetailsActions';

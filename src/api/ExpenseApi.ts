@@ -1,7 +1,7 @@
 import {CognitoUser} from 'amazon-cognito-identity-js';
 import {API, Auth} from 'aws-amplify';
-import {Currency} from '../enums/Currency';
 import {API_NAME} from '../config/AmplifyConfiguration';
+import {Currency} from '../enums/Currency';
 import {Expense} from '../model/Expense';
 
 export class ExpenseApi {
@@ -46,6 +46,27 @@ export class ExpenseApi {
     };
     console.debug(`Retrieving expenses for activity '${activityId}'...`);
     return await API.get(apiName, path, myInit);
+  }
+
+  async update(expense: Expense): Promise<void> {
+    const apiName = API_NAME;
+    const path = `/expenses/${expense.id}`;
+    const myInit = {
+      headers: {
+        Authorization: `Bearer ${(await Auth.currentSession())
+          .getIdToken()
+          .getJwtToken()}`,
+      },
+      body: {
+        expenseName: expense.expenseName,
+        amount: expense.amount,
+        user: expense.user,
+        startDate: expense.startDate,
+        currency: expense.currency,
+      },
+    };
+    console.debug(`Updating expense '${expense.id}'...`);
+    return await API.put(apiName, path, myInit);
   }
 }
 export const EXPENSE_API = new ExpenseApi();

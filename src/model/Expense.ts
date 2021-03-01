@@ -3,7 +3,7 @@ export type Expense = {
   user: string;
   amount: number;
   currency: string;
-  date: string;
+  startDate: string;
   expenseName: string;
 };
 
@@ -12,6 +12,6 @@ export const EMPTY_EXPENSE = {
   user: '',
   amount: 0,
   currency: '',
-  date: '',
+  startDate: '',
   expenseName: '',
 };

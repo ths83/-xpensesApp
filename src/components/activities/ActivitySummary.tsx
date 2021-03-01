@@ -10,18 +10,8 @@ const ActivitySummary = ({activity}: ActivitySummaryProps) => {
   return (
     <>
       <ListItem.Content>
-        <ListItem.Title>
-          {/* name is a restricted field from AWS dynamoDB
-           has been changed later in the api by activityName
-           migration is not completed for every activity
-           */}
-          {activity.activityName === undefined
-            ? activity.name
-            : activity.activityName}
-        </ListItem.Title>
-        <ListItem.Subtitle>
-          {activity.date === undefined ? 'No date found' : activity.date}
-        </ListItem.Subtitle>
+        <ListItem.Title>{activity.activityName}</ListItem.Title>
+        <ListItem.Subtitle>{activity.startDate}</ListItem.Subtitle>
       </ListItem.Content>
     </>
   );

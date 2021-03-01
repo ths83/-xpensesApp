@@ -6,8 +6,7 @@ import ExpenseDetails from '../../components/expenses/ExpenseDetails';
 import {ExpensesFilter} from '../../enums/ExpensesFilter';
 import {Pages} from '../../enums/Pages';
 import {Expense} from '../../model/Expense';
-import expenseAtom from '../../state/expenses/Expense';
-import expensesAtom from '../../state/expenses/Expenses';
+import expensesAtom from '../../state/Expenses';
 
 interface ExpensesViewProps {
   index: number;
@@ -15,7 +14,6 @@ interface ExpensesViewProps {
 
 const ExpensesView = ({index}: ExpensesViewProps) => {
   const [expenses] = useAtom(expensesAtom);
-  const [, setExpense] = useAtom(expenseAtom);
 
   const {navigate} = useNavigation();
 
@@ -36,8 +34,9 @@ const ExpensesView = ({index}: ExpensesViewProps) => {
           key={i}
           bottomDivider
           onPress={() => {
-            setExpense(expense);
-            navigate(Pages.EXPENSE_DETAILS);
+            navigate(Pages.EXPENSE_DETAILS, {
+              expense: expense,
+            });
           }}>
           <ExpenseDetails expense={expense} />
         </ListItem>

@@ -3,7 +3,7 @@ import React from 'react';
 import {Text} from 'react-native-elements';
 import {getUsers} from '../../config/UsersConfiguration';
 import {Expense} from '../../model/Expense';
-import expensesAtom from '../../state/expenses/Expenses';
+import expensesAtom from '../../state/Expenses';
 import userAtom from '../../state/User';
 import {formatAmount} from '../../utils/AmountFormatter';
 

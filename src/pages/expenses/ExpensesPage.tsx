@@ -11,7 +11,7 @@ import {ExpensesFilter} from '../../enums/ExpensesFilter';
 import {ExpensesTabIndex} from '../../enums/ExpensesTabIndex';
 import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
-import expensesAtom, {buildExpenses} from '../../state/expenses/Expenses';
+import expensesAtom, {buildExpenses} from '../../state/Expenses';
 import userAtom from '../../state/User';
 import {toYYYY_MM_DD} from '../../utils/DateFormatter';
 import ExpensesBalanceView from './ExpensesBalanceView';
@@ -42,7 +42,7 @@ const ExpensesPage = () => {
     EXPENSE_API.getByActivityId(activity.id)
       .then((fetchedExpenses) => {
         fetchedExpenses.map((fetchedExpense) => {
-          fetchedExpense.date = toYYYY_MM_DD(fetchedExpense.date);
+          fetchedExpense.startDate = toYYYY_MM_DD(fetchedExpense.startDate);
           return fetchedExpense;
         });
         setExpenses(buildExpenses(fetchedExpenses, username));
@@ -55,10 +55,10 @@ const ExpensesPage = () => {
   }, [activity.id, setExpenses, username]);
 
   useEffect(() => {
-    if (isFocused) {
+    if (isFocused && activity.id !== '') {
       fetchExpenses();
     }
-  }, [isFocused, fetchExpenses]);
+  }, [isFocused, fetchExpenses, activity.id]);
 
   function render() {
     if (status === Status.ERROR) {
