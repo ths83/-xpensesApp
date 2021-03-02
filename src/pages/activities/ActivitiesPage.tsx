@@ -2,7 +2,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {Auth} from 'aws-amplify';
 import {useAtom} from 'jotai';
 import React, {useCallback, useEffect, useState} from 'react';
-import {RefreshControl, View} from 'react-native';
+import {RefreshControl, StyleSheet, View} from 'react-native';
 import {Button, ListItem, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {ACTIVITY_API} from '../../api/ActivityApi';
@@ -12,6 +12,8 @@ import {Status} from '../../enums/Status';
 import {Activity} from '../../model/Activity';
 import activityAtom from '../../state/Activity';
 import userAtom from '../../state/User';
+import {blue} from '../../themes/colors';
+import {slarge} from '../../themes/size';
 import {toYYYY_MM_DD} from '../../utils/DateFormatter';
 
 const ActivitiesPage = () => {
@@ -91,6 +93,7 @@ const ActivitiesPage = () => {
           </ScrollView>
           <View>
             <Button
+              buttonStyle={styles.button}
               title={'New activity'}
               onPress={() => navigate(Pages.ADD_ACTIVITY)}
             />
@@ -102,5 +105,12 @@ const ActivitiesPage = () => {
 
   return render();
 };
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: blue,
+    paddingBottom: slarge,
+  },
+});
 
 export default ActivitiesPage;

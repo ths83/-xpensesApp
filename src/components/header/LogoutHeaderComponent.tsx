@@ -1,6 +1,8 @@
 import React, {memo, useState} from 'react';
 import {Button, Icon, Overlay} from 'react-native-elements';
 import {Auth} from 'aws-amplify';
+import {white} from '../../themes/colors';
+import {imedium} from '../../themes/icons';
 
 const LogoutHeaderComponent = () => {
   const [visible, setVisible] = useState(false);
@@ -28,7 +30,12 @@ const LogoutHeaderComponent = () => {
 
   return (
     <>
-      <Icon name="logout" onPress={() => setVisible(true)} />
+      <Icon
+        size={imedium}
+        color={white}
+        name="logout"
+        onPress={() => setVisible(true)}
+      />
       {confirmLogout()}
     </>
   );

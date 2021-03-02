@@ -1,19 +1,29 @@
 import React, {memo} from 'react';
-import {Header} from 'react-native-elements';
+import {StyleSheet} from 'react-native';
+import {Header, Text} from 'react-native-elements';
+import {blue, white} from '../../themes/colors';
+import {smedium} from '../../themes/size';
 import HomeHeaderComponent from './HomeHeaderComponent';
 import LogoutHeaderComponent from './LogoutHeaderComponent';
 
 const AppHeader = () => {
   return (
     <Header
+      containerStyle={styles.header}
       leftComponent={<HomeHeaderComponent />}
-      centerComponent={{
-        text: 'XPENSES',
-        style: {color: '#fff'},
-      }}
+      centerComponent={<Text style={styles.title}>XPENSES</Text>}
       rightComponent={<LogoutHeaderComponent />}
     />
   );
 };
 
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: blue,
+  },
+  title: {
+    color: white,
+    fontSize: smedium,
+  },
+});
 export default memo(AppHeader);
