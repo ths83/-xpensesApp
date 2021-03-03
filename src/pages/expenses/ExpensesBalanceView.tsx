@@ -1,5 +1,6 @@
 import {useAtom} from 'jotai';
 import React from 'react';
+import {StyleSheet} from 'react-native';
 import {Text} from 'react-native-elements';
 import {getUsers} from '../../config/UsersConfiguration';
 import {Expense} from '../../model/Expense';
@@ -25,7 +26,7 @@ const ExpensesBalanceView = () => {
     const otherUser = users.filter((user) => user !== username);
 
     if (currentUserAmount === otherUserAmount) {
-      return <Text>Everything is fine !</Text>;
+      return <Text style={styles.text}>Everything is fine !</Text>;
     } else if (currentUserAmount > otherUserAmount) {
       return (
         <Text>
@@ -47,5 +48,11 @@ const ExpensesBalanceView = () => {
 
   return render();
 };
+
+const styles = StyleSheet.create({
+  text: {
+    textAlign: 'center',
+  },
+});
 
 export default ExpensesBalanceView;
