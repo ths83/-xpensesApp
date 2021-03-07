@@ -1,2 +1,4 @@
-export const smedium = 15;
-export const slarge = 35;
+export const sSmall = 5;
+export const sNormal = 15;
+export const sMedium = 25;
+export const sLarge = 40;

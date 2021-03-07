@@ -4,8 +4,8 @@ import {StyleSheet, View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import expensesAtom from '../../state/Expenses';
 import {lightGrey} from '../../themes/colors';
-import {ilarge} from '../../themes/icons';
-import {slarge, smedium} from '../../themes/size';
+import {iLarge} from '../../themes/icons';
+import {sMedium, sNormal} from '../../themes/size';
 import {formatAmount} from '../../utils/AmountFormatter';
 import ActivityDetailsActions from './ActivityDetailsActions';
 
@@ -48,7 +48,7 @@ const ActivityDetailsBottom = ({
 
   const Actions = () => (
     <>
-      <Icon size={ilarge} name="info" onPress={() => setVisible(true)} />
+      <Icon size={iLarge} name="info" onPress={() => setVisible(true)} />
     </>
   );
 
@@ -73,17 +73,17 @@ const styles = StyleSheet.create({
     backgroundColor: lightGrey,
   },
   bottomContent: {
-    marginBottom: slarge,
-    marginTop: smedium,
+    marginBottom: sMedium,
+    marginTop: sNormal,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   userTotal: {
-    paddingLeft: smedium,
+    paddingLeft: sNormal,
     alignItems: 'flex-start',
   },
   total: {
-    paddingRight: smedium,
+    paddingRight: sNormal,
     alignItems: 'flex-end',
   },
 });

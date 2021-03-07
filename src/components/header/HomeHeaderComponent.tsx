@@ -5,7 +5,7 @@ import {Icon} from 'react-native-elements';
 import {EMPTY_ACTIVITY} from '../../model/Activity';
 import activityAtom from '../../state/Activity';
 import {white} from '../../themes/colors';
-import {imedium} from '../../themes/icons';
+import {iMedium} from '../../themes/icons';
 
 const HomeHeaderComponent = () => {
   const [, setActivity] = useAtom(activityAtom);
@@ -14,7 +14,7 @@ const HomeHeaderComponent = () => {
 
   return (
     <Icon
-      size={imedium}
+      size={iMedium}
       color={white}
       name="home"
       onPress={() => {

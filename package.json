@@ -1,5 +1,5 @@
 {
-  "name": "xpensesApp",
+  "name": "xpenses",
   "version": "1.0.0-SNAPSHOT",
   "private": true,
   "scripts": {
@@ -11,6 +11,7 @@
     "beautify": "prettier --trailing-comma 'all' --write"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^3.0.9",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^5.9.9",
     "@react-native-picker/picker": "^1.9.10",

@@ -13,8 +13,8 @@ import {Activity} from '../../model/Activity';
 import activityAtom from '../../state/Activity';
 import userAtom from '../../state/User';
 import {blue} from '../../themes/colors';
-import {slarge} from '../../themes/size';
-import {toYYYY_MM_DD} from '../../utils/DateFormatter';
+import {sMedium} from '../../themes/size';
+import {format} from '../../utils/DateFormatter';
 
 const ActivitiesPage = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -53,7 +53,7 @@ const ActivitiesPage = () => {
     ACTIVITY_API.getByUser()
       .then((fetchedActivities) => {
         fetchedActivities.map((activity: Activity) => {
-          activity.startDate = toYYYY_MM_DD(activity.startDate);
+          activity.startDate = format(activity.startDate);
           return activity;
         });
         setActivities(fetchedActivities);
@@ -109,7 +109,7 @@ const ActivitiesPage = () => {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: blue,
-    paddingBottom: slarge,
+    paddingBottom: sMedium,
   },
 });
 

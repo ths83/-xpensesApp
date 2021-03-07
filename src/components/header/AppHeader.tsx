@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {StyleSheet} from 'react-native';
 import {Header, Text} from 'react-native-elements';
 import {blue, white} from '../../themes/colors';
-import {smedium} from '../../themes/size';
+import {sNormal} from '../../themes/size';
 import HomeHeaderComponent from './HomeHeaderComponent';
 import LogoutHeaderComponent from './LogoutHeaderComponent';
 
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: white,
-    fontSize: smedium,
+    fontSize: sNormal,
   },
 });
 export default memo(AppHeader);

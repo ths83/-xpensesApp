@@ -6,7 +6,7 @@ import {Input, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {Pages} from '../../enums/Pages';
 import activityAtom from '../../state/Activity';
-import {toYYYY_MM_DD} from '../../utils/DateFormatter';
+import {format} from '../../utils/DateFormatter';
 
 const ActivityDetailsPage = () => {
   const [edit, setEdit] = useState(false);
@@ -42,7 +42,7 @@ const ActivityDetailsPage = () => {
           </Text>
         )}
         <Text>Created by : {activity?.createdBy}</Text>
-        <Text>Date : {toYYYY_MM_DD(activity?.startDate)}</Text>
+        <Text>Date : {format(activity?.startDate)}</Text>
         <Text>Number of expenses : {activity?.expenses?.length}</Text>
       </ScrollView>
       <View>

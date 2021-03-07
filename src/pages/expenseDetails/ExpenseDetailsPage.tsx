@@ -1,28 +1,32 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {Button, Icon, Input, Text} from 'react-native-elements';
+import {Icon, Input, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import {Pages} from '../../enums/Pages';
 import activityAtom from '../../state/Activity';
+import {black, blue, darkGreen, green, red, skyBlue} from '../../themes/colors';
+import {iMedium, iSmall} from '../../themes/icons';
+import {sMedium, sNormal, sSmall} from '../../themes/size';
+import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
 
 const ExpenseDetailsPage = () => {
   const [activity] = useAtom(activityAtom);
 
+  // TODO replace by jotai
   const {params} = useRoute();
   const [defaultExpense] = useState(params.expense);
   const expense = params.expense;
 
-  const [name, setName] = useState(
-    expense.expenseName === undefined ? expense.name : expense.expenseName,
-  );
+  const [name, setName] = useState(expense.expenseName);
   const [date, setDate] = useState(expense.startDate);
   const [amount, setAmount] = useState(expense.amount);
-  const [currency] = useState(expense.currency);
 
   const [editable, setEditable] = useState(false);
+  const [datePicker, setDatePicker] = useState(false);
 
   const {navigate, goBack} = useNavigation();
 
@@ -46,6 +50,77 @@ const ExpenseDetailsPage = () => {
     });
   };
 
+  const User = () =>
+    editable ? (
+      <></>
+    ) : (
+      <View style={styles.data}>
+        <Icon name="user" type="font-awesome" size={iMedium} color={black} />
+        <Text h4>{expense.user}</Text>
+      </View>
+    );
+
+  const Amount = () =>
+    editable ? (
+      <Input
+        placeholder="Amount"
+        leftIcon={{type: 'font-awesome', name: 'money'}}
+        defaultValue={amount.toString()}
+        onChangeText={(text) => setAmount(text)}
+        style={styles.input}
+      />
+    ) : (
+      <View style={styles.data}>
+        <Icon
+          name="money"
+          type="font-awesome"
+          size={iMedium}
+          color={darkGreen}
+        />
+        <Text h4>
+          {amount} {expense.currency}
+        </Text>
+      </View>
+    );
+
+  const ActivityDate = () => (
+    <>
+      {editable ? (
+        <View style={styles.calendar}>
+          <Icon
+            reverse
+            name="calendar"
+            type="font-awesome"
+            onPress={() => setDatePicker(true)}
+            size={iSmall}
+            color={blue}
+          />
+          <Text h4>{date}</Text>
+        </View>
+      ) : (
+        <View style={styles.data}>
+          <Icon
+            name="calendar"
+            type="font-awesome"
+            size={iMedium}
+            color={skyBlue}
+          />
+          <Text h4>{date}</Text>
+        </View>
+      )}
+      {datePicker && (
+        // TODO externalize in a component
+        <DateTimePicker
+          value={toUTC(new Date(date))}
+          onChange={(event: Event, selectedDate: Date | undefined) => {
+            setDate(to_YYYY_MM_DD(toUTC(selectedDate || date)));
+            setDatePicker(false);
+          }}
+        />
+      )}
+    </>
+  );
+
   return (
     <>
       <ScrollView style={styles.container}>
@@ -56,91 +131,125 @@ const ExpenseDetailsPage = () => {
               leftIcon={{type: 'font-awesome', name: 'file'}}
               defaultValue={name}
               onChangeText={(text) => setName(text)}
-              editable={editable}
               style={styles.input}
             />
           ) : (
             <>
-              <Text h3>{name}</Text>
-              <Icon name="edit" onPress={() => setEditable(true)} />
+              <Text h4>{name}</Text>
+              {/* TODO externalize ina component */}
+              <Icon
+                reverse
+                name="edit"
+                type="font-awesome"
+                onPress={() => setEditable(true)}
+                size={iSmall}
+                color={blue}
+              />
             </>
           )}
         </View>
         <View style={styles.activityDetails}>
-          <Input
-            placeholder="User"
-            leftIcon={{type: 'font-awesome', name: 'user'}}
-            defaultValue={expense.user}
-            editable={false}
-            style={styles.input}
-          />
-          <Input
-            placeholder="Amount"
-            leftIcon={{type: 'font-awesome', name: 'money'}}
-            defaultValue={amount.toString()}
-            onChangeText={(text) => setAmount(text)}
-            editable={editable}
-            style={styles.input}
-          />
-          <Input
-            placeholder="Currency"
-            leftIcon={{type: 'font-awesome', name: 'dollar'}}
-            defaultValue={currency}
-            editable={false}
-            style={styles.input}
-          />
-          <Input
-            placeholder="Date"
-            leftIcon={{type: 'font-awesome', name: 'time'}}
-            defaultValue={date}
-            onChangeText={(text) => setDate(text)}
-            editable={editable}
-            style={styles.input}
-          />
-          {editable && (
-            <View style={styles.buttons}>
-              <Icon
-                name="cancel"
-                onPress={() => {
-                  setName(defaultExpense.name);
-                  setAmount(defaultExpense.amount);
-                  setDate(defaultExpense.startDate);
-                  setEditable(false);
-                }}
-              />
-              <Icon name="check-circle" onPress={() => setEditable(false)} />
-            </View>
-          )}
+          <User />
+          <Amount />
+          <ActivityDate />
         </View>
       </ScrollView>
-      <View style={styles.buttons}>
-        <Button title={'Back'} onPress={goBack} />
-        <Button title={'Delete'} onPress={deleteExpense} />
-        <Button title={'Update'} onPress={updateExpense} />
-      </View>
+      {editable ? (
+        // TODO externalize each button to a component
+        <View style={styles.buttonsContainer}>
+          <Icon
+            reverse
+            name="times"
+            type="font-awesome"
+            onPress={() => {
+              setName(defaultExpense.expenseName);
+              setAmount(defaultExpense.amount);
+              setDate(defaultExpense.startDate);
+              setEditable(false);
+              setDatePicker(false);
+            }}
+            size={iSmall}
+            color={red}
+          />
+          <Icon
+            reverse
+            name="check"
+            type="font-awesome"
+            onPress={() => {
+              setEditable(false);
+              setDatePicker(false);
+            }}
+            size={iSmall}
+            color={green}
+          />
+        </View>
+      ) : (
+        <View style={styles.buttonsContainer}>
+          <Icon
+            name="arrow-left"
+            type="font-awesome"
+            reverse
+            size={iSmall}
+            onPress={goBack}
+            color={red}
+          />
+          <Icon
+            name="trash"
+            type="font-awesome"
+            reverse
+            size={iSmall}
+            onPress={deleteExpense}
+            color={black}
+          />
+          <Icon
+            name="check"
+            type="font-awesome"
+            reverse
+            size={iSmall}
+            onPress={updateExpense}
+            color={green}
+          />
+        </View>
+      )}
     </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    margin: 15,
+    margin: sNormal,
   },
   activityName: {
-    flex: 1,
+    margin: sNormal,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   activityDetails: {
-    marginTop: 15,
+    display: 'flex',
+    justifyContent: 'center',
+    margin: sNormal,
   },
-  buttons: {
-    margin: 15,
+  calendar: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: sNormal,
   },
   input: {
     textAlign: 'right',
+  },
+  data: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: sSmall,
+    marginBottom: sNormal,
+  },
+  buttonsContainer: {
+    margin: sMedium,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

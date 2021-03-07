@@ -8,7 +8,7 @@ import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
 import {blue, grey} from '../../themes/colors';
-import {slarge} from '../../themes/size';
+import {sMedium, sNormal} from '../../themes/size';
 
 const AddActivityPage = () => {
   const [name, setName] = useState('');
@@ -74,14 +74,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 15,
+    margin: sNormal,
   },
   create: {
     backgroundColor: blue,
   },
   back: {
     backgroundColor: grey,
-    paddingBottom: slarge,
+    paddingBottom: sMedium,
   },
 });
 

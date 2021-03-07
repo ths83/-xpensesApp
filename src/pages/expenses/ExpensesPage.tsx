@@ -13,7 +13,7 @@ import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
 import expensesAtom, {buildExpenses} from '../../state/Expenses';
 import userAtom from '../../state/User';
-import {toYYYY_MM_DD} from '../../utils/DateFormatter';
+import {format} from '../../utils/DateFormatter';
 import ExpensesBalanceView from './ExpensesBalanceView';
 import ExpensesView from './ExpensesView';
 
@@ -42,7 +42,7 @@ const ExpensesPage = () => {
     EXPENSE_API.getByActivityId(activity.id)
       .then((fetchedExpenses) => {
         fetchedExpenses.map((fetchedExpense) => {
-          fetchedExpense.startDate = toYYYY_MM_DD(fetchedExpense.startDate);
+          fetchedExpense.startDate = format(fetchedExpense.startDate);
           return fetchedExpense;
         });
         setExpenses(buildExpenses(fetchedExpenses, username));
@@ -61,7 +61,9 @@ const ExpensesPage = () => {
   }, [isFocused, fetchExpenses, activity.id]);
 
   function render() {
-    if (status === Status.ERROR) {
+    if (status === Status.IN_PROGRESS || status === Status.IDLE) {
+      return <Text>Loading...</Text>;
+    } else if (status === Status.ERROR) {
       return <Text>An error occurred while fetching expenses</Text>;
     } else {
       return (

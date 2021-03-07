@@ -1,2 +1,3 @@
-export const ilarge = 40;
-export const imedium = 30;
+export const iLarge = 40;
+export const iMedium = 30;
+export const iSmall = 20;
