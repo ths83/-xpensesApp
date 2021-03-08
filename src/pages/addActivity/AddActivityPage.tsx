@@ -2,13 +2,14 @@ import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Button, Input, Text} from 'react-native-elements';
+import {Input, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
+import BackButton from '../../components/buttons/BackButton';
+import ValidateButton from '../../components/buttons/ValidateButton';
 import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
-import {blue, grey} from '../../themes/colors';
-import {sMedium, sNormal} from '../../themes/size';
+import {sMedium} from '../../themes/size';
 
 const AddActivityPage = () => {
   const [name, setName] = useState('');
@@ -57,12 +58,10 @@ const AddActivityPage = () => {
           'An error occurred while adding new activity'}
       </Text>
       <View>
-        <Button
-          title={'Create'}
-          onPress={createActivity}
-          buttonStyle={styles.create}
-        />
-        <Button title={'Back'} onPress={goBack} buttonStyle={styles.back} />
+        <View style={styles.buttonsContainer}>
+          <BackButton onPress={goBack} />
+          <ValidateButton onPress={createActivity} />
+        </View>
       </View>
     </>
   );
@@ -71,17 +70,14 @@ const AddActivityPage = () => {
 const styles = StyleSheet.create({
   activityInput: {
     flex: 1,
-    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: sNormal,
+    margin: sMedium,
   },
-  create: {
-    backgroundColor: blue,
-  },
-  back: {
-    backgroundColor: grey,
-    paddingBottom: sMedium,
+  buttonsContainer: {
+    margin: sMedium,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

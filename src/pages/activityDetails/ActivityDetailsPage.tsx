@@ -17,7 +17,7 @@ import activityAtom from '../../state/Activity';
 import expensesAtom from '../../state/Expenses';
 import {black, darkGreen} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
-import {sLarge, sMedium, sSmall} from '../../themes/size';
+import {sMedium, sSmall} from '../../themes/size';
 import {formatAmount} from '../../utils/AmountFormatter';
 import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
 

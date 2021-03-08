@@ -16,7 +16,7 @@ import {Pages} from '../../enums/Pages';
 import activityAtom from '../../state/Activity';
 import {black, darkGreen} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
-import {sLarge, sMedium, sSmall} from '../../themes/size';
+import {sMedium, sSmall} from '../../themes/size';
 import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
 
 // TODO manage input errors

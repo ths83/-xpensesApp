@@ -3,16 +3,16 @@ import {Auth} from 'aws-amplify';
 import {useAtom} from 'jotai';
 import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl, StyleSheet, View} from 'react-native';
-import {Button, ListItem, Text} from 'react-native-elements';
+import {ListItem, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import ActivitySummary from '../../components/activities/ActivitySummary';
+import AddButton from '../../components/buttons/AddButton';
 import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
 import {Activity} from '../../model/Activity';
 import activityAtom from '../../state/Activity';
 import userAtom from '../../state/User';
-import {blue} from '../../themes/colors';
 import {sMedium} from '../../themes/size';
 import {format} from '../../utils/DateFormatter';
 
@@ -91,12 +91,8 @@ const ActivitiesPage = () => {
             }>
             {renderActivities()}
           </ScrollView>
-          <View>
-            <Button
-              buttonStyle={styles.button}
-              title={'New activity'}
-              onPress={() => navigate(Pages.ADD_ACTIVITY)}
-            />
+          <View style={styles.buttonsContainer}>
+            <AddButton onPress={() => navigate(Pages.ADD_ACTIVITY)} />
           </View>
         </>
       );
@@ -107,9 +103,10 @@ const ActivitiesPage = () => {
 };
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: blue,
-    paddingBottom: sMedium,
+  buttonsContainer: {
+    margin: sMedium,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });
 

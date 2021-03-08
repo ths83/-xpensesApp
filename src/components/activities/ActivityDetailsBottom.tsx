@@ -7,6 +7,7 @@ import {lightGrey} from '../../themes/colors';
 import {iLarge} from '../../themes/icons';
 import {sMedium, sNormal} from '../../themes/size';
 import {formatAmount} from '../../utils/AmountFormatter';
+import ActionButton from '../buttons/ActionButton';
 import ActivityDetailsActions from './ActivityDetailsActions';
 
 interface ActivityDetailsBottomProps {
@@ -24,12 +25,10 @@ const ActivityDetailsBottom = ({
     let userTotal = 0;
     expenses.currentUser.map((expense) => (userTotal += expense.amount));
     return (
-      <>
-        <View style={styles.userTotal}>
-          <Text>My total</Text>
-          <Text>{formatAmount(userTotal)}</Text>
-        </View>
-      </>
+      <View style={styles.userTotal}>
+        <Text>My total</Text>
+        <Text>{formatAmount(userTotal)}</Text>
+      </View>
     );
   };
 
@@ -37,20 +36,14 @@ const ActivityDetailsBottom = ({
     let total = 0;
     expenses.all.map((expense) => (total += expense.amount));
     return (
-      <>
-        <View style={styles.total}>
-          <Text>Total</Text>
-          <Text>{formatAmount(total)}</Text>
-        </View>
-      </>
+      <View style={styles.total}>
+        <Text>Total</Text>
+        <Text>{formatAmount(total)}</Text>
+      </View>
     );
   };
 
-  const Actions = () => (
-    <>
-      <Icon size={iLarge} name="info" onPress={() => setVisible(true)} />
-    </>
-  );
+  const Actions = () => <ActionButton onPress={() => setVisible(true)} />;
 
   return (
     <View style={styles.bottom}>
@@ -87,4 +80,5 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
 });
+
 export default ActivityDetailsBottom;
