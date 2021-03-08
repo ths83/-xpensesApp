@@ -144,7 +144,7 @@ const ActivityDetailsPage = () => {
 
 const styles = StyleSheet.create({
   activityName: {
-    margin: sLarge,
+    margin: sMedium,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   activityDetails: {
     flex: 1,
     justifyContent: 'center',
-    margin: sLarge,
+    margin: sMedium,
   },
   calendar: {
     flexDirection: 'row',

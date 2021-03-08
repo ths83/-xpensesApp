@@ -1,7 +1,7 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {EXPENSE_API} from '../../api/ExpenseApi';
@@ -16,7 +16,7 @@ import {Pages} from '../../enums/Pages';
 import activityAtom from '../../state/Activity';
 import {black, darkGreen} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
-import {sMedium, sNormal, sSmall} from '../../themes/size';
+import {sLarge, sMedium, sSmall} from '../../themes/size';
 import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
 
 // TODO manage input errors
@@ -62,7 +62,7 @@ const ExpenseDetailsPage = () => {
     ) : (
       <View style={styles.data}>
         <Icon name="user" type="font-awesome" size={iMedium} color={black} />
-        <Text h4>{expense.user}</Text>
+        <Text>{expense.user}</Text>
       </View>
     );
 
@@ -82,7 +82,7 @@ const ExpenseDetailsPage = () => {
           size={iMedium}
           color={darkGreen}
         />
-        <Text h4>
+        <Text>
           {amount} {expense.currency}
         </Text>
       </View>
@@ -110,28 +110,26 @@ const ExpenseDetailsPage = () => {
 
   return (
     <>
-      <ScrollView style={styles.container}>
-        <View style={styles.activityName}>
-          {editable ? (
-            <Input
-              placeholder="Name"
-              leftIcon={{type: 'font-awesome', name: 'file'}}
-              defaultValue={name}
-              onChangeText={(text) => setName(text)}
-            />
-          ) : (
-            <>
-              <Text h4>{name}</Text>
-              <EditButton onPress={() => setEditable(true)} />
-            </>
-          )}
-        </View>
-        <View style={styles.activityDetails}>
-          <User />
-          <Amount />
-          <ActivityDate />
-        </View>
-      </ScrollView>
+      <View style={styles.activityName}>
+        {editable ? (
+          <Input
+            placeholder="Name"
+            leftIcon={{type: 'font-awesome', name: 'file'}}
+            defaultValue={name}
+            onChangeText={(text) => setName(text)}
+          />
+        ) : (
+          <>
+            <EditButton onPress={() => setEditable(true)} />
+            <Text h4>{name}</Text>
+          </>
+        )}
+      </View>
+      <View style={styles.activityDetails}>
+        <User />
+        <Amount />
+        <ActivityDate />
+      </View>
       {editable ? (
         <View style={styles.buttonsContainer}>
           <CancelButton onPress={resetExpense} />
@@ -149,32 +147,28 @@ const ExpenseDetailsPage = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    margin: sNormal,
-  },
   activityName: {
-    margin: sNormal,
+    margin: sMedium,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   activityDetails: {
-    display: 'flex',
+    flex: 1,
     justifyContent: 'center',
-    margin: sNormal,
+    margin: sMedium,
   },
   calendar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    margin: sNormal,
+    margin: sSmall,
   },
   data: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     margin: sSmall,
-    marginBottom: sNormal,
   },
   buttonsContainer: {
     margin: sMedium,
