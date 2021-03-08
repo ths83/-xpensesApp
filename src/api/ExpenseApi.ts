@@ -25,7 +25,7 @@ export class ExpenseApi {
       body: {
         expenseName: name,
         amount: amount,
-        currency: Currency.CANADA, //TODO remove for v2
+        currency: Currency.CANADA,
         user: user.getUsername(),
         activityId: activityId,
       },

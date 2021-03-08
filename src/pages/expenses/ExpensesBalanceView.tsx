@@ -12,7 +12,7 @@ const ExpensesBalanceView = () => {
   const [username] = useAtom(userAtom);
   const [expenses] = useAtom(expensesAtom);
 
-  const users = getUsers(); //TODO remove for v2
+  const users = getUsers();
 
   const sumAmounts = (expenses: Expense[]) =>
     expenses
