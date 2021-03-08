@@ -1,12 +1,17 @@
 import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
-import {Button, Input, Text} from 'react-native-elements';
-import {ScrollView} from 'react-native-gesture-handler';
+import {StyleSheet, View} from 'react-native';
+import {Text} from 'react-native-elements';
 import {EXPENSE_API} from '../../api/ExpenseApi';
-import {Currency} from '../../enums/Currency';
+import BackButton from '../../components/buttons/BackButton';
+import ValidateButton from '../../components/buttons/ValidateButton';
+import DatePicker from '../../components/datePicker/CustomDatePicker';
+import Input from '../../components/input/CustomInput';
 import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
+import {sMedium, sNormal} from '../../themes/size';
+import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
 
 const AddExpensePage = () => {
   const [name, setName] = useState<string>('');
@@ -14,6 +19,9 @@ const AddExpensePage = () => {
   const [amount, setAmount] = useState<string>('');
   const [errorAmount, setErrorAmount] = useState<string>('');
   const [status, setStatus] = useState<Status>(Status.IDLE);
+
+  const initialDate = to_YYYY_MM_DD(toUTC(new Date()));
+  const [date, setDate] = useState(initialDate);
 
   const [activity] = useAtom(activityAtom);
 
@@ -55,31 +63,55 @@ const AddExpensePage = () => {
 
   return (
     <>
-      <ScrollView>
+      <View style={styles.container}>
         <Input
           placeholder="Name"
           onChangeText={(text) => setName(text)}
+          leftIcon={{type: 'font-awesome', name: 'user'}}
           errorMessage={errorName}
         />
         <Input
-          placeholder="Amount"
-          keyboardType={'decimal-pad'}
+          placeholder="Amount (CAD)"
           onChangeText={(text) => setAmount(text)}
+          leftIcon={{type: 'font-awesome', name: 'money'}}
           errorMessage={errorAmount}
         />
-        <Input
-          placeholder="Currency"
-          defaultValue={Currency.CANADA}
-          editable={false} //TODO v2
+        <DatePicker
+          date={date}
+          onChange={(event: Event, selectedDate: Date | undefined) => {
+            setDate(
+              selectedDate ? to_YYYY_MM_DD(toUTC(selectedDate)) : initialDate,
+            );
+          }}
         />
-        {status === Status.ERROR && (
-          <Text>An error occurred while adding expense</Text>
-        )}
-      </ScrollView>
-      <Button title={'Add expense'} onPress={createExpense} />
-      <Button title={'Back'} onPress={goBack} />
+      </View>
+      <View style={styles.buttonsContainer}>
+        <BackButton onPress={goBack} />
+        <ValidateButton onPress={createExpense} />
+      </View>
+      {/* TODO add icon alert page */}
+      {status === Status.ERROR && (
+        <Text>An error occurred while adding expense</Text>
+      )}
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    margin: sMedium,
+    justifyContent: 'center',
+  },
+  title: {
+    margin: sMedium,
+    marginBottom: sNormal,
+  },
+  buttonsContainer: {
+    margin: sMedium,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});
 
 export default AddExpensePage;
