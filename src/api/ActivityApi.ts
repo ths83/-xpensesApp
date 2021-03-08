@@ -72,7 +72,7 @@ export class ActivityApi {
     return await API.del(apiName, path, myInit);
   }
 
-  async update(id: string, name: string): Promise<void> {
+  async update(id: string, name: string, date: string): Promise<void> {
     const apiName = API_NAME;
     const path = `/activities/${id}`;
     const myInit = {
@@ -83,6 +83,7 @@ export class ActivityApi {
       },
       body: {
         activityName: name,
+        date: date,
       },
     };
     console.debug(`Updating activity '${id}'...`);

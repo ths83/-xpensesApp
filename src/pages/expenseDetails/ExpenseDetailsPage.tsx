@@ -14,8 +14,8 @@ import DatePicker from '../../components/datePicker/CustomDatePicker';
 import Input from '../../components/input/CustomInput';
 import {Pages} from '../../enums/Pages';
 import activityAtom from '../../state/Activity';
-import {black, blue, darkGreen} from '../../themes/colors';
-import {iMedium, iSmall} from '../../themes/icons';
+import {black, darkGreen} from '../../themes/colors';
+import {iMedium} from '../../themes/icons';
 import {sMedium, sNormal, sSmall} from '../../themes/size';
 import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
 

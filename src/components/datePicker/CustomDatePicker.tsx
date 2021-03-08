@@ -29,7 +29,7 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
           color={skyBlue}
           onPress={() => setDatePicker(true)}
         />
-        <Text h4>{date}</Text>
+        <Text>{date}</Text>
       </View>
       {datePicker && (
         <DateTimePicker value={toUTC(new Date(date))} onChange={onChange} />
