@@ -1,68 +1,30 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {memo} from 'react';
 import {StyleSheet} from 'react-native';
-import {BottomSheet, ListItem, Text} from 'react-native-elements';
-import {ExpensesFilter} from '../../enums/ExpensesFilter';
+import {BottomSheet, ListItem} from 'react-native-elements';
 import {Pages} from '../../enums/Pages';
-import {blue, lightGrey, red, white} from '../../themes/colors';
+import {lightGrey, red, white} from '../../themes/colors';
 
 interface ActivityDetailsActionsProps {
   visible: boolean;
   setVisible: (value: boolean) => void;
-  setExpensesIndex: (value: number) => void;
 }
 
 const ActivityDetailsActions = ({
   visible,
   setVisible,
-  setExpensesIndex,
 }: ActivityDetailsActionsProps) => {
   const {navigate} = useNavigation();
 
-  const filter = (
-    <ListItem key={0} containerStyle={styles.filterOptionsItem}>
-      <ListItem.Content>
-        <Text
-          onPress={() => {
-            setExpensesIndex(ExpensesFilter.CURRENT_USER);
-            setVisible(false);
-          }}
-          style={styles.filterContent}>
-          Me
-        </Text>
-      </ListItem.Content>
-      <ListItem.Content>
-        <Text
-          onPress={() => {
-            setExpensesIndex(ExpensesFilter.OTHER_USER);
-            setVisible(false);
-          }}
-          style={styles.filterContent}>
-          Other
-        </Text>
-      </ListItem.Content>
-      <ListItem.Content>
-        <Text
-          onPress={() => {
-            setExpensesIndex(ExpensesFilter.NO);
-            setVisible(false);
-          }}
-          style={styles.filterContent}>
-          No
-        </Text>
-      </ListItem.Content>
-    </ListItem>
-  );
-
   const addExpense = (
     <ListItem
-      key={1}
+      key={0}
       onPress={() => {
         setVisible(false);
         navigate(Pages.ADD_EXPENSE);
       }}
-      containerStyle={styles.actionItems}>
-      <ListItem.Content>
+      containerStyle={styles.buttonItem}>
+      <ListItem.Content style={styles.buttonItemContent}>
         <ListItem.Title>Add expense</ListItem.Title>
       </ListItem.Content>
     </ListItem>
@@ -70,13 +32,13 @@ const ActivityDetailsActions = ({
 
   const updateActivity = (
     <ListItem
-      key={2}
+      key={0}
       onPress={() => {
         setVisible(false);
         navigate(Pages.ACTIVITY_DETAILS);
       }}
-      containerStyle={styles.actionItems}>
-      <ListItem.Content>
+      containerStyle={styles.buttonItem}>
+      <ListItem.Content style={styles.buttonItemContent}>
         <ListItem.Title>Go to activity details</ListItem.Title>
       </ListItem.Content>
     </ListItem>
@@ -84,16 +46,18 @@ const ActivityDetailsActions = ({
 
   const back = (
     <ListItem
-      key={3}
+      key={2}
       onPress={() => setVisible(false)}
-      containerStyle={styles.back}>
-      <ListItem.Content>
-        <ListItem.Title style={styles.backText}>Back</ListItem.Title>
+      containerStyle={styles.backButtonItem}>
+      <ListItem.Content style={styles.buttonItemContent}>
+        <ListItem.Title style={styles.buttonItemContentTitle}>
+          Back
+        </ListItem.Title>
       </ListItem.Content>
     </ListItem>
   );
 
-  const actions = [filter, addExpense, updateActivity, back];
+  const actions = [addExpense, updateActivity, back];
 
   return (
     <>
@@ -103,20 +67,17 @@ const ActivityDetailsActions = ({
 };
 
 const styles = StyleSheet.create({
-  actionItems: {
-    backgroundColor: lightGrey,
-  },
-  back: {
+  backButtonItem: {
     backgroundColor: red,
   },
-  backText: {
+  buttonItemContent: {
+    alignItems: 'center',
+  },
+  buttonItemContentTitle: {
     color: white,
   },
-  filterContent: {
-    color: white,
-  },
-  filterOptionsItem: {
-    backgroundColor: blue,
+  buttonItem: {
+    backgroundColor: lightGrey,
   },
 });
 

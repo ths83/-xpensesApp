@@ -5,15 +5,17 @@ import {iSmall} from '../../themes/icons';
 
 interface ActionButtonProps {
   onPress: () => void;
+  onLongPress: () => void;
 }
 
-const ActionButton: React.FC<ActionButtonProps> = ({onPress}) => {
+const ActionButton: React.FC<ActionButtonProps> = ({onPress, onLongPress}) => {
   return (
     <Icon
       reverse
       name="ellipsis-h"
       type="font-awesome"
       onPress={onPress}
+      onLongPress={onLongPress}
       size={iSmall}
       color={red}
     />

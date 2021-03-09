@@ -1,13 +1,13 @@
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Icon, Text} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 import expensesAtom from '../../state/Expenses';
 import {lightGrey} from '../../themes/colors';
-import {iLarge} from '../../themes/icons';
 import {sMedium, sNormal} from '../../themes/size';
 import {formatAmount} from '../../utils/AmountFormatter';
 import ActionButton from '../buttons/ActionButton';
+import ExpensesActionsFilter from '../expenses/ExpensesActionsFilter';
 import ActivityDetailsActions from './ActivityDetailsActions';
 
 interface ActivityDetailsBottomProps {
@@ -17,7 +17,8 @@ interface ActivityDetailsBottomProps {
 const ActivityDetailsBottom = ({
   setExpensesIndex,
 }: ActivityDetailsBottomProps) => {
-  const [visible, setVisible] = useState(false);
+  const [actionsVisible, setActionsVisible] = useState(false);
+  const [filterVisible, setFilterVisible] = useState(false);
 
   const [expenses] = useAtom(expensesAtom);
 
@@ -43,7 +44,12 @@ const ActivityDetailsBottom = ({
     );
   };
 
-  const Actions = () => <ActionButton onPress={() => setVisible(true)} />;
+  const Actions = () => (
+    <ActionButton
+      onPress={() => setActionsVisible(true)}
+      onLongPress={() => setFilterVisible(true)}
+    />
+  );
 
   return (
     <View style={styles.bottom}>
@@ -53,8 +59,12 @@ const ActivityDetailsBottom = ({
         <TotalExpense />
       </View>
       <ActivityDetailsActions
-        visible={visible}
-        setVisible={setVisible}
+        visible={actionsVisible}
+        setVisible={setActionsVisible}
+      />
+      <ExpensesActionsFilter
+        visible={filterVisible}
+        setVisible={setFilterVisible}
         setExpensesIndex={setExpensesIndex}
       />
     </View>
