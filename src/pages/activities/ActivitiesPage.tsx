@@ -8,6 +8,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import ActivitySummary from '../../components/activities/ActivitySummary';
 import AddButton from '../../components/buttons/AddButton';
+import Loading from '../../components/loader/Loading';
 import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
 import {Activity} from '../../model/Activity';
@@ -80,7 +81,9 @@ const ActivitiesPage = () => {
   }
 
   function render() {
-    if (status === Status.ERROR) {
+    if (status === (Status.IDLE || Status.IN_PROGRESS)) {
+      return <Loading />;
+    } else if (status === Status.ERROR) {
       return <Text>An error occurred while fetching activities</Text>;
     } else {
       return (

@@ -6,7 +6,6 @@ import {getUsers} from '../../config/UsersConfiguration';
 import {Expense} from '../../model/Expense';
 import expensesAtom from '../../state/Expenses';
 import userAtom from '../../state/User';
-import {sMedium} from '../../themes/size';
 import {formatAmount} from '../../utils/AmountFormatter';
 
 //TODO optimize code here (+ center view)
@@ -31,7 +30,7 @@ const ExpensesBalanceView = () => {
 
     if (currentUserAmount === otherUserAmount) {
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, styles.horizontal]}>
           <Text h4 style={styles.text}>
             Everything is fine !
           </Text>
@@ -39,7 +38,7 @@ const ExpensesBalanceView = () => {
       );
     } else if (currentUserAmount > otherUserAmount) {
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, styles.horizontal]}>
           <Text h4 style={styles.text}>
             {otherUser} owes{' '}
             {formatAmount((currentUserAmount - otherUserAmount) / 2)} CAD to{' '}
@@ -49,7 +48,7 @@ const ExpensesBalanceView = () => {
       );
     } else {
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, styles.horizontal]}>
           <Text h4 style={styles.text}>
             {username} owes{' '}
             {formatAmount((otherUserAmount - currentUserAmount) / 2)} CAD to{' '}
@@ -67,11 +66,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    margin: sMedium,
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
   },
   text: {
-    textAlign: 'center',
+    alignContent: 'center',
   },
 });
 

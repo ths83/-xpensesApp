@@ -7,6 +7,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import ActivityDetailsBottom from '../../components/activities/ActivityDetailsBottom';
 import ActivityDetailsTab from '../../components/activities/ActivityDetailsTab';
+import Loading from '../../components/loader/Loading';
 import {ExpensesFilter} from '../../enums/ExpensesFilter';
 import {ExpensesTabIndex} from '../../enums/ExpensesTabIndex';
 import {Status} from '../../enums/Status';
@@ -61,8 +62,8 @@ const ExpensesPage = () => {
   }, [isFocused, fetchExpenses, activity.id]);
 
   function render() {
-    if (status === Status.IN_PROGRESS || status === Status.IDLE) {
-      return <Text>Loading...</Text>;
+    if (status === (Status.IDLE || Status.IN_PROGRESS)) {
+      return <Loading />;
     } else if (status === Status.ERROR) {
       return <Text>An error occurred while fetching expenses</Text>;
     } else {
