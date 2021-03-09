@@ -158,12 +158,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: sMedium,
   },
-  calendar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    margin: sSmall,
-  },
   data: {
     flexDirection: 'row',
     justifyContent: 'space-between',

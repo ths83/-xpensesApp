@@ -1,11 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {memo} from 'react';
-import {Icon} from 'react-native-elements';
 import {EMPTY_ACTIVITY} from '../../model/Activity';
 import activityAtom from '../../state/Activity';
-import {white} from '../../themes/colors';
-import {iMedium} from '../../themes/icons';
+import HomeButton from '../buttons/HomeButton';
 
 const HomeHeaderComponent = () => {
   const [, setActivity] = useAtom(activityAtom);
@@ -13,10 +11,7 @@ const HomeHeaderComponent = () => {
   const {popToTop} = useNavigation();
 
   return (
-    <Icon
-      size={iMedium}
-      color={white}
-      name="home"
+    <HomeButton
       onPress={() => {
         setActivity(EMPTY_ACTIVITY);
         popToTop();

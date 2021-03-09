@@ -4,7 +4,7 @@ import {StyleSheet, View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {skyBlue} from '../../themes/colors';
 import {iSmall} from '../../themes/icons';
-import {sNormal, sSmall} from '../../themes/size';
+import {sNormal} from '../../themes/size';
 import {toUTC} from '../../utils/DateFormatter';
 
 interface CustomDatePickerProps {
@@ -20,7 +20,7 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
 
   return (
     <>
-      <View style={styles.data}>
+      <View style={styles.container}>
         <Icon
           reverse
           name="calendar"
@@ -29,7 +29,7 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
           color={skyBlue}
           onPress={() => setDatePicker(true)}
         />
-        <Text>{date}</Text>
+        <Text style={styles.dateText}>{date}</Text>
       </View>
       {datePicker && (
         <DateTimePicker value={toUTC(new Date(date))} onChange={onChange} />
@@ -39,12 +39,13 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
 };
 
 const styles = StyleSheet.create({
-  data: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  container: {
+    justifyContent: 'center',
     alignItems: 'center',
-    margin: sSmall,
-    marginBottom: sNormal,
+    margin: sNormal,
+  },
+  dateText: {
+    fontWeight: 'bold',
   },
 });
 

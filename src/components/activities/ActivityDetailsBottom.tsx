@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import expensesAtom from '../../state/Expenses';
-import {lightGrey} from '../../themes/colors';
+import {blue, darkGreen, green, grey, lightGrey} from '../../themes/colors';
 import {sMedium, sNormal} from '../../themes/size';
 import {formatAmount} from '../../utils/AmountFormatter';
 import ActionButton from '../buttons/ActionButton';
@@ -26,9 +26,9 @@ const ActivityDetailsBottom = ({
     let userTotal = 0;
     expenses.currentUser.map((expense) => (userTotal += expense.amount));
     return (
-      <View style={styles.userTotal}>
-        <Text>My total</Text>
-        <Text>{formatAmount(userTotal)}</Text>
+      <View style={styles.totalCurrentUser}>
+        <Text style={styles.text}>My total</Text>
+        <Text style={styles.text}>{formatAmount(userTotal)}</Text>
       </View>
     );
   };
@@ -38,8 +38,8 @@ const ActivityDetailsBottom = ({
     expenses.all.map((expense) => (total += expense.amount));
     return (
       <View style={styles.total}>
-        <Text>Total</Text>
-        <Text>{formatAmount(total)}</Text>
+        <Text style={styles.text}>Total</Text>
+        <Text style={styles.text}>{formatAmount(total)}</Text>
       </View>
     );
   };
@@ -52,8 +52,8 @@ const ActivityDetailsBottom = ({
   );
 
   return (
-    <View style={styles.bottom}>
-      <View style={styles.bottomContent}>
+    <View style={styles.container}>
+      <View style={styles.containerContent}>
         <TotalUserExpense />
         <Actions />
         <TotalExpense />
@@ -72,18 +72,23 @@ const ActivityDetailsBottom = ({
 };
 
 const styles = StyleSheet.create({
-  bottom: {
+  container: {
     backgroundColor: lightGrey,
   },
-  bottomContent: {
+  containerContent: {
     marginBottom: sMedium,
     marginTop: sNormal,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  userTotal: {
+  totalCurrentUser: {
     paddingLeft: sNormal,
     alignItems: 'flex-start',
+  },
+  text: {
+    color: darkGreen,
+    fontWeight: 'bold',
+    fontSize: 15,
   },
   total: {
     paddingRight: sNormal,
