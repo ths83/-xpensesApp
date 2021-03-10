@@ -1,9 +1,10 @@
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-elements';
+import {Header, Text} from 'react-native-elements';
+import {ExpensesFilterIndex} from '../../enums/ExpensesFilterIndex';
 import expensesAtom from '../../state/Expenses';
-import {blue, darkGreen, green, grey, lightGrey} from '../../themes/colors';
+import {darkGreen, lightGrey} from '../../themes/colors';
 import {sMedium, sNormal} from '../../themes/size';
 import {formatAmount} from '../../utils/AmountFormatter';
 import ActionButton from '../buttons/ActionButton';
@@ -11,10 +12,12 @@ import ExpensesActionsFilter from '../expenses/ExpensesActionsFilter';
 import ActivityDetailsActions from './ActivityDetailsActions';
 
 interface ActivityDetailsBottomProps {
+  expensesIndex: ExpensesFilterIndex;
   setExpensesIndex: (value: number) => void;
 }
 
 const ActivityDetailsBottom = ({
+  expensesIndex,
   setExpensesIndex,
 }: ActivityDetailsBottomProps) => {
   const [actionsVisible, setActionsVisible] = useState(false);
@@ -52,12 +55,13 @@ const ActivityDetailsBottom = ({
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.containerContent}>
-        <TotalUserExpense />
-        <Actions />
-        <TotalExpense />
-      </View>
+    <>
+      <Header
+        containerStyle={styles.container}
+        leftComponent={<TotalUserExpense />}
+        centerComponent={<Actions />}
+        rightComponent={<TotalExpense />}
+      />
       <ActivityDetailsActions
         visible={actionsVisible}
         setVisible={setActionsVisible}
@@ -65,21 +69,18 @@ const ActivityDetailsBottom = ({
       <ExpensesActionsFilter
         visible={filterVisible}
         setVisible={setFilterVisible}
-        setExpensesIndex={setExpensesIndex}
+        index={expensesIndex}
+        setIndex={setExpensesIndex}
       />
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: lightGrey,
-  },
-  containerContent: {
-    marginBottom: sMedium,
-    marginTop: sNormal,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    paddingTop: 0,
+    paddingBottom: sMedium,
   },
   totalCurrentUser: {
     paddingLeft: sNormal,

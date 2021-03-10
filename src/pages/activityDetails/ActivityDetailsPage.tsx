@@ -57,7 +57,7 @@ const ActivityDetailsPage = () => {
     ) : (
       <View style={styles.data}>
         <Icon name="user" type="font-awesome" size={iMedium} color={black} />
-        <Text>{activity?.createdBy}</Text>
+        <Text h4>{activity?.createdBy}</Text>
       </View>
     );
 
@@ -88,7 +88,7 @@ const ActivityDetailsPage = () => {
             size={iMedium}
             color={black}
           />
-          <Text>{activity.expenses?.length}</Text>
+          <Text h4>{activity.expenses?.length}</Text>
         </View>
         <View style={styles.data}>
           <Icon
@@ -97,7 +97,7 @@ const ActivityDetailsPage = () => {
             size={iMedium}
             color={darkGreen}
           />
-          <Text>
+          <Text h4>
             {expenseTotal()} {Currency.CANADA}
           </Text>
         </View>

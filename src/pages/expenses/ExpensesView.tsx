@@ -3,7 +3,7 @@ import {useAtom} from 'jotai';
 import React from 'react';
 import {ListItem} from 'react-native-elements';
 import ExpenseDetails from '../../components/expenses/ExpenseDetails';
-import {ExpensesFilter} from '../../enums/ExpensesFilter';
+import {ExpensesFilterIndex} from '../../enums/ExpensesFilterIndex';
 import {Pages} from '../../enums/Pages';
 import {Expense} from '../../model/Expense';
 import expensesAtom from '../../state/Expenses';
@@ -18,9 +18,9 @@ const ExpensesView = ({index}: ExpensesViewProps) => {
   const {navigate} = useNavigation();
 
   const selectedExpenses = (): Expense[] => {
-    if (index === ExpensesFilter.NO) {
+    if (index === ExpensesFilterIndex.NO) {
       return expenses.all;
-    } else if (index === ExpensesFilter.CURRENT_USER) {
+    } else if (index === ExpensesFilterIndex.CURRENT_USER) {
       return expenses.currentUser;
     } else {
       return expenses.otherUser;

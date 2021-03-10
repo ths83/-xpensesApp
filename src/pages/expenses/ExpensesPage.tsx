@@ -8,7 +8,7 @@ import {EXPENSE_API} from '../../api/ExpenseApi';
 import ActivityDetailsBottom from '../../components/activities/ActivityDetailsBottom';
 import ActivityDetailsTab from '../../components/activities/ActivityDetailsTab';
 import Loading from '../../components/loader/Loading';
-import {ExpensesFilter} from '../../enums/ExpensesFilter';
+import {ExpensesFilterIndex} from '../../enums/ExpensesFilterIndex';
 import {ExpensesTabIndex} from '../../enums/ExpensesTabIndex';
 import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
@@ -24,7 +24,7 @@ const ExpensesPage = () => {
   );
   const [status, setStatus] = useState(Status.IDLE);
   const [refreshing, setRefreshing] = useState(false);
-  const [expensesIndex, setExpenseIndex] = useState(ExpensesFilter.NO);
+  const [expensesIndex, setExpensesIndex] = useState(ExpensesFilterIndex.NO);
 
   const [username] = useAtom(userAtom);
   const [activity] = useAtom(activityAtom);
@@ -80,7 +80,10 @@ const ExpensesPage = () => {
               <ExpensesBalanceView />
             )}
           </ScrollView>
-          <ActivityDetailsBottom setExpensesIndex={setExpenseIndex} />
+          <ActivityDetailsBottom
+            expensesIndex={expensesIndex}
+            setExpensesIndex={setExpensesIndex}
+          />
         </>
       );
     }

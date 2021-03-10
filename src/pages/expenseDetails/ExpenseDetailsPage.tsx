@@ -62,7 +62,7 @@ const ExpenseDetailsPage = () => {
     ) : (
       <View style={styles.data}>
         <Icon name="user" type="font-awesome" size={iMedium} color={black} />
-        <Text>{expense.user}</Text>
+        <Text h4>{expense.user}</Text>
       </View>
     );
 
@@ -82,7 +82,7 @@ const ExpenseDetailsPage = () => {
           size={iMedium}
           color={darkGreen}
         />
-        <Text>
+        <Text h4>
           {amount} {expense.currency}
         </Text>
       </View>

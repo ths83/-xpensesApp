@@ -1,58 +1,92 @@
+import {useAtom} from 'jotai';
 import React, {memo} from 'react';
 import {StyleSheet} from 'react-native';
-import {BottomSheet, ListItem, Text} from 'react-native-elements';
-import {ExpensesFilter} from '../../enums/ExpensesFilter';
-import {black, red, white} from '../../themes/colors';
+import {BottomSheet, ButtonGroup, ListItem, Text} from 'react-native-elements';
+import {FIRST_USER, SECOND_USER} from '../../config/UsersConfiguration';
+import {ExpensesFilterIndex} from '../../enums/ExpensesFilterIndex';
+import userAtom from '../../state/User';
+import {black, blue, lightGrey, red, white} from '../../themes/colors';
 
 interface ExpensesActionsFilterProps {
   visible: boolean;
   setVisible: (value: boolean) => void;
-  setExpensesIndex: (value: number) => void;
+  index: ExpensesFilterIndex;
+  setIndex: (value: ExpensesFilterIndex) => void;
 }
 
 const ExpensesActionsFilter = ({
   visible,
   setVisible,
-  setExpensesIndex,
+  index,
+  setIndex,
 }: ExpensesActionsFilterProps) => {
-  const filter = (
+  const [username] = useAtom(userAtom);
+
+  const description = (
     <ListItem key={0} containerStyle={styles.buttonItem}>
       <ListItem.Content style={styles.buttonItemContent}>
-        <Text
-          onPress={() => {
-            setExpensesIndex(ExpensesFilter.CURRENT_USER);
-            setVisible(false);
-          }}
-          style={styles.buttonItemContentTitle}>
-          Me
-        </Text>
+        <Text style={styles.buttonItemContentTitle}>Filter expenses</Text>
       </ListItem.Content>
+    </ListItem>
+  );
+
+  const updateIndex = (selectedIndex: ExpensesFilterIndex) =>
+    setIndex(selectedIndex);
+
+  const No = () => (
+    <Text
+      onPress={() => {
+        setIndex(ExpensesFilterIndex.NO);
+      }}>
+      No
+    </Text>
+  );
+
+  const OtherUser = () => (
+    <Text
+      onPress={() => {
+        setIndex(ExpensesFilterIndex.OTHER_USER);
+      }}>
+      {username !== FIRST_USER ? FIRST_USER : SECOND_USER}
+    </Text>
+  );
+
+  const CurrentUser = () => (
+    <Text
+      onPress={() => {
+        setIndex(ExpensesFilterIndex.CURRENT_USER);
+      }}>
+      {username === FIRST_USER ? FIRST_USER : SECOND_USER}
+    </Text>
+  );
+
+  const filter = (
+    <ListItem key={1} containerStyle={styles.buttonItem}>
       <ListItem.Content style={styles.buttonItemContent}>
-        <Text
-          onPress={() => {
-            setExpensesIndex(ExpensesFilter.OTHER_USER);
-            setVisible(false);
-          }}
-          style={styles.buttonItemContentTitle}>
-          Other
-        </Text>
-      </ListItem.Content>
-      <ListItem.Content style={styles.buttonItemContent}>
-        <Text
-          onPress={() => {
-            setExpensesIndex(ExpensesFilter.NO);
-            setVisible(false);
-          }}
-          style={styles.buttonItemContentTitle}>
-          No
-        </Text>
+        <ButtonGroup
+          buttonStyle={styles.buttons}
+          selectedButtonStyle={styles.selectedButton}
+          buttons={[
+            {
+              element: () => <No />,
+            },
+            {
+              element: () => <OtherUser />,
+            },
+            {
+              element: () => <CurrentUser />,
+            },
+          ]}
+          onPress={updateIndex.bind(this)}
+          selectedIndex={index}
+        />
       </ListItem.Content>
     </ListItem>
   );
 
   const back = (
     <ListItem
-      key={1}
+      key={2}
       onPress={() => setVisible(false)}
       containerStyle={styles.backButtonItem}>
       <ListItem.Content style={styles.buttonItemContent}>
@@ -63,16 +97,18 @@ const ExpensesActionsFilter = ({
     </ListItem>
   );
 
-  const actions = [filter, back];
+  const actions = [description, filter, back];
 
-  return (
-    <>
-      <BottomSheet isVisible={visible}>{actions}</BottomSheet>
-    </>
-  );
+  return <BottomSheet isVisible={visible}>{actions}</BottomSheet>;
 };
 
 const styles = StyleSheet.create({
+  buttons: {
+    backgroundColor: lightGrey,
+  },
+  selectedButton: {
+    backgroundColor: blue,
+  },
   backButtonItem: {
     backgroundColor: red,
   },
