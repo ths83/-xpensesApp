@@ -16,6 +16,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({onPress}) => {
       onPress={onPress}
       size={iSmall}
       color={black}
+      disabled={true} //TODO
     />
   );
 };

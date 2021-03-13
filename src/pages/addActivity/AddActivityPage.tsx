@@ -19,28 +19,22 @@ const AddActivityPage = () => {
   const [, setActivity] = useAtom(activityAtom);
   const {goBack, navigate} = useNavigation();
 
-  function isValidName() {
+  const createActivity = () => {
+    setStatus(Status.IN_PROGRESS);
+    ACTIVITY_API.create(name)
+      .then((activity) => {
+        setStatus(Status.SUCCESS);
+        setActivity(activity);
+        navigate(Pages.EXPENSES);
+      })
+      .catch(() => setStatus(Status.ERROR));
+  };
+
+  const handleErrorName = () => {
     if (name === '') {
-      setErrorName('Name is required');
-      return false;
+      setErrorName('Activity name is required');
     } else {
       setErrorName('');
-      return true;
-    }
-  }
-
-  const createActivity = () => {
-    if (isValidName()) {
-      setStatus(Status.IN_PROGRESS);
-      ACTIVITY_API.create(name)
-        .then((activity) => {
-          setStatus(Status.SUCCESS);
-          setActivity(activity);
-          navigate(Pages.EXPENSES);
-        })
-        .catch(() => setStatus(Status.ERROR));
-    } else {
-      setStatus(Status.IDLE);
     }
   };
 
@@ -49,7 +43,10 @@ const AddActivityPage = () => {
       <View style={styles.activityInput}>
         <Input
           placeholder="Activity name"
-          onChangeText={(text) => setName(text)}
+          onChangeText={(text) => {
+            setName(text);
+            handleErrorName();
+          }}
           errorMessage={errorName}
         />
       </View>
@@ -60,7 +57,7 @@ const AddActivityPage = () => {
       <View>
         <View style={styles.buttonsContainer}>
           <BackButton onPress={goBack} />
-          <ValidateButton onPress={createActivity} />
+          <ValidateButton onPress={createActivity} disabled={name === ''} />
         </View>
       </View>
     </>

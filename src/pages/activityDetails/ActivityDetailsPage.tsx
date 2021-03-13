@@ -4,10 +4,9 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
-import BackButton from '../../components/buttons/BackButton';
 import CancelButton from '../../components/buttons/CancelButton';
 import DeleteButton from '../../components/buttons/DeleteButton';
-import EditButton from '../../components/buttons/EditButton';
+import EditHeaderButtons from '../../components/buttons/EditHeaderButtons';
 import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
 import Input from '../../components/input/CustomInput';
@@ -15,9 +14,9 @@ import {Currency} from '../../enums/Currency';
 import {Pages} from '../../enums/Pages';
 import activityAtom from '../../state/Activity';
 import expensesAtom from '../../state/Expenses';
-import {black, darkGreen} from '../../themes/colors';
+import {black, blue, dollar} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
-import {sMedium, sSmall} from '../../themes/size';
+import {sMedium} from '../../themes/size';
 import {formatAmount} from '../../utils/AmountFormatter';
 import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
 
@@ -28,6 +27,8 @@ const ActivityDetailsPage = () => {
   const [expenses] = useAtom(expensesAtom);
 
   const [name, setName] = useState(activity.activityName);
+  const [errorName, setErrorName] = useState('');
+
   const [date, setDate] = useState(activity.startDate);
 
   const {navigate, goBack} = useNavigation();
@@ -51,126 +52,133 @@ const ActivityDetailsPage = () => {
     setEditable(false);
   };
 
-  const User = () =>
-    editable ? (
-      <></>
-    ) : (
-      <View style={styles.data}>
-        <Icon name="user" type="font-awesome" size={iMedium} color={black} />
-        <Text h4>{activity?.createdBy}</Text>
-      </View>
-    );
-
-  const ExpenseDate = () => (
-    <DatePicker
-      date={date}
-      onChange={(event: Event, selectedDate: Date | undefined) => {
-        setDate(selectedDate ? to_YYYY_MM_DD(toUTC(selectedDate)) : date);
-      }}
-    />
-  );
-
   const expenseTotal = () => {
     let total = 0;
     expenses.all.map((expense) => (total += expense.amount));
     return formatAmount(total);
   };
 
-  const Other = () =>
+  const HeaderButtons = () =>
     editable ? (
       <></>
     ) : (
-      <>
-        <View style={styles.data}>
-          <Icon
-            name="list-ol"
-            type="font-awesome"
-            size={iMedium}
-            color={black}
-          />
-          <Text h4>{activity.expenses?.length}</Text>
-        </View>
-        <View style={styles.data}>
-          <Icon
-            name="money"
-            type="font-awesome"
-            size={iMedium}
-            color={darkGreen}
-          />
-          <Text h4>
-            {expenseTotal()} {Currency.CANADA}
-          </Text>
-        </View>
-      </>
+      <EditHeaderButtons
+        handleBackButton={goBack}
+        handleEditButton={() => setEditable(true)}
+      />
     );
+
+  const Name = () => <Text h4>{activity.activityName}</Text>;
+
+  const Amount = () => (
+    <View style={(styles.textIcon, styles.centerItems)}>
+      <Icon name="money" type="font-awesome" size={iMedium} color={dollar} />
+      <Text>
+        {expenseTotal()} {Currency.CANADA}
+      </Text>
+    </View>
+  );
+
+  const User = () => (
+    <View style={(styles.textIcon, styles.centerItems)}>
+      <Icon name="user" type="font-awesome" size={iMedium} color={blue} />
+      <Text>{activity.createdBy}</Text>
+    </View>
+  );
+
+  const Calendar = () =>
+    editable ? (
+      <View style={styles.centerItems}>
+        <DatePicker
+          date={date}
+          onChange={(event: Event, selectedDate: Date | undefined) => {
+            setDate(selectedDate ? to_YYYY_MM_DD(toUTC(selectedDate)) : date);
+          }}
+        />
+      </View>
+    ) : (
+      <View style={(styles.textIcon, styles.centerItems)}>
+        <Icon
+          name="calendar"
+          type="font-awesome"
+          size={iMedium}
+          color={black}
+        />
+        <Text>{activity.startDate}</Text>
+      </View>
+    );
+
+  const handleErrorName = () => {
+    name === '' ? setErrorName('Activity name is required') : setErrorName('');
+  };
+
+  const BottomButtons = () =>
+    editable ? (
+      <View style={styles.bottomButtons}>
+        <CancelButton onPress={resetExpense} />
+        <ValidateButton onPress={validateFieldsUpdate} disabled={name === ''} />
+      </View>
+    ) : (
+      <View style={styles.bottomButtons}>
+        <DeleteButton onPress={del} />
+        <ValidateButton onPress={update} disabled={name === ''} />
+      </View>
+    );
+
   return (
     <>
-      <View style={styles.activityName}>
-        {editable ? (
-          <Input
-            placeholder="Name"
-            leftIcon={{type: 'font-awesome', name: 'file'}}
-            defaultValue={name}
-            onChangeText={(text) => setName(text)}
-            // TODO error message if empty
-          />
-        ) : (
-          <>
-            <EditButton onPress={() => setEditable(true)} />
-            <Text h4>{name}</Text>
-          </>
-        )}
-      </View>
-      <View style={styles.activityDetails}>
-        <User />
-        <Other />
-        <ExpenseDate />
-      </View>
-      {editable ? (
-        <View style={styles.buttonsContainer}>
-          <CancelButton onPress={resetExpense} />
-          <ValidateButton onPress={validateFieldsUpdate} />
+      <HeaderButtons />
+      <View style={styles.details}>
+        <View style={styles.centerItems}>
+          {editable ? (
+            <Input
+              placeholder="Name"
+              leftIcon={{type: 'font-awesome', name: 'file'}}
+              defaultValue={name}
+              onChangeText={(text) => {
+                setName(text);
+                handleErrorName();
+              }}
+              errorMessage={errorName}
+            />
+          ) : (
+            <Name />
+          )}
         </View>
-      ) : (
-        <View style={styles.buttonsContainer}>
-          <BackButton onPress={goBack} />
-          <DeleteButton onPress={del} />
-          <ValidateButton onPress={update} />
+        <View style={styles.subDetails}>
+          <User />
+          <Amount />
         </View>
-      )}
+        <Calendar />
+      </View>
+      <BottomButtons />
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  activityName: {
-    margin: sMedium,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  activityDetails: {
+  details: {
     flex: 1,
+    margin: sMedium,
     justifyContent: 'center',
-    margin: sMedium,
   },
-  calendar: {
+  subDetails: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: sMedium,
+    marginBottom: sMedium,
+  },
+  bottomButtons: {
+    margin: sMedium,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  centerItems: {
     alignItems: 'center',
-    margin: sMedium,
   },
-  data: {
+  textIcon: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    margin: sSmall,
-    marginBottom: sSmall,
-  },
-  buttonsContainer: {
-    margin: sMedium,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
 });
 

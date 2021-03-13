@@ -5,9 +5,10 @@ import {iSmall} from '../../themes/icons';
 
 interface ValidateButtonProps {
   onPress: () => void;
+  disabled?: boolean;
 }
 
-const ValidateButton: React.FC<ValidateButtonProps> = ({onPress}) => {
+const ValidateButton: React.FC<ValidateButtonProps> = ({onPress, disabled}) => {
   return (
     <Icon
       reverse
@@ -16,6 +17,7 @@ const ValidateButton: React.FC<ValidateButtonProps> = ({onPress}) => {
       onPress={onPress}
       size={iSmall}
       color={green}
+      disabled={disabled}
     />
   );
 };

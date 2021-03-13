@@ -5,21 +5,20 @@ import {StyleSheet, View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {EXPENSE_API} from '../../api/ExpenseApi';
-import BackButton from '../../components/buttons/BackButton';
 import CancelButton from '../../components/buttons/CancelButton';
 import DeleteButton from '../../components/buttons/DeleteButton';
-import EditButton from '../../components/buttons/EditButton';
+import EditHeaderButtons from '../../components/buttons/EditHeaderButtons';
 import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
 import Input from '../../components/input/CustomInput';
 import {Pages} from '../../enums/Pages';
+import {Expense} from '../../model/Expense';
 import activityAtom from '../../state/Activity';
-import {black, darkGreen} from '../../themes/colors';
+import {black, blue, dollar} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
-import {sMedium, sSmall} from '../../themes/size';
+import {sMedium} from '../../themes/size';
 import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
 
-// TODO manage input errors
 const ExpenseDetailsPage = () => {
   const [activity] = useAtom(activityAtom);
 
@@ -29,8 +28,11 @@ const ExpenseDetailsPage = () => {
   const expense = params.expense;
 
   const [name, setName] = useState(expense.expenseName);
+  const [errorName, setErrorName] = useState('');
+
   const [date, setDate] = useState(expense.startDate);
   const [amount, setAmount] = useState(expense.amount);
+  const [errorAmount, setErrorAmount] = useState('');
 
   const [editable, setEditable] = useState(false);
 
@@ -50,52 +52,91 @@ const ExpenseDetailsPage = () => {
       currency: expense.currency,
       startDate: date,
       expenseName: name,
-    };
+    } as Expense;
     EXPENSE_API.update(newExpense).then(() => {
       navigate(Pages.EXPENSES);
     });
   };
 
+  const Name = () => <Text h4>{name}</Text>;
+
   const User = () =>
     editable ? (
       <></>
     ) : (
-      <View style={styles.data}>
-        <Icon name="user" type="font-awesome" size={iMedium} color={black} />
-        <Text h4>{expense.user}</Text>
+      <View style={(styles.textIcon, styles.centerItems)}>
+        <Icon name="user" type="font-awesome" size={iMedium} color={blue} />
+        <Text>{expense.user}</Text>
       </View>
     );
 
-  const Amount = () =>
+  const Amount = () => (
+    <View style={(styles.textIcon, styles.centerItems)}>
+      <Icon name="money" type="font-awesome" size={iMedium} color={dollar} />
+      <Text>
+        {amount} {expense.currency}
+      </Text>
+    </View>
+  );
+
+  const Calendar = () =>
     editable ? (
-      <Input
-        placeholder="Amount"
-        leftIcon={{type: 'font-awesome', name: 'money'}}
-        defaultValue={amount.toString()}
-        onChangeText={(text) => setAmount(text)}
-      />
+      <View style={styles.centerItems}>
+        <DatePicker
+          date={date}
+          onChange={(event: Event, selectedDate: Date | undefined) => {
+            setDate(to_YYYY_MM_DD(toUTC(selectedDate || date)));
+          }}
+        />
+      </View>
     ) : (
-      <View style={styles.data}>
+      <View style={(styles.textIcon, styles.centerItems)}>
         <Icon
-          name="money"
+          name="calendar"
           type="font-awesome"
           size={iMedium}
-          color={darkGreen}
+          color={black}
         />
-        <Text h4>
-          {amount} {expense.currency}
-        </Text>
+        <Text>{activity.startDate}</Text>
       </View>
     );
 
-  const ActivityDate = () => (
-    <DatePicker
-      date={date}
-      onChange={(event: Event, selectedDate: Date | undefined) => {
-        setDate(to_YYYY_MM_DD(toUTC(selectedDate || date)));
-      }}
-    />
-  );
+  const HeaderButtons = () =>
+    editable ? (
+      <></>
+    ) : (
+      <EditHeaderButtons
+        handleBackButton={goBack}
+        handleEditButton={() => setEditable(true)}
+      />
+    );
+
+  const BottomButtons = () =>
+    editable ? (
+      <View style={styles.bottomButtons}>
+        <CancelButton onPress={resetExpense} />
+        <ValidateButton
+          onPress={validateFieldsUpdate}
+          disabled={name === '' || amount === ''}
+        />
+      </View>
+    ) : (
+      <View style={styles.bottomButtons}>
+        <DeleteButton onPress={deleteExpense} />
+        <ValidateButton
+          onPress={updateExpense}
+          disabled={name === '' || amount === ''}
+        />
+      </View>
+    );
+
+  const handleErrorName = () => {
+    name === '' ? setErrorName('Activity name is required') : setErrorName('');
+  };
+
+  const handleErrorAmount = () => {
+    amount === '' ? setErrorAmount('Amount is required') : setErrorAmount('');
+  };
 
   const resetExpense = () => {
     setName(defaultExpense.expenseName);
@@ -110,64 +151,71 @@ const ExpenseDetailsPage = () => {
 
   return (
     <>
-      <View style={styles.activityName}>
-        {editable ? (
-          <Input
-            placeholder="Name"
-            leftIcon={{type: 'font-awesome', name: 'file'}}
-            defaultValue={name}
-            onChangeText={(text) => setName(text)}
-          />
-        ) : (
-          <>
-            <EditButton onPress={() => setEditable(true)} />
-            <Text h4>{name}</Text>
-          </>
-        )}
-      </View>
-      <View style={styles.activityDetails}>
-        <User />
-        <Amount />
-        <ActivityDate />
-      </View>
-      {editable ? (
-        <View style={styles.buttonsContainer}>
-          <CancelButton onPress={resetExpense} />
-          <ValidateButton onPress={validateFieldsUpdate} />
+      <HeaderButtons />
+      <View style={styles.details}>
+        <View style={styles.centerItems}>
+          {editable ? (
+            <Input
+              placeholder="Name"
+              leftIcon={{type: 'font-awesome', name: 'file'}}
+              defaultValue={name}
+              onChangeText={(text) => {
+                setName(text);
+                handleErrorName();
+              }}
+              errorMessage={errorName}
+            />
+          ) : (
+            <Name />
+          )}
         </View>
-      ) : (
-        <View style={styles.buttonsContainer}>
-          <BackButton onPress={goBack} />
-          <DeleteButton onPress={deleteExpense} />
-          <ValidateButton onPress={updateExpense} />
+        <View style={styles.subDetails}>
+          <User />
+          {editable ? (
+            <Input
+              placeholder="Amount"
+              leftIcon={{type: 'font-awesome', name: 'money'}}
+              defaultValue={amount.toString()}
+              onChangeText={(text) => {
+                setAmount(text);
+                handleErrorAmount();
+              }}
+              errorMessage={errorAmount}
+            />
+          ) : (
+            <Amount />
+          )}
         </View>
-      )}
+        <Calendar />
+      </View>
+      <BottomButtons />
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  activityName: {
-    margin: sMedium,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  activityDetails: {
+  details: {
     flex: 1,
+    margin: sMedium,
     justifyContent: 'center',
-    margin: sMedium,
   },
-  data: {
+  subDetails: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: sMedium,
+    marginBottom: sMedium,
+  },
+  bottomButtons: {
+    margin: sMedium,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  centerItems: {
     alignItems: 'center',
-    margin: sSmall,
   },
-  buttonsContainer: {
-    margin: sMedium,
+  textIcon: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
 
