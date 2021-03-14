@@ -2,10 +2,11 @@ import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Input, Text} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
-import BackButton from '../../components/buttons/BackButton';
+import CancelButton from '../../components/buttons/CancelButton';
 import ValidateButton from '../../components/buttons/ValidateButton';
+import Input from '../../components/input/CustomInput';
 import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
@@ -42,6 +43,7 @@ const AddActivityPage = () => {
     <>
       <View style={styles.activityInput}>
         <Input
+          leftIcon={{type: 'font-awesome', name: 'file'}}
           placeholder="Activity name"
           onChangeText={(text) => {
             setName(text);
@@ -56,7 +58,7 @@ const AddActivityPage = () => {
       </Text>
       <View>
         <View style={styles.buttonsContainer}>
-          <BackButton onPress={goBack} />
+          <CancelButton onPress={goBack} />
           <ValidateButton onPress={createActivity} disabled={name === ''} />
         </View>
       </View>

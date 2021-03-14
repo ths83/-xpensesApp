@@ -124,7 +124,10 @@ const ActivityDetailsPage = () => {
     ) : (
       <View style={styles.bottomButtons}>
         <DeleteButton onPress={() => setDeletePopUp(true)} />
-        <ValidateButton onPress={update} disabled={name === ''} />
+        <ValidateButton
+          onPress={update}
+          disabled={name === activity.activityName}
+        />
       </View>
     );
 

@@ -5,7 +5,7 @@ import {Header, Text} from 'react-native-elements';
 import {ExpensesFilterIndex} from '../../enums/ExpensesFilterIndex';
 import expensesAtom from '../../state/Expenses';
 import {darkGreen, lightGrey} from '../../themes/colors';
-import {sMedium, sNormal} from '../../themes/size';
+import {sMedium, sSmall} from '../../themes/size';
 import {formatAmount} from '../../utils/AmountFormatter';
 import ActionButton from '../buttons/ActionButton';
 import ExpensesActionsFilter from '../expenses/ExpensesActionsFilter';
@@ -79,20 +79,19 @@ const ActivityDetailsBottom = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: lightGrey,
-    paddingTop: 0,
+    paddingTop: sSmall,
     paddingBottom: sMedium,
   },
   totalCurrentUser: {
-    paddingLeft: sNormal,
+    paddingLeft: sSmall,
     alignItems: 'flex-start',
   },
   text: {
     color: darkGreen,
     fontWeight: 'bold',
-    fontSize: 15,
   },
   total: {
-    paddingRight: sNormal,
+    paddingRight: sSmall,
     alignItems: 'flex-end',
   },
 });

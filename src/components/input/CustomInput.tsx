@@ -8,6 +8,7 @@ const CustomInput: React.FC<InputProps> = ({
   defaultValue,
   onChangeText,
   errorMessage,
+  keyboardType,
 }) => {
   return (
     <Input
@@ -17,6 +18,7 @@ const CustomInput: React.FC<InputProps> = ({
       errorMessage={errorMessage}
       onChangeText={onChangeText}
       style={styles.input}
+      keyboardType={keyboardType}
     />
   );
 };

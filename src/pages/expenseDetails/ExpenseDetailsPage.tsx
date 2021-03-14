@@ -128,7 +128,7 @@ const ExpenseDetailsPage = () => {
         <DeleteButton onPress={() => setDeletePopUp(true)} />
         <ValidateButton
           onPress={updateExpense}
-          disabled={name === '' || amount === ''}
+          disabled={name === expense.name || amount === expense.amount}
         />
       </View>
     );
@@ -184,6 +184,7 @@ const ExpenseDetailsPage = () => {
                 handleErrorAmount();
               }}
               errorMessage={errorAmount}
+              keyboardType="numeric"
             />
           ) : (
             <Amount />

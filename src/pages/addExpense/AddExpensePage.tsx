@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {EXPENSE_API} from '../../api/ExpenseApi';
-import BackButton from '../../components/buttons/BackButton';
+import CancelButton from '../../components/buttons/CancelButton';
 import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
 import Input from '../../components/input/CustomInput';
@@ -75,6 +75,7 @@ const AddExpensePage = () => {
           onChangeText={(text) => setAmount(text)}
           leftIcon={{type: 'font-awesome', name: 'money'}}
           errorMessage={errorAmount}
+          keyboardType="numeric"
         />
         <DatePicker
           date={date}
@@ -86,8 +87,11 @@ const AddExpensePage = () => {
         />
       </View>
       <View style={styles.buttonsContainer}>
-        <BackButton onPress={goBack} />
-        <ValidateButton onPress={createExpense} />
+        <CancelButton onPress={goBack} />
+        <ValidateButton
+          onPress={createExpense}
+          disabled={name === '' || amount === ''}
+        />
       </View>
       {/* TODO add icon alert page */}
       {status === Status.ERROR && (
