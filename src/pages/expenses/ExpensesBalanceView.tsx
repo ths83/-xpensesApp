@@ -1,11 +1,14 @@
 import {useAtom} from 'jotai';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-elements';
+import {Icon, Text} from 'react-native-elements';
 import {getUsers} from '../../config/UsersConfiguration';
 import {Expense} from '../../model/Expense';
 import expensesAtom from '../../state/Expenses';
 import userAtom from '../../state/User';
+import {dollar} from '../../themes/colors';
+import {iMedium} from '../../themes/icons';
+import {sNormal} from '../../themes/size';
 import {formatAmount} from '../../utils/AmountFormatter';
 
 //TODO optimize code here (+ center view)
@@ -26,34 +29,43 @@ const ExpensesBalanceView = () => {
     const currentUserAmount = sumAmounts(expenses.currentUser);
     const otherUserAmount = sumAmounts(expenses.otherUser);
 
-    const otherUser = users.filter((user) => user !== username);
+    const otherUser = users.filter((user) => user !== username)[0];
 
-    if (currentUserAmount === otherUserAmount) {
+    let debtOwner = username;
+    let debtReceiver = otherUser;
+    let ownerAmount = currentUserAmount;
+    let receiverAmount = otherUserAmount;
+
+    if (ownerAmount > receiverAmount) {
+      debtOwner = otherUser;
+      debtReceiver = username;
+      ownerAmount = otherUserAmount;
+      receiverAmount = currentUserAmount;
+    }
+
+    if (ownerAmount === receiverAmount) {
       return (
-        <View style={[styles.container, styles.horizontal]}>
-          <Text h4 style={styles.text}>
-            Everything is fine !
-          </Text>
-        </View>
-      );
-    } else if (currentUserAmount > otherUserAmount) {
-      return (
-        <View style={[styles.container, styles.horizontal]}>
-          <Text h4 style={styles.text}>
-            {otherUser} owes{' '}
-            {formatAmount((currentUserAmount - otherUserAmount) / 2)} CAD to{' '}
-            {username}
-          </Text>
+        <View style={styles.container}>
+          <Text h4>Everything is fine !</Text>
         </View>
       );
     } else {
       return (
-        <View style={[styles.container, styles.horizontal]}>
-          <Text h4 style={styles.text}>
-            {username} owes{' '}
-            {formatAmount((otherUserAmount - currentUserAmount) / 2)} CAD to{' '}
-            {otherUser}
+        <View style={styles.container}>
+          <Text h4>
+            {debtOwner} owes {debtReceiver}
           </Text>
+          <View style={styles.textIcon}>
+            <Icon
+              name="money"
+              type="font-awesome"
+              size={iMedium}
+              color={dollar}
+            />
+            <Text h4>
+              {formatAmount((receiverAmount - ownerAmount) / 2)} CAD
+            </Text>
+          </View>
         </View>
       );
     }
@@ -64,16 +76,13 @@ const ExpensesBalanceView = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
   },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-  },
-  text: {
-    alignContent: 'center',
+  textIcon: {
+    alignItems: 'center',
+    marginTop: sNormal,
   },
 });
 
