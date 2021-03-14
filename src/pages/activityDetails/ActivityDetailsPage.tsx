@@ -10,6 +10,7 @@ import EditHeaderButtons from '../../components/buttons/EditHeaderButtons';
 import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
 import Input from '../../components/input/CustomInput';
+import DeletePopUp from '../../components/popUp/DeletePopUp';
 import {Currency} from '../../enums/Currency';
 import {Pages} from '../../enums/Pages';
 import activityAtom from '../../state/Activity';
@@ -30,6 +31,8 @@ const ActivityDetailsPage = () => {
   const [errorName, setErrorName] = useState('');
 
   const [date, setDate] = useState(activity.startDate);
+
+  const [deletePopUp, setDeletePopUp] = useState(false);
 
   const {navigate, goBack} = useNavigation();
 
@@ -120,7 +123,7 @@ const ActivityDetailsPage = () => {
       </View>
     ) : (
       <View style={styles.bottomButtons}>
-        <DeleteButton onPress={del} />
+        <DeleteButton onPress={() => setDeletePopUp(true)} />
         <ValidateButton onPress={update} disabled={name === ''} />
       </View>
     );
@@ -152,6 +155,15 @@ const ActivityDetailsPage = () => {
         <Calendar />
       </View>
       <BottomButtons />
+      <DeletePopUp
+        isVisible={deletePopUp}
+        onBackdropPress={() => setDeletePopUp(false)}
+        handleCancel={() => setDeletePopUp(false)}
+        handleValidate={() => {
+          del();
+          setDeletePopUp(false);
+        }}
+      />
     </>
   );
 };

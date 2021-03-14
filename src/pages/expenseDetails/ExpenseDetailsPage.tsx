@@ -2,7 +2,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Icon, Text} from 'react-native-elements';
+import {Icon, Overlay, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import CancelButton from '../../components/buttons/CancelButton';
@@ -11,6 +11,7 @@ import EditHeaderButtons from '../../components/buttons/EditHeaderButtons';
 import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
 import Input from '../../components/input/CustomInput';
+import DeletePopUp from '../../components/popUp/DeletePopUp';
 import {Pages} from '../../enums/Pages';
 import {Expense} from '../../model/Expense';
 import activityAtom from '../../state/Activity';
@@ -35,6 +36,8 @@ const ExpenseDetailsPage = () => {
   const [errorAmount, setErrorAmount] = useState('');
 
   const [editable, setEditable] = useState(false);
+
+  const [deletePopUp, setDeletePopUp] = useState(false);
 
   const {navigate, goBack} = useNavigation();
 
@@ -122,7 +125,7 @@ const ExpenseDetailsPage = () => {
       </View>
     ) : (
       <View style={styles.bottomButtons}>
-        <DeleteButton onPress={deleteExpense} />
+        <DeleteButton onPress={() => setDeletePopUp(true)} />
         <ValidateButton
           onPress={updateExpense}
           disabled={name === '' || amount === ''}
@@ -189,6 +192,15 @@ const ExpenseDetailsPage = () => {
         <Calendar />
       </View>
       <BottomButtons />
+      <DeletePopUp
+        isVisible={deletePopUp}
+        onBackdropPress={() => setDeletePopUp(false)}
+        handleCancel={() => setDeletePopUp(false)}
+        handleValidate={() => {
+          deleteExpense();
+          setDeletePopUp(false);
+        }}
+      />
     </>
   );
 };
