@@ -1,8 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
+import {useAtom} from 'jotai';
 import React, {memo} from 'react';
 import {StyleSheet} from 'react-native';
 import {BottomSheet, ListItem} from 'react-native-elements';
+import {ActivityStatus} from '../../enums/ActivityStatus';
 import {Pages} from '../../enums/Pages';
+import activityAtom from '../../state/Activity';
 import {lightGrey, red, white} from '../../themes/colors';
 
 interface ActivityDetailsActionsProps {
@@ -14,6 +17,8 @@ const ActivityDetailsActions = ({
   visible,
   setVisible,
 }: ActivityDetailsActionsProps) => {
+  const [activity] = useAtom(activityAtom);
+
   const {navigate} = useNavigation();
 
   const addExpense = (
@@ -30,9 +35,9 @@ const ActivityDetailsActions = ({
     </ListItem>
   );
 
-  const updateActivity = (
+  const activityDetails = (
     <ListItem
-      key={0}
+      key={1}
       onPress={() => {
         setVisible(false);
         navigate(Pages.ACTIVITY_DETAILS);
@@ -57,11 +62,16 @@ const ActivityDetailsActions = ({
     </ListItem>
   );
 
-  const actions = [addExpense, updateActivity, back];
+  const actions = [addExpense, activityDetails, back];
+  const activityClosedActions = [activityDetails, back];
 
   return (
     <>
-      <BottomSheet isVisible={visible}>{actions}</BottomSheet>
+      <BottomSheet isVisible={visible}>
+        {activity.activityStatus === ActivityStatus.DONE
+          ? activityClosedActions
+          : actions}
+      </BottomSheet>
     </>
   );
 };

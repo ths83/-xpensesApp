@@ -106,5 +106,22 @@ export class ActivityApi {
     console.debug(`Deleting activity '${id}'...`);
     return await API.del(apiName, path, myInit);
   }
+
+  async close(id: string): Promise<void> {
+    const apiName = API_NAME;
+    const path = `/activities/${id}`;
+    const myInit = {
+      headers: {
+        Authorization: `Bearer ${(await Auth.currentSession())
+          .getIdToken()
+          .getJwtToken()}`,
+      },
+      body: {
+        id: id,
+      },
+    };
+    console.debug(`Closing activity '${id}'...`);
+    return await API.patch(apiName, path, myInit);
+  }
 }
 export const ACTIVITY_API = new ActivityApi();

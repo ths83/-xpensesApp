@@ -2,9 +2,10 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Icon, Overlay, Text} from 'react-native-elements';
+import {Icon, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {EXPENSE_API} from '../../api/ExpenseApi';
+import BackButton from '../../components/buttons/BackButton';
 import CancelButton from '../../components/buttons/CancelButton';
 import DeleteButton from '../../components/buttons/DeleteButton';
 import EditHeaderButtons from '../../components/buttons/EditHeaderButtons';
@@ -12,6 +13,7 @@ import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
 import Input from '../../components/input/CustomInput';
 import DeletePopUp from '../../components/popUp/DeletePopUp';
+import {ActivityStatus} from '../../enums/ActivityStatus';
 import {Pages} from '../../enums/Pages';
 import {Expense} from '../../model/Expense';
 import activityAtom from '../../state/Activity';
@@ -154,7 +156,13 @@ const ExpenseDetailsPage = () => {
 
   return (
     <>
-      <HeaderButtons />
+      {activity.activityStatus === ActivityStatus.IN_PROGRESS ? (
+        <HeaderButtons />
+      ) : (
+        <View style={styles.backButton}>
+          <BackButton onPress={goBack} />
+        </View>
+      )}
       <View style={styles.details}>
         <View style={styles.centerItems}>
           {editable ? (
@@ -192,21 +200,28 @@ const ExpenseDetailsPage = () => {
         </View>
         <Calendar />
       </View>
-      <BottomButtons />
-      <DeletePopUp
-        isVisible={deletePopUp}
-        onBackdropPress={() => setDeletePopUp(false)}
-        handleCancel={() => setDeletePopUp(false)}
-        handleValidate={() => {
-          deleteExpense();
-          setDeletePopUp(false);
-        }}
-      />
+      {activity.activityStatus === ActivityStatus.IN_PROGRESS && (
+        <>
+          <BottomButtons />
+          <DeletePopUp
+            isVisible={deletePopUp}
+            onBackdropPress={() => setDeletePopUp(false)}
+            handleCancel={() => setDeletePopUp(false)}
+            handleValidate={() => {
+              deleteExpense();
+              setDeletePopUp(false);
+            }}
+          />
+        </>
+      )}
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  backButton: {
+    margin: sMedium,
+  },
   details: {
     flex: 1,
     margin: sMedium,

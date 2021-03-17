@@ -5,6 +5,7 @@ export type Activity = {
   expenses: string[];
   users: string[];
   startDate: string;
+  activityStatus: string;
 };
 
 export const EMPTY_ACTIVITY = {
@@ -14,4 +15,5 @@ export const EMPTY_ACTIVITY = {
   expenses: [],
   users: [],
   startDate: '',
+  activityStatus: '',
 };

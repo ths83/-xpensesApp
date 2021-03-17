@@ -4,13 +4,17 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
+import BackButton from '../../components/buttons/BackButton';
 import CancelButton from '../../components/buttons/CancelButton';
+import CloseButton from '../../components/buttons/CloseButton';
 import DeleteButton from '../../components/buttons/DeleteButton';
 import EditHeaderButtons from '../../components/buttons/EditHeaderButtons';
 import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
 import Input from '../../components/input/CustomInput';
+import ClosePopUp from '../../components/popUp/ClosePopUp';
 import DeletePopUp from '../../components/popUp/DeletePopUp';
+import {ActivityStatus} from '../../enums/ActivityStatus';
 import {Currency} from '../../enums/Currency';
 import {Pages} from '../../enums/Pages';
 import activityAtom from '../../state/Activity';
@@ -34,6 +38,8 @@ const ActivityDetailsPage = () => {
 
   const [deletePopUp, setDeletePopUp] = useState(false);
 
+  const [closePopUp, setClosePopUp] = useState(false);
+
   const {navigate, goBack} = useNavigation();
 
   async function update() {
@@ -44,6 +50,10 @@ const ActivityDetailsPage = () => {
 
   async function del() {
     ACTIVITY_API.delete(activity.id).then(() => navigate(Pages.ACTIVITIES));
+  }
+
+  async function close() {
+    ACTIVITY_API.close(activity.id).then(() => navigate(Pages.ACTIVITIES));
   }
 
   const resetExpense = () => {
@@ -124,6 +134,7 @@ const ActivityDetailsPage = () => {
     ) : (
       <View style={styles.bottomButtons}>
         <DeleteButton onPress={() => setDeletePopUp(true)} />
+        <CloseButton onPress={() => setClosePopUp(true)} />
         <ValidateButton
           onPress={update}
           disabled={name === activity.activityName}
@@ -133,7 +144,13 @@ const ActivityDetailsPage = () => {
 
   return (
     <>
-      <HeaderButtons />
+      {activity.activityStatus === ActivityStatus.IN_PROGRESS ? (
+        <HeaderButtons />
+      ) : (
+        <View style={styles.backButton}>
+          <BackButton onPress={goBack} />
+        </View>
+      )}
       <View style={styles.details}>
         <View style={styles.centerItems}>
           {editable ? (
@@ -157,21 +174,37 @@ const ActivityDetailsPage = () => {
         </View>
         <Calendar />
       </View>
-      <BottomButtons />
-      <DeletePopUp
-        isVisible={deletePopUp}
-        onBackdropPress={() => setDeletePopUp(false)}
-        handleCancel={() => setDeletePopUp(false)}
-        handleValidate={() => {
-          del();
-          setDeletePopUp(false);
-        }}
-      />
+      {activity.activityStatus === ActivityStatus.IN_PROGRESS && (
+        <>
+          <BottomButtons />
+          <DeletePopUp
+            isVisible={deletePopUp}
+            onBackdropPress={() => setDeletePopUp(false)}
+            handleCancel={() => setDeletePopUp(false)}
+            handleValidate={() => {
+              del();
+              setDeletePopUp(false);
+            }}
+          />
+          <ClosePopUp
+            isVisible={closePopUp}
+            onBackdropPress={() => setClosePopUp(false)}
+            handleCancel={() => setClosePopUp(false)}
+            handleValidate={() => {
+              close();
+              setClosePopUp(false);
+            }}
+          />
+        </>
+      )}
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  backButton: {
+    margin: sMedium,
+  },
   details: {
     flex: 1,
     margin: sMedium,
