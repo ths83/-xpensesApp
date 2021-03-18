@@ -43,7 +43,7 @@ const AddActivityPage = () => {
     <>
       <View style={styles.activityInput}>
         <Input
-          leftIcon={{type: 'font-awesome', name: 'file'}}
+          leftIcon={{type: 'font-awesome-5', name: 'heading'}}
           placeholder="Activity name"
           onChangeText={(text) => {
             setName(text);

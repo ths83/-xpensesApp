@@ -21,7 +21,12 @@ const LogoutPopUp: React.FC<LogoutPopUpProps> = ({
   handleValidate,
 }) => (
   <Overlay isVisible={isVisible} onBackdropPress={onBackdropPress}>
-    <Icon name="sign-out" type="font-awesome" size={iMedium} color={red} />
+    <Icon
+      name="sign-out-alt"
+      type="font-awesome-5"
+      size={iMedium}
+      color={red}
+    />
     <Text style={styles.text}>Are you sure to logout ?</Text>
     <Divider style={styles.divider} />
     <View style={styles.buttons}>

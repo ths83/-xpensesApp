@@ -11,8 +11,8 @@ const CloseButton: React.FC<CloseButtonProps> = ({onPress}) => {
   return (
     <Icon
       reverse
-      name="credit-card"
-      type="font-awesome"
+      name="coins"
+      type="font-awesome-5"
       onPress={onPress}
       size={iSmall}
       color={green}

@@ -12,7 +12,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({onPress}) => {
     <Icon
       reverse
       name="trash"
-      type="font-awesome"
+      type="font-awesome-5"
       onPress={onPress}
       size={iSmall}
       color={black}

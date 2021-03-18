@@ -67,13 +67,13 @@ const AddExpensePage = () => {
         <Input
           placeholder="Name"
           onChangeText={(text) => setName(text)}
-          leftIcon={{type: 'font-awesome', name: 'user'}}
+          leftIcon={{type: 'font-awesome-5', name: 'heading'}}
           errorMessage={errorName}
         />
         <Input
           placeholder="Amount (CAD)"
           onChangeText={(text) => setAmount(text)}
-          leftIcon={{type: 'font-awesome', name: 'money'}}
+          leftIcon={{type: 'font-awesome-5', name: 'money-bill'}}
           errorMessage={errorAmount}
           keyboardType="numeric"
         />

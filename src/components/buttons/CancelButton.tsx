@@ -12,7 +12,7 @@ const CancelButton: React.FC<CancelButtonProps> = ({onPress}) => {
     <Icon
       reverse
       name="times"
-      type="font-awesome"
+      type="font-awesome-5"
       onPress={onPress}
       size={iSmall}
       color={red}

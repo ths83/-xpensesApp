@@ -12,7 +12,7 @@ const AddButton: React.FC<AddButtonProps> = ({onPress}) => {
     <Icon
       reverse
       name="plus"
-      type="font-awesome"
+      type="font-awesome-5"
       onPress={onPress}
       size={iSmall}
       color={green}

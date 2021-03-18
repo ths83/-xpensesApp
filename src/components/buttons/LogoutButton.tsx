@@ -10,8 +10,8 @@ interface LogoutButtonProps {
 const LogoutButton: React.FC<LogoutButtonProps> = ({onPress}) => {
   return (
     <Icon
-      name="sign-out"
-      type="font-awesome"
+      name="sign-out-alt"
+      type="font-awesome-5"
       onPress={onPress}
       size={iMedium}
       color={white}

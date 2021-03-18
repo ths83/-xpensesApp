@@ -57,8 +57,8 @@ const ExpensesBalanceView = () => {
           </Text>
           <View style={styles.textIcon}>
             <Icon
-              name="money"
-              type="font-awesome"
+              name="money-bill"
+              type="font-awesome-5"
               size={iMedium}
               color={dollar}
             />

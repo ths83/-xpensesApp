@@ -11,7 +11,7 @@ const HomeButton: React.FC<HomeButtonProps> = ({onPress}) => {
   return (
     <Icon
       name="home"
-      type="font-awesome"
+      type="font-awesome-5"
       onPress={onPress}
       size={iMedium}
       color={white}

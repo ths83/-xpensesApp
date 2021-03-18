@@ -24,7 +24,7 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
         <Icon
           reverse
           name="calendar"
-          type="font-awesome"
+          type="font-awesome-5"
           size={iSmall}
           color={skyBlue}
           onPress={() => setDatePicker(true)}

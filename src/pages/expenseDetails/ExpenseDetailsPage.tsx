@@ -70,14 +70,19 @@ const ExpenseDetailsPage = () => {
       <></>
     ) : (
       <View style={(styles.textIcon, styles.centerItems)}>
-        <Icon name="user" type="font-awesome" size={iMedium} color={blue} />
+        <Icon name="user" type="font-awesome-5" size={iMedium} color={blue} />
         <Text>{expense.user}</Text>
       </View>
     );
 
   const Amount = () => (
     <View style={(styles.textIcon, styles.centerItems)}>
-      <Icon name="money" type="font-awesome" size={iMedium} color={dollar} />
+      <Icon
+        name="money-bill"
+        type="font-awesome-5"
+        size={iMedium}
+        color={dollar}
+      />
       <Text>
         {amount} {expense.currency}
       </Text>
@@ -98,7 +103,7 @@ const ExpenseDetailsPage = () => {
       <View style={(styles.textIcon, styles.centerItems)}>
         <Icon
           name="calendar"
-          type="font-awesome"
+          type="font-awesome-5"
           size={iMedium}
           color={black}
         />
@@ -168,7 +173,7 @@ const ExpenseDetailsPage = () => {
           {editable ? (
             <Input
               placeholder="Name"
-              leftIcon={{type: 'font-awesome', name: 'file'}}
+              leftIcon={{type: 'font-awesome-5', name: 'heading'}}
               defaultValue={name}
               onChangeText={(text) => {
                 setName(text);
@@ -185,7 +190,7 @@ const ExpenseDetailsPage = () => {
           {editable ? (
             <Input
               placeholder="Amount"
-              leftIcon={{type: 'font-awesome', name: 'money'}}
+              leftIcon={{type: 'font-awesome-5', name: 'money-bill'}}
               defaultValue={amount.toString()}
               onChangeText={(text) => {
                 setAmount(text);

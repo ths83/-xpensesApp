@@ -21,7 +21,7 @@ const ClosePopUp: React.FC<ClosePopUpProps> = ({
   handleValidate,
 }) => (
   <Overlay isVisible={isVisible} onBackdropPress={onBackdropPress}>
-    <Icon name="warning" type="font-awesome" size={iMedium} color={red} />
+    <Icon name="door-closed" type="font-awesome-5" size={iMedium} color={red} />
     <Text style={styles.text}>Are you sure to close this activity ?</Text>
     <Text style={(styles.text, styles.warning)}>
       THIS ACTION CANNOT BE UNDONE

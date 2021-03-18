@@ -13,7 +13,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({onPress, onLongPress}) => {
     <Icon
       reverse
       name="ellipsis-h"
-      type="font-awesome"
+      type="font-awesome-5"
       onPress={onPress}
       onLongPress={onLongPress}
       size={iSmall}

@@ -85,7 +85,12 @@ const ActivityDetailsPage = () => {
 
   const Amount = () => (
     <View style={(styles.textIcon, styles.centerItems)}>
-      <Icon name="money" type="font-awesome" size={iMedium} color={dollar} />
+      <Icon
+        name="money-bill"
+        type="font-awesome-5"
+        size={iMedium}
+        color={dollar}
+      />
       <Text>
         {expenseTotal()} {Currency.CANADA}
       </Text>
@@ -94,7 +99,7 @@ const ActivityDetailsPage = () => {
 
   const User = () => (
     <View style={(styles.textIcon, styles.centerItems)}>
-      <Icon name="user" type="font-awesome" size={iMedium} color={blue} />
+      <Icon name="user" type="font-awesome-5" size={iMedium} color={blue} />
       <Text>{activity.createdBy}</Text>
     </View>
   );
@@ -113,7 +118,7 @@ const ActivityDetailsPage = () => {
       <View style={(styles.textIcon, styles.centerItems)}>
         <Icon
           name="calendar"
-          type="font-awesome"
+          type="font-awesome-5"
           size={iMedium}
           color={black}
         />
@@ -156,7 +161,7 @@ const ActivityDetailsPage = () => {
           {editable ? (
             <Input
               placeholder="Name"
-              leftIcon={{type: 'font-awesome', name: 'file'}}
+              leftIcon={{type: 'font-awesome-5', name: 'file'}}
               defaultValue={name}
               onChangeText={(text) => {
                 setName(text);

@@ -13,7 +13,7 @@ const ValidateButton: React.FC<ValidateButtonProps> = ({onPress, disabled}) => {
     <Icon
       reverse
       name="check"
-      type="font-awesome"
+      type="font-awesome-5"
       onPress={onPress}
       size={iSmall}
       color={green}

@@ -21,7 +21,7 @@ const DeletePopUp: React.FC<DeletePopUpProps> = ({
   handleValidate,
 }) => (
   <Overlay isVisible={isVisible} onBackdropPress={onBackdropPress}>
-    <Icon name="warning" type="font-awesome" size={iMedium} color={red} />
+    <Icon name="eraser" type="font-awesome-5" size={iMedium} color={red} />
     <Text style={styles.text}>Are you sure to delete this item ?</Text>
     <Divider style={styles.divider} />
     <View style={styles.buttons}>
