@@ -15,10 +15,10 @@ import {
 } from './src/config/AmplifyConfiguration';
 import {Pages} from './src/enums/Pages';
 import ActivitiesPage from './src/pages/activities/ActivitiesPage';
-import UpdateActivityPage from './src/pages/activityDetails/ActivityDetailsPage';
+import UpdateActivityPage from './src/pages/details/ActivityDetailsPage';
 import AddActivityPage from './src/pages/addActivity/AddActivityPage';
 import AddExpensePage from './src/pages/addExpense/AddExpensePage';
-import ExpenseDetailsPage from './src/pages/expenseDetails/ExpenseDetailsPage';
+import ExpenseDetailsPage from './src/pages/details/ExpenseDetailsPage';
 import ExpensesPage from './src/pages/expenses/ExpensesPage';
 
 Amplify.configure({

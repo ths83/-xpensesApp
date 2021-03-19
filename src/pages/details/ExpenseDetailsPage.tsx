@@ -1,7 +1,7 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {EXPENSE_API} from '../../api/ExpenseApi';
@@ -19,13 +19,12 @@ import {Expense} from '../../model/Expense';
 import activityAtom from '../../state/Activity';
 import {black, blue, dollar} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
-import {sMedium} from '../../themes/size';
 import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
+import {styles} from './styles';
 
 const ExpenseDetailsPage = () => {
   const [activity] = useAtom(activityAtom);
 
-  // TODO replace by jotai
   const {params} = useRoute();
   const [defaultExpense] = useState(params.expense);
   const expense = params.expense;
@@ -63,7 +62,12 @@ const ExpenseDetailsPage = () => {
     });
   };
 
-  const Name = () => <Text h4>{name}</Text>;
+  const Name = () => (
+    <>
+      <Text h4>{name}</Text>
+      <Text style={styles.subtitle}>from {activity.activityName}</Text>
+    </>
+  );
 
   const User = () =>
     editable ? (
@@ -205,7 +209,7 @@ const ExpenseDetailsPage = () => {
         </View>
         <Calendar />
       </View>
-      {activity.activityStatus === ActivityStatus.IN_PROGRESS && (
+      {activity.activityStatus === ActivityStatus.IN_PROGRESS ? (
         <>
           <BottomButtons />
           <DeletePopUp
@@ -218,38 +222,13 @@ const ExpenseDetailsPage = () => {
             }}
           />
         </>
+      ) : (
+        <Text style={styles.bottomText} h4>
+          Activity closed
+        </Text>
       )}
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  backButton: {
-    margin: sMedium,
-  },
-  details: {
-    flex: 1,
-    margin: sMedium,
-    justifyContent: 'center',
-  },
-  subDetails: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: sMedium,
-    marginBottom: sMedium,
-  },
-  bottomButtons: {
-    margin: sMedium,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  centerItems: {
-    alignItems: 'center',
-  },
-  textIcon: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-});
 
 export default ExpenseDetailsPage;

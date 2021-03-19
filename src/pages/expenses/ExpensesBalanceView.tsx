@@ -11,7 +11,6 @@ import {iMedium} from '../../themes/icons';
 import {sNormal} from '../../themes/size';
 import {formatAmount} from '../../utils/AmountFormatter';
 
-//TODO optimize code here (+ center view)
 const ExpensesBalanceView = () => {
   const [username] = useAtom(userAtom);
   const [expenses] = useAtom(expensesAtom);
