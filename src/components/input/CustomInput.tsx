@@ -17,14 +17,14 @@ const CustomInput: React.FC<InputProps> = ({
       defaultValue={defaultValue}
       errorMessage={errorMessage}
       onChangeText={onChangeText}
-      style={styles.input}
+      style={styles.alignRight}
       keyboardType={keyboardType}
     />
   );
 };
 
 const styles = StyleSheet.create({
-  input: {
+  alignRight: {
     textAlign: 'right',
   },
 });

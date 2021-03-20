@@ -1,11 +1,11 @@
 import React, {memo} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import {Divider, Icon, Overlay, Text} from 'react-native-elements';
-import {blue, red} from '../../themes/colors';
+import {red} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
-import {sNormal, sSmall} from '../../themes/size';
 import CancelButton from '../buttons/CancelButton';
 import ValidateButton from '../buttons/ValidateButton';
+import {popUpStyles} from './styles';
 
 interface ClosePopUpProps {
   isVisible: boolean;
@@ -20,38 +20,21 @@ const ClosePopUp: React.FC<ClosePopUpProps> = ({
   handleCancel,
   handleValidate,
 }) => (
-  <Overlay isVisible={isVisible} onBackdropPress={onBackdropPress}>
+  <Overlay
+    isVisible={isVisible}
+    onBackdropPress={onBackdropPress}
+    overlayStyle={popUpStyles.lightGrey}>
     <Icon name="door-closed" type="font-awesome-5" size={iMedium} color={red} />
-    <Text style={styles.text}>Are you sure to close this activity ?</Text>
-    <Text style={(styles.text, styles.warning)}>
+    <Text style={popUpStyles.text}>Are you sure to close this activity ?</Text>
+    <Text style={(popUpStyles.text, popUpStyles.red)}>
       THIS ACTION CANNOT BE UNDONE
     </Text>
-    <Divider style={styles.divider} />
-    <View style={styles.buttons}>
+    <Divider style={popUpStyles.divider} />
+    <View style={popUpStyles.buttonsContainer}>
       <CancelButton onPress={handleCancel} />
       <ValidateButton onPress={handleValidate} />
     </View>
   </Overlay>
 );
-
-const styles = StyleSheet.create({
-  text: {
-    margin: sSmall,
-  },
-  warning: {
-    color: red,
-  },
-  divider: {
-    marginTop: sNormal,
-    marginBottom: sNormal,
-    margin: sSmall,
-    backgroundColor: blue,
-    height: 1,
-  },
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-});
 
 export default memo(ClosePopUp);

@@ -23,7 +23,7 @@ import {black, blue, dollar} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
 import {formatAmount} from '../../utils/AmountFormatter';
 import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
-import {styles} from './styles';
+import {detailsStyle} from './styles';
 
 const ActivityDetailsPage = () => {
   const [editable, setEditable] = useState(false);
@@ -84,7 +84,7 @@ const ActivityDetailsPage = () => {
   const Name = () => <Text h4>{activity.activityName}</Text>;
 
   const Amount = () => (
-    <View style={(styles.textIcon, styles.centerItems)}>
+    <View style={(detailsStyle.rowCenter, detailsStyle.center)}>
       <Icon
         name="money-bill"
         type="font-awesome-5"
@@ -98,7 +98,7 @@ const ActivityDetailsPage = () => {
   );
 
   const User = () => (
-    <View style={(styles.textIcon, styles.centerItems)}>
+    <View style={(detailsStyle.rowCenter, detailsStyle.center)}>
       <Icon name="user" type="font-awesome-5" size={iMedium} color={blue} />
       <Text>{activity.createdBy}</Text>
     </View>
@@ -106,7 +106,7 @@ const ActivityDetailsPage = () => {
 
   const Calendar = () =>
     editable ? (
-      <View style={styles.centerItems}>
+      <View style={detailsStyle.center}>
         <DatePicker
           date={date}
           onChange={(event: Event, selectedDate: Date | undefined) => {
@@ -115,7 +115,7 @@ const ActivityDetailsPage = () => {
         />
       </View>
     ) : (
-      <View style={(styles.textIcon, styles.centerItems)}>
+      <View style={(detailsStyle.rowCenter, detailsStyle.center)}>
         <Icon
           name="calendar"
           type="font-awesome-5"
@@ -132,12 +132,12 @@ const ActivityDetailsPage = () => {
 
   const BottomButtons = () =>
     editable ? (
-      <View style={styles.bottomButtons}>
+      <View style={detailsStyle.buttonsContainer}>
         <CancelButton onPress={resetExpense} />
         <ValidateButton onPress={validateFieldsUpdate} disabled={name === ''} />
       </View>
     ) : (
-      <View style={styles.bottomButtons}>
+      <View style={detailsStyle.buttonsContainer}>
         <DeleteButton onPress={() => setDeletePopUp(true)} />
         <CloseButton onPress={() => setClosePopUp(true)} />
         <ValidateButton
@@ -152,12 +152,12 @@ const ActivityDetailsPage = () => {
       {activity.activityStatus === ActivityStatus.IN_PROGRESS ? (
         <HeaderButtons />
       ) : (
-        <View style={styles.backButton}>
+        <View style={detailsStyle.backButton}>
           <BackButton onPress={goBack} />
         </View>
       )}
-      <View style={styles.details}>
-        <View style={styles.centerItems}>
+      <View style={detailsStyle.details}>
+        <View style={detailsStyle.center}>
           {editable ? (
             <Input
               placeholder="Name"
@@ -173,7 +173,7 @@ const ActivityDetailsPage = () => {
             <Name />
           )}
         </View>
-        <View style={styles.subDetails}>
+        <View style={detailsStyle.subDetails}>
           <User />
           <Amount />
         </View>
@@ -202,7 +202,7 @@ const ActivityDetailsPage = () => {
           />
         </>
       ) : (
-        <Text style={styles.bottomText} h4>
+        <Text style={detailsStyle.bottomText} h4>
           Activity closed
         </Text>
       )}

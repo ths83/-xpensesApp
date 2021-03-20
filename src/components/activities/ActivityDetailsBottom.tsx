@@ -30,8 +30,8 @@ const ActivityDetailsBottom = ({
     expenses.currentUser.map((expense) => (userTotal += expense.amount));
     return (
       <View style={styles.totalCurrentUser}>
-        <Text style={styles.text}>My total</Text>
-        <Text style={styles.text}>{formatAmount(userTotal)}</Text>
+        <Text>My total</Text>
+        <Text>{formatAmount(userTotal)}</Text>
       </View>
     );
   };
@@ -41,8 +41,8 @@ const ActivityDetailsBottom = ({
     expenses.all.map((expense) => (total += expense.amount));
     return (
       <View style={styles.total}>
-        <Text style={styles.text}>Total</Text>
-        <Text style={styles.text}>{formatAmount(total)}</Text>
+        <Text>Total</Text>
+        <Text>{formatAmount(total)}</Text>
       </View>
     );
   };
@@ -85,10 +85,6 @@ const styles = StyleSheet.create({
   totalCurrentUser: {
     paddingLeft: sSmall,
     alignItems: 'flex-start',
-  },
-  text: {
-    color: darkGreen,
-    fontWeight: 'bold',
   },
   total: {
     paddingRight: sSmall,

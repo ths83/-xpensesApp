@@ -2,7 +2,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
-import {skyBlue} from '../../themes/colors';
+import {blue} from '../../themes/colors';
 import {iSmall} from '../../themes/icons';
 import {sNormal} from '../../themes/size';
 import {toUTC} from '../../utils/DateFormatter';
@@ -26,10 +26,10 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
           name="calendar"
           type="font-awesome-5"
           size={iSmall}
-          color={skyBlue}
+          color={blue}
           onPress={() => setDatePicker(true)}
         />
-        <Text style={styles.dateText}>{date}</Text>
+        <Text style={styles.bold}>{date}</Text>
       </View>
       {datePicker && (
         <DateTimePicker value={toUTC(new Date(date))} onChange={onChange} />
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: sNormal,
   },
-  dateText: {
+  bold: {
     fontWeight: 'bold',
   },
 });

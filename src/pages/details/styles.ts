@@ -1,8 +1,8 @@
 import {StyleSheet} from 'react-native';
-import {red, skyBlue} from '../../themes/colors';
+import {blue, red} from '../../themes/colors';
 import {sLarge, sMedium, sNormal} from '../../themes/size';
 
-export const styles = StyleSheet.create({
+export const detailsStyle = StyleSheet.create({
   backButton: {
     margin: sMedium,
     marginBottom: 0,
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: sMedium,
   },
-  bottomButtons: {
+  buttonsContainer: {
     margin: sMedium,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -28,15 +28,15 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: red,
   },
-  centerItems: {
+  center: {
     alignItems: 'center',
     marginBottom: sNormal,
   },
-  textIcon: {
+  rowCenter: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  subtitle: {
-    color: skyBlue,
+  blue: {
+    color: blue,
   },
 });

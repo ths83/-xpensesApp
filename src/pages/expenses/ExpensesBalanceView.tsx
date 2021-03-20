@@ -54,7 +54,7 @@ const ExpensesBalanceView = () => {
           <Text h4>
             {debtOwner} owes {debtReceiver}
           </Text>
-          <View style={styles.textIcon}>
+          <View style={styles.center}>
             <Icon
               name="money-bill"
               type="font-awesome-5"
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textIcon: {
+  center: {
     alignItems: 'center',
     marginTop: sNormal,
   },

@@ -20,7 +20,7 @@ import activityAtom from '../../state/Activity';
 import {black, blue, dollar} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
 import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
-import {styles} from './styles';
+import {detailsStyle} from './styles';
 
 const ExpenseDetailsPage = () => {
   const [activity] = useAtom(activityAtom);
@@ -65,22 +65,19 @@ const ExpenseDetailsPage = () => {
   const Name = () => (
     <>
       <Text h4>{name}</Text>
-      <Text style={styles.subtitle}>from {activity.activityName}</Text>
+      <Text style={detailsStyle.blue}>from {activity.activityName}</Text>
     </>
   );
 
-  const User = () =>
-    editable ? (
-      <></>
-    ) : (
-      <View style={(styles.textIcon, styles.centerItems)}>
-        <Icon name="user" type="font-awesome-5" size={iMedium} color={blue} />
-        <Text>{expense.user}</Text>
-      </View>
-    );
+  const User = () => (
+    <View style={(detailsStyle.rowCenter, detailsStyle.center)}>
+      <Icon name="user" type="font-awesome-5" size={iMedium} color={blue} />
+      <Text>{expense.user}</Text>
+    </View>
+  );
 
   const Amount = () => (
-    <View style={(styles.textIcon, styles.centerItems)}>
+    <View style={(detailsStyle.rowCenter, detailsStyle.center)}>
       <Icon
         name="money-bill"
         type="font-awesome-5"
@@ -95,7 +92,7 @@ const ExpenseDetailsPage = () => {
 
   const Calendar = () =>
     editable ? (
-      <View style={styles.centerItems}>
+      <View style={detailsStyle.center}>
         <DatePicker
           date={date}
           onChange={(event: Event, selectedDate: Date | undefined) => {
@@ -104,7 +101,7 @@ const ExpenseDetailsPage = () => {
         />
       </View>
     ) : (
-      <View style={(styles.textIcon, styles.centerItems)}>
+      <View style={(detailsStyle.rowCenter, detailsStyle.center)}>
         <Icon
           name="calendar"
           type="font-awesome-5"
@@ -127,7 +124,7 @@ const ExpenseDetailsPage = () => {
 
   const BottomButtons = () =>
     editable ? (
-      <View style={styles.bottomButtons}>
+      <View style={detailsStyle.buttonsContainer}>
         <CancelButton onPress={resetExpense} />
         <ValidateButton
           onPress={validateFieldsUpdate}
@@ -135,7 +132,7 @@ const ExpenseDetailsPage = () => {
         />
       </View>
     ) : (
-      <View style={styles.bottomButtons}>
+      <View style={detailsStyle.buttonsContainer}>
         <DeleteButton onPress={() => setDeletePopUp(true)} />
         <ValidateButton
           onPress={updateExpense}
@@ -168,12 +165,12 @@ const ExpenseDetailsPage = () => {
       {activity.activityStatus === ActivityStatus.IN_PROGRESS ? (
         <HeaderButtons />
       ) : (
-        <View style={styles.backButton}>
+        <View style={detailsStyle.backButton}>
           <BackButton onPress={goBack} />
         </View>
       )}
-      <View style={styles.details}>
-        <View style={styles.centerItems}>
+      <View style={detailsStyle.details}>
+        <View style={detailsStyle.center}>
           {editable ? (
             <Input
               placeholder="Name"
@@ -189,24 +186,24 @@ const ExpenseDetailsPage = () => {
             <Name />
           )}
         </View>
-        <View style={styles.subDetails}>
-          <User />
-          {editable ? (
-            <Input
-              placeholder="Amount"
-              leftIcon={{type: 'font-awesome-5', name: 'money-bill'}}
-              defaultValue={amount.toString()}
-              onChangeText={(text) => {
-                setAmount(text);
-                handleErrorAmount();
-              }}
-              errorMessage={errorAmount}
-              keyboardType="numeric"
-            />
-          ) : (
+        {editable ? (
+          <Input
+            placeholder="Amount"
+            leftIcon={{type: 'font-awesome-5', name: 'money-bill'}}
+            defaultValue={amount.toString()}
+            onChangeText={(text) => {
+              setAmount(text);
+              handleErrorAmount();
+            }}
+            errorMessage={errorAmount}
+            keyboardType="numeric"
+          />
+        ) : (
+          <View style={detailsStyle.subDetails}>
+            <User />
             <Amount />
-          )}
-        </View>
+          </View>
+        )}
         <Calendar />
       </View>
       {activity.activityStatus === ActivityStatus.IN_PROGRESS ? (
@@ -223,7 +220,7 @@ const ExpenseDetailsPage = () => {
           />
         </>
       ) : (
-        <Text style={styles.bottomText} h4>
+        <Text style={detailsStyle.bottomText} h4>
           Activity closed
         </Text>
       )}

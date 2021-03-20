@@ -28,8 +28,8 @@ const ActivityDetailsActions = ({
         setVisible(false);
         navigate(Pages.ADD_EXPENSE);
       }}
-      containerStyle={styles.buttonItem}>
-      <ListItem.Content style={styles.buttonItemContent}>
+      containerStyle={styles.lightGrey}>
+      <ListItem.Content style={styles.center}>
         <ListItem.Title>Add expense</ListItem.Title>
       </ListItem.Content>
     </ListItem>
@@ -42,8 +42,8 @@ const ActivityDetailsActions = ({
         setVisible(false);
         navigate(Pages.ACTIVITY_DETAILS);
       }}
-      containerStyle={styles.buttonItem}>
-      <ListItem.Content style={styles.buttonItemContent}>
+      containerStyle={styles.lightGrey}>
+      <ListItem.Content style={styles.center}>
         <ListItem.Title>Go to activity details</ListItem.Title>
       </ListItem.Content>
     </ListItem>
@@ -53,11 +53,9 @@ const ActivityDetailsActions = ({
     <ListItem
       key={2}
       onPress={() => setVisible(false)}
-      containerStyle={styles.backButtonItem}>
-      <ListItem.Content style={styles.buttonItemContent}>
-        <ListItem.Title style={styles.buttonItemContentTitle}>
-          Back
-        </ListItem.Title>
+      containerStyle={styles.red}>
+      <ListItem.Content style={styles.center}>
+        <ListItem.Title style={styles.white}>Back</ListItem.Title>
       </ListItem.Content>
     </ListItem>
   );
@@ -77,16 +75,16 @@ const ActivityDetailsActions = ({
 };
 
 const styles = StyleSheet.create({
-  backButtonItem: {
+  red: {
     backgroundColor: red,
   },
-  buttonItemContent: {
+  center: {
     alignItems: 'center',
   },
-  buttonItemContentTitle: {
+  white: {
     color: white,
   },
-  buttonItem: {
+  lightGrey: {
     backgroundColor: lightGrey,
   },
 });

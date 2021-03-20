@@ -23,9 +23,9 @@ const ExpensesActionsFilter = ({
   const [username] = useAtom(userAtom);
 
   const description = (
-    <ListItem key={0} containerStyle={styles.buttonItem}>
-      <ListItem.Content style={styles.buttonItemContent}>
-        <Text style={styles.buttonItemContentTitle}>Filter expenses</Text>
+    <ListItem key={0} containerStyle={styles.black}>
+      <ListItem.Content style={styles.center}>
+        <Text style={styles.white}>Filter expenses</Text>
       </ListItem.Content>
     </ListItem>
   );
@@ -56,16 +56,16 @@ const ExpensesActionsFilter = ({
       onPress={() => {
         setIndex(ExpensesFilterIndex.CURRENT_USER);
       }}>
-      {username === FIRST_USER ? FIRST_USER : SECOND_USER}
+      Me
     </Text>
   );
 
   const filter = (
-    <ListItem key={1} containerStyle={styles.buttonItem}>
-      <ListItem.Content style={styles.buttonItemContent}>
+    <ListItem key={1} containerStyle={styles.black}>
+      <ListItem.Content style={styles.center}>
         <ButtonGroup
-          buttonStyle={styles.buttons}
-          selectedButtonStyle={styles.selectedButton}
+          buttonStyle={styles.lightGrey}
+          selectedButtonStyle={styles.blue}
           buttons={[
             {
               element: () => <No />,
@@ -88,11 +88,9 @@ const ExpensesActionsFilter = ({
     <ListItem
       key={2}
       onPress={() => setVisible(false)}
-      containerStyle={styles.backButtonItem}>
-      <ListItem.Content style={styles.buttonItemContent}>
-        <ListItem.Title style={styles.buttonItemContentTitle}>
-          Back
-        </ListItem.Title>
+      containerStyle={styles.red}>
+      <ListItem.Content style={styles.center}>
+        <ListItem.Title style={styles.white}>Back</ListItem.Title>
       </ListItem.Content>
     </ListItem>
   );
@@ -103,22 +101,22 @@ const ExpensesActionsFilter = ({
 };
 
 const styles = StyleSheet.create({
-  buttons: {
+  lightGrey: {
     backgroundColor: lightGrey,
   },
-  selectedButton: {
+  blue: {
     backgroundColor: blue,
   },
-  backButtonItem: {
+  red: {
     backgroundColor: red,
   },
-  buttonItemContent: {
+  center: {
     alignItems: 'center',
   },
-  buttonItemContentTitle: {
+  white: {
     color: white,
   },
-  buttonItem: {
+  black: {
     backgroundColor: black,
   },
 });

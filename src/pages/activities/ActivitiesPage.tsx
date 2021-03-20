@@ -3,17 +3,20 @@ import {Auth} from 'aws-amplify';
 import {useAtom} from 'jotai';
 import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl, StyleSheet, View} from 'react-native';
-import {ListItem, Text} from 'react-native-elements';
+import {Icon, ListItem, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import ActivitySummary from '../../components/activities/ActivitySummary';
 import AddButton from '../../components/buttons/AddButton';
 import Loading from '../../components/loader/Loading';
+import {ActivityStatus} from '../../enums/ActivityStatus';
 import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
 import {Activity} from '../../model/Activity';
 import activityAtom from '../../state/Activity';
 import userAtom from '../../state/User';
+import {green} from '../../themes/colors';
+import {iSmall} from '../../themes/icons';
 import {sMedium} from '../../themes/size';
 import {format} from '../../utils/DateFormatter';
 
@@ -75,6 +78,14 @@ const ActivitiesPage = () => {
             navigate(Pages.EXPENSES);
           }}>
           <ActivitySummary activity={activity} />
+          {activity.activityStatus === ActivityStatus.DONE && (
+            <Icon
+              name="check"
+              type="font-awesome-5"
+              size={iSmall}
+              color={green}
+            />
+          )}
         </ListItem>
       </>
     ));

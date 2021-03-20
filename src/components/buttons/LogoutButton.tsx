@@ -1,6 +1,6 @@
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {white} from '../../themes/colors';
+import {blue} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
 
 interface LogoutButtonProps {
@@ -14,7 +14,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({onPress}) => {
       type="font-awesome-5"
       onPress={onPress}
       size={iMedium}
-      color={white}
+      color={blue}
     />
   );
 };

@@ -15,8 +15,8 @@ const ActivityDetailsTab = ({index, setIndex}: ActivityDetailsTabProps) => {
 
   return (
     <ButtonGroup
-      buttonStyle={styles.buttons}
-      selectedButtonStyle={styles.selectedButton}
+      buttonStyle={styles.lightGrey}
+      selectedButtonStyle={styles.blue}
       buttons={[
         {element: () => <Text>Expenses</Text>},
         {element: () => <Text>Balance</Text>},
@@ -28,10 +28,10 @@ const ActivityDetailsTab = ({index, setIndex}: ActivityDetailsTabProps) => {
 };
 
 const styles = StyleSheet.create({
-  buttons: {
+  lightGrey: {
     backgroundColor: lightGrey,
   },
-  selectedButton: {
+  blue: {
     backgroundColor: blue,
   },
 });
