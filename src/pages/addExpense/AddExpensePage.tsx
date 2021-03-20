@@ -1,56 +1,39 @@
 import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Keyboard, StyleSheet, View} from 'react-native';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import CancelButton from '../../components/buttons/CancelButton';
 import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
+import AmountInput from '../../components/input/AmountInput';
+import NameInput from '../../components/input/NameInput';
 import Error from '../../components/status/Error';
-import Input from '../../components/input/CustomInput';
 import Loading from '../../components/status/Loading';
 import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
+import {blue} from '../../themes/colors';
 import {sMedium, sNormal} from '../../themes/size';
-import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
+import {toUTC, to_YYYY_MM_DD} from '../../utils/dateFormatter';
+import {AMOUNT_REGEX} from '../../utils/regexConstants';
 
 const AddExpensePage = () => {
   const [name, setName] = useState<string>('');
-  const [errorName, setErrorName] = useState<string>('');
   const [amount, setAmount] = useState<string>('');
-  const [errorAmount, setErrorAmount] = useState<string>('');
   const [status, setStatus] = useState<Status>(Status.IDLE);
 
   const initialDate = to_YYYY_MM_DD(toUTC(new Date()));
   const [date, setDate] = useState(initialDate);
 
+  const [editable, setEditable] = useState(false);
+
   const [activity] = useAtom(activityAtom);
 
   const {goBack} = useNavigation();
 
-  function isValidName() {
-    if (name === '') {
-      setErrorName('Name is required');
-      return false;
-    } else {
-      setErrorName('');
-      return true;
-    }
-  }
-
-  function isValidAmount() {
-    if (amount === '') {
-      setErrorAmount('Amount is required');
-      return false;
-    } else {
-      setErrorAmount('');
-      return true;
-    }
-  }
-
-  function createExpense() {
+  const createExpense = () => {
     setStatus(Status.IN_PROGRESS);
-    if (isValidName() && isValidAmount()) {
+    if (name !== '' && amount !== '') {
       return EXPENSE_API.create(name, amount, activity.id)
         .then(() => {
           setStatus(Status.SUCCESS);
@@ -60,7 +43,21 @@ const AddExpensePage = () => {
     } else {
       setStatus(Status.IDLE);
     }
-  }
+  };
+
+  const reset = () => {
+    Keyboard.dismiss();
+    setName('');
+    setAmount('');
+    setEditable(false);
+  };
+
+  const endUpdate = () => {
+    Keyboard.dismiss();
+    setEditable(false);
+  };
+
+  const disabledButtons = name === '' || !AMOUNT_REGEX.test(amount);
 
   const render = () => {
     if (status === Status.IN_PROGRESS) {
@@ -71,18 +68,15 @@ const AddExpensePage = () => {
       return (
         <>
           <View style={styles.container}>
-            <Input
-              placeholder="Name"
-              onChangeText={(text) => setName(text)}
-              leftIcon={{type: 'font-awesome-5', name: 'heading'}}
-              errorMessage={errorName}
+            <NameInput
+              text={name}
+              onChangeText={setName}
+              onTouchStart={() => setEditable(true)}
             />
-            <Input
-              placeholder="Amount (CAD)"
-              onChangeText={(text) => setAmount(text)}
-              leftIcon={{type: 'font-awesome-5', name: 'money-bill'}}
-              errorMessage={errorAmount}
-              keyboardType="numeric"
+            <AmountInput
+              amount={amount}
+              onChangeAmount={setAmount}
+              onTouchStart={() => setEditable(true)}
             />
             <DatePicker
               date={date}
@@ -95,13 +89,24 @@ const AddExpensePage = () => {
               }}
             />
           </View>
-          <View style={styles.buttonsContainer}>
-            <CancelButton onPress={goBack} />
-            <ValidateButton
-              onPress={createExpense}
-              disabled={name === '' || amount === ''}
-            />
-          </View>
+          {editable ? (
+            <View style={styles.buttonsContainer}>
+              <CancelButton onPress={reset} />
+              <ValidateButton
+                onPress={endUpdate}
+                disabled={disabledButtons}
+                color={blue}
+              />
+            </View>
+          ) : (
+            <View style={styles.buttonsContainer}>
+              <CancelButton onPress={goBack} />
+              <ValidateButton
+                onPress={createExpense}
+                disabled={disabledButtons}
+              />
+            </View>
+          )}
         </>
       );
     }

@@ -6,12 +6,12 @@ import {Icon, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import BackButton from '../../components/buttons/BackButton';
 import CancelButton from '../../components/buttons/CancelButton';
-import CloseButton from '../../components/buttons/CloseButton';
 import DeleteButton from '../../components/buttons/DeleteButton';
 import EditHeaderButtons from '../../components/buttons/EditHeaderButtons';
 import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
 import Input from '../../components/input/CustomInput';
+import NameInput from '../../components/input/NameInput';
 import ClosePopUp from '../../components/popUp/ClosePopUp';
 import DeletePopUp from '../../components/popUp/DeletePopUp';
 import {ActivityStatus} from '../../enums/ActivityStatus';
@@ -20,8 +20,8 @@ import activityAtom from '../../state/Activity';
 import expensesAtom from '../../state/Expenses';
 import {black, blue, dollar} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
-import {formatAmount} from '../../utils/AmountFormatter';
-import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
+import {formatAmount} from '../../utils/amountFormatter';
+import {toUTC, to_YYYY_MM_DD} from '../../utils/dateFormatter';
 import {detailsStyle} from './styles';
 
 const ActivityDetailsPage = () => {
@@ -31,7 +31,6 @@ const ActivityDetailsPage = () => {
   const [expenses] = useAtom(expensesAtom);
 
   const [name, setName] = useState(activity.activityName);
-  const [errorName, setErrorName] = useState('');
 
   const [date, setDate] = useState(activity.startDate);
 
@@ -53,12 +52,12 @@ const ActivityDetailsPage = () => {
     ACTIVITY_API.close(activity.id).then(() => popToTop());
   }
 
-  const resetExpense = () => {
+  const reset = () => {
     setName(activity.activityName);
     setEditable(false);
   };
 
-  const validateFieldsUpdate = () => {
+  const endUpdate = () => {
     setEditable(false);
   };
 
@@ -123,20 +122,19 @@ const ActivityDetailsPage = () => {
       </View>
     );
 
-  const handleErrorName = () => {
-    name === '' ? setErrorName('Activity name is required') : setErrorName('');
-  };
-
   const BottomButtons = () =>
     editable ? (
       <View style={detailsStyle.buttonsContainer}>
-        <CancelButton onPress={resetExpense} />
-        <ValidateButton onPress={validateFieldsUpdate} disabled={name === ''} />
+        <CancelButton onPress={reset} />
+        <ValidateButton
+          onPress={endUpdate}
+          color={blue}
+          disabled={name === ''}
+        />
       </View>
     ) : (
       <View style={detailsStyle.buttonsContainer}>
         <DeleteButton onPress={() => setDeletePopUp(true)} />
-        <CloseButton onPress={() => setClosePopUp(true)} />
         <ValidateButton
           onPress={update}
           disabled={name === activity.activityName}
@@ -156,16 +154,7 @@ const ActivityDetailsPage = () => {
       <View style={detailsStyle.details}>
         <View style={detailsStyle.center}>
           {editable ? (
-            <Input
-              placeholder="Name"
-              leftIcon={{type: 'font-awesome-5', name: 'file'}}
-              defaultValue={name}
-              onChangeText={(text) => {
-                setName(text);
-                handleErrorName();
-              }}
-              errorMessage={errorName}
-            />
+            <NameInput text={name} onChangeText={setName} />
           ) : (
             <Name />
           )}

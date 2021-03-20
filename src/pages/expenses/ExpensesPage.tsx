@@ -14,7 +14,7 @@ import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
 import expensesAtom, {buildExpenses} from '../../state/Expenses';
 import userAtom from '../../state/User';
-import {format} from '../../utils/DateFormatter';
+import {format} from '../../utils/dateFormatter';
 import ExpensesBalanceView from './ExpensesBalanceView';
 import ExpensesView from './ExpensesView';
 

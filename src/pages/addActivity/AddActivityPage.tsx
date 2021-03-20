@@ -1,22 +1,23 @@
 import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Keyboard, StyleSheet, View} from 'react-native';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import CancelButton from '../../components/buttons/CancelButton';
 import ValidateButton from '../../components/buttons/ValidateButton';
+import NameInput from '../../components/input/NameInput';
 import Error from '../../components/status/Error';
-import Input from '../../components/input/CustomInput';
 import Loading from '../../components/status/Loading';
 import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
+import {blue} from '../../themes/colors';
 import {sMedium} from '../../themes/size';
 
 const AddActivityPage = () => {
   const [name, setName] = useState('');
-  const [errorName, setErrorName] = useState('');
   const [status, setStatus] = useState<Status>(Status.IDLE);
+  const [editable, setEditable] = useState(false);
 
   const [, setActivity] = useAtom(activityAtom);
   const {popToTop, navigate} = useNavigation();
@@ -32,12 +33,15 @@ const AddActivityPage = () => {
       .catch(() => setStatus(Status.ERROR));
   };
 
-  const handleErrorName = () => {
-    if (name === '') {
-      setErrorName('Activity name is required');
-    } else {
-      setErrorName('');
-    }
+  const reset = () => {
+    Keyboard.dismiss();
+    setName('');
+    setEditable(false);
+  };
+
+  const endUpdate = () => {
+    Keyboard.dismiss();
+    setEditable(false);
   };
 
   const render = () => {
@@ -49,22 +53,35 @@ const AddActivityPage = () => {
       return (
         <>
           <View style={styles.activityInput}>
-            <Input
-              leftIcon={{type: 'font-awesome-5', name: 'heading'}}
-              placeholder="Activity name"
-              onChangeText={(text) => {
-                setName(text);
-                handleErrorName();
-              }}
-              errorMessage={errorName}
+            <NameInput
+              text={name}
+              onChangeText={setName}
+              onTouchStart={() => setEditable(true)}
             />
           </View>
-
           <View>
-            <View style={styles.buttonsContainer}>
-              <CancelButton onPress={popToTop} />
-              <ValidateButton onPress={createActivity} disabled={name === ''} />
-            </View>
+            {editable ? (
+              <View style={styles.buttonsContainer}>
+                <CancelButton onPress={reset} />
+                <ValidateButton
+                  onPress={endUpdate}
+                  disabled={name === ''}
+                  color={blue}
+                />
+              </View>
+            ) : (
+              <View style={styles.buttonsContainer}>
+                <CancelButton
+                  onPress={() => {
+                    popToTop();
+                  }}
+                />
+                <ValidateButton
+                  onPress={createActivity}
+                  disabled={name === ''}
+                />
+              </View>
+            )}
           </View>
         </>
       );

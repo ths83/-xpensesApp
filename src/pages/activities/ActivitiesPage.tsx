@@ -19,7 +19,7 @@ import userAtom from '../../state/User';
 import {green} from '../../themes/colors';
 import {iSmall} from '../../themes/icons';
 import {sMedium} from '../../themes/size';
-import {format} from '../../utils/DateFormatter';
+import {format} from '../../utils/dateFormatter';
 
 const ActivitiesPage = () => {
   const [activities, setActivities] = useState<Activity[]>([]);

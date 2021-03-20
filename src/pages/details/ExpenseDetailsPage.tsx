@@ -11,15 +11,16 @@ import DeleteButton from '../../components/buttons/DeleteButton';
 import EditHeaderButtons from '../../components/buttons/EditHeaderButtons';
 import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
-import Input from '../../components/input/CustomInput';
+import AmountInput from '../../components/input/AmountInput';
+import NameInput from '../../components/input/NameInput';
 import DeletePopUp from '../../components/popUp/DeletePopUp';
 import {ActivityStatus} from '../../enums/ActivityStatus';
-import {Pages} from '../../enums/Pages';
 import {Expense} from '../../model/Expense';
 import activityAtom from '../../state/Activity';
 import {black, blue, dollar} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
-import {toUTC, to_YYYY_MM_DD} from '../../utils/DateFormatter';
+import {toUTC, to_YYYY_MM_DD} from '../../utils/dateFormatter';
+import {AMOUNT_REGEX} from '../../utils/regexConstants';
 import {detailsStyle} from './styles';
 
 const ExpenseDetailsPage = () => {
@@ -30,11 +31,9 @@ const ExpenseDetailsPage = () => {
   const expense = params.expense;
 
   const [name, setName] = useState(expense.expenseName);
-  const [errorName, setErrorName] = useState('');
 
   const [date, setDate] = useState(expense.startDate);
   const [amount, setAmount] = useState(expense.amount);
-  const [errorAmount, setErrorAmount] = useState('');
 
   const [editable, setEditable] = useState(false);
 
@@ -104,7 +103,7 @@ const ExpenseDetailsPage = () => {
           size={iMedium}
           color={black}
         />
-        <Text>{activity.startDate}</Text>
+        <Text>{expense.startDate}</Text>
       </View>
     );
 
@@ -118,13 +117,14 @@ const ExpenseDetailsPage = () => {
       />
     );
 
-  const BottomButtons = () =>
+  const ActionButtons = () =>
     editable ? (
       <View style={detailsStyle.buttonsContainer}>
-        <CancelButton onPress={resetExpense} />
+        <CancelButton onPress={reset} />
         <ValidateButton
-          onPress={validateFieldsUpdate}
-          disabled={name === '' || amount === ''}
+          onPress={endUpdate}
+          color={blue}
+          disabled={name === '' || !AMOUNT_REGEX.test(amount)}
         />
       </View>
     ) : (
@@ -137,22 +137,14 @@ const ExpenseDetailsPage = () => {
       </View>
     );
 
-  const handleErrorName = () => {
-    name === '' ? setErrorName('Activity name is required') : setErrorName('');
-  };
-
-  const handleErrorAmount = () => {
-    amount === '' ? setErrorAmount('Amount is required') : setErrorAmount('');
-  };
-
-  const resetExpense = () => {
+  const reset = () => {
     setName(defaultExpense.expenseName);
     setAmount(defaultExpense.amount);
     setDate(defaultExpense.startDate);
     setEditable(false);
   };
 
-  const validateFieldsUpdate = () => {
+  const endUpdate = () => {
     setEditable(false);
   };
 
@@ -168,32 +160,13 @@ const ExpenseDetailsPage = () => {
       <View style={detailsStyle.details}>
         <View style={detailsStyle.center}>
           {editable ? (
-            <Input
-              placeholder="Name"
-              leftIcon={{type: 'font-awesome-5', name: 'heading'}}
-              defaultValue={name}
-              onChangeText={(text) => {
-                setName(text);
-                handleErrorName();
-              }}
-              errorMessage={errorName}
-            />
+            <NameInput text={name} onChangeText={setName} />
           ) : (
             <Name />
           )}
         </View>
         {editable ? (
-          <Input
-            placeholder="Amount"
-            leftIcon={{type: 'font-awesome-5', name: 'money-bill'}}
-            defaultValue={amount.toString()}
-            onChangeText={(text) => {
-              setAmount(text);
-              handleErrorAmount();
-            }}
-            errorMessage={errorAmount}
-            keyboardType="numeric"
-          />
+          <AmountInput amount={amount} onChangeAmount={setAmount} />
         ) : (
           <View style={detailsStyle.subDetails}>
             <User />
@@ -204,7 +177,7 @@ const ExpenseDetailsPage = () => {
       </View>
       {activity.activityStatus === ActivityStatus.IN_PROGRESS ? (
         <>
-          <BottomButtons />
+          <ActionButtons />
           <DeletePopUp
             isVisible={deletePopUp}
             onBackdropPress={() => setDeletePopUp(false)}

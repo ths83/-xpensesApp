@@ -6,7 +6,7 @@ import {Expense} from '../../model/Expense';
 import userAtom from '../../state/User';
 import {black, blue, darkGreen, green} from '../../themes/colors';
 import {iSmall} from '../../themes/icons';
-import {formatAmount} from '../../utils/AmountFormatter';
+import {formatAmount} from '../../utils/amountFormatter';
 
 interface ExpenseDetailsProps {
   expense: Expense;

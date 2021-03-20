@@ -5,7 +5,7 @@ import {Icon, Text} from 'react-native-elements';
 import {blue} from '../../themes/colors';
 import {iSmall} from '../../themes/icons';
 import {sNormal} from '../../themes/size';
-import {toUTC} from '../../utils/DateFormatter';
+import {toUTC} from '../../utils/dateFormatter';
 
 interface CustomDatePickerProps {
   date: string;
