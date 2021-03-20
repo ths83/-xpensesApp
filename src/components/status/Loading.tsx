@@ -1,10 +1,10 @@
 import React, {memo} from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
-import {green} from '../../themes/colors';
+import {blue} from '../../themes/colors';
 
 const Loading: React.FC = () => (
   <View style={[styles.container, styles.horizontal]}>
-    <ActivityIndicator size="large" color={green} />
+    <ActivityIndicator size="large" color={blue} />
   </View>
 );
 

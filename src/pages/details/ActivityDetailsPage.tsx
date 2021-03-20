@@ -40,20 +40,18 @@ const ActivityDetailsPage = () => {
 
   const [closePopUp, setClosePopUp] = useState(false);
 
-  const {navigate, goBack} = useNavigation();
+  const {goBack, popToTop} = useNavigation();
 
   async function update() {
-    ACTIVITY_API.update(activity.id, name, date).then(() =>
-      navigate(Pages.ACTIVITIES),
-    );
+    ACTIVITY_API.update(activity.id, name, date).then(() => popToTop());
   }
 
   async function del() {
-    ACTIVITY_API.delete(activity.id).then(() => navigate(Pages.ACTIVITIES));
+    ACTIVITY_API.delete(activity.id).then(() => popToTop());
   }
 
   async function close() {
-    ACTIVITY_API.close(activity.id).then(() => navigate(Pages.ACTIVITIES));
+    ACTIVITY_API.close(activity.id).then(() => popToTop());
   }
 
   const resetExpense = () => {
@@ -202,7 +200,7 @@ const ActivityDetailsPage = () => {
           />
         </>
       ) : (
-        <Text style={detailsStyle.bottomText} h4>
+        <Text style={detailsStyle.warning} h4>
           Activity closed
         </Text>
       )}

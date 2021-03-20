@@ -40,12 +40,10 @@ const ExpenseDetailsPage = () => {
 
   const [deletePopUp, setDeletePopUp] = useState(false);
 
-  const {navigate, goBack} = useNavigation();
+  const {goBack} = useNavigation();
 
   const deleteExpense = () => {
-    ACTIVITY_API.deleteExpense(activity.id, expense.id).then(() => {
-      navigate(Pages.EXPENSES);
-    });
+    ACTIVITY_API.deleteExpense(activity.id, expense.id).then(() => goBack());
   };
 
   const updateExpense = () => {
@@ -57,9 +55,7 @@ const ExpenseDetailsPage = () => {
       startDate: date,
       expenseName: name,
     } as Expense;
-    EXPENSE_API.update(newExpense).then(() => {
-      navigate(Pages.EXPENSES);
-    });
+    EXPENSE_API.update(newExpense).then(() => goBack());
   };
 
   const Name = () => (
@@ -220,7 +216,7 @@ const ExpenseDetailsPage = () => {
           />
         </>
       ) : (
-        <Text style={detailsStyle.bottomText} h4>
+        <Text style={detailsStyle.warning} h4>
           Activity closed
         </Text>
       )}

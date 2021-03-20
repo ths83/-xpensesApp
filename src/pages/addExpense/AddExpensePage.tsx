@@ -2,12 +2,13 @@ import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-elements';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import CancelButton from '../../components/buttons/CancelButton';
 import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
+import Error from '../../components/status/Error';
 import Input from '../../components/input/CustomInput';
+import Loading from '../../components/status/Loading';
 import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
 import {sMedium, sNormal} from '../../themes/size';
@@ -61,44 +62,52 @@ const AddExpensePage = () => {
     }
   }
 
-  return (
-    <>
-      <View style={styles.container}>
-        <Input
-          placeholder="Name"
-          onChangeText={(text) => setName(text)}
-          leftIcon={{type: 'font-awesome-5', name: 'heading'}}
-          errorMessage={errorName}
-        />
-        <Input
-          placeholder="Amount (CAD)"
-          onChangeText={(text) => setAmount(text)}
-          leftIcon={{type: 'font-awesome-5', name: 'money-bill'}}
-          errorMessage={errorAmount}
-          keyboardType="numeric"
-        />
-        <DatePicker
-          date={date}
-          onChange={(event: Event, selectedDate: Date | undefined) => {
-            setDate(
-              selectedDate ? to_YYYY_MM_DD(toUTC(selectedDate)) : initialDate,
-            );
-          }}
-        />
-      </View>
-      <View style={styles.buttonsContainer}>
-        <CancelButton onPress={goBack} />
-        <ValidateButton
-          onPress={createExpense}
-          disabled={name === '' || amount === ''}
-        />
-      </View>
-      {/* TODO add icon alert page */}
-      {status === Status.ERROR && (
-        <Text>An error occurred while adding expense</Text>
-      )}
-    </>
-  );
+  const render = () => {
+    if (status === Status.IN_PROGRESS) {
+      return <Loading />;
+    } else if (status === Status.ERROR) {
+      return <Error text="An error occurred while adding expense" />;
+    } else {
+      return (
+        <>
+          <View style={styles.container}>
+            <Input
+              placeholder="Name"
+              onChangeText={(text) => setName(text)}
+              leftIcon={{type: 'font-awesome-5', name: 'heading'}}
+              errorMessage={errorName}
+            />
+            <Input
+              placeholder="Amount (CAD)"
+              onChangeText={(text) => setAmount(text)}
+              leftIcon={{type: 'font-awesome-5', name: 'money-bill'}}
+              errorMessage={errorAmount}
+              keyboardType="numeric"
+            />
+            <DatePicker
+              date={date}
+              onChange={(event: Event, selectedDate: Date | undefined) => {
+                setDate(
+                  selectedDate
+                    ? to_YYYY_MM_DD(toUTC(selectedDate))
+                    : initialDate,
+                );
+              }}
+            />
+          </View>
+          <View style={styles.buttonsContainer}>
+            <CancelButton onPress={goBack} />
+            <ValidateButton
+              onPress={createExpense}
+              disabled={name === '' || amount === ''}
+            />
+          </View>
+        </>
+      );
+    }
+  };
+
+  return render();
 };
 
 const styles = StyleSheet.create({

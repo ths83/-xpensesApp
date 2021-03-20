@@ -2,12 +2,12 @@ import {useIsFocused} from '@react-navigation/core';
 import {useAtom} from 'jotai';
 import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl} from 'react-native';
-import {Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import ActivityDetailsBottom from '../../components/activities/ActivityDetailsBottom';
 import ActivityDetailsTab from '../../components/activities/ActivityDetailsTab';
-import Loading from '../../components/loader/Loading';
+import Error from '../../components/status/Error';
+import Loading from '../../components/status/Loading';
 import {ExpensesFilterIndex} from '../../enums/ExpensesFilterIndex';
 import {ExpensesTabIndex} from '../../enums/ExpensesTabIndex';
 import {Status} from '../../enums/Status';
@@ -61,11 +61,11 @@ const ExpensesPage = () => {
     }
   }, [isFocused, fetchExpenses, activity.id]);
 
-  function render() {
-    if (status === (Status.IDLE || Status.IN_PROGRESS)) {
+  const render = () => {
+    if (status === Status.IN_PROGRESS) {
       return <Loading />;
     } else if (status === Status.ERROR) {
-      return <Text>An error occurred while fetching expenses</Text>;
+      return <Error text="An error occurred while fetching expenses" />;
     } else {
       return (
         <>
@@ -87,7 +87,7 @@ const ExpensesPage = () => {
         </>
       );
     }
-  }
+  };
 
   return render();
 };

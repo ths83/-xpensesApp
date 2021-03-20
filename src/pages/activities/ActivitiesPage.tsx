@@ -3,12 +3,13 @@ import {Auth} from 'aws-amplify';
 import {useAtom} from 'jotai';
 import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl, StyleSheet, View} from 'react-native';
-import {Icon, ListItem, Text} from 'react-native-elements';
+import {Icon, ListItem} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import ActivitySummary from '../../components/activities/ActivitySummary';
 import AddButton from '../../components/buttons/AddButton';
-import Loading from '../../components/loader/Loading';
+import Error from '../../components/status/Error';
+import Loading from '../../components/status/Loading';
 import {ActivityStatus} from '../../enums/ActivityStatus';
 import {Pages} from '../../enums/Pages';
 import {Status} from '../../enums/Status';
@@ -91,11 +92,11 @@ const ActivitiesPage = () => {
     ));
   }
 
-  function render() {
-    if (status === (Status.IDLE || Status.IN_PROGRESS)) {
+  const render = () => {
+    if (status === Status.IN_PROGRESS) {
       return <Loading />;
     } else if (status === Status.ERROR) {
-      return <Text>An error occurred while fetching activities</Text>;
+      return <Error text="An error occurred while fetching activities" />;
     } else {
       return (
         <>
@@ -111,7 +112,7 @@ const ActivitiesPage = () => {
         </>
       );
     }
-  }
+  };
 
   return render();
 };

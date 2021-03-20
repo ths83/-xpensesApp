@@ -23,7 +23,7 @@ export const detailsStyle = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  bottomText: {
+  warning: {
     margin: sLarge,
     textAlign: 'center',
     color: red,
