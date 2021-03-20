@@ -77,6 +77,10 @@ const ActivitiesPage = () => {
           onPress={() => {
             setActivity(activity);
             navigate(Pages.EXPENSES);
+          }}
+          onLongPress={() => {
+            setActivity(activity);
+            navigate(Pages.ACTIVITY_DETAILS);
           }}>
           <ActivitySummary activity={activity} />
           {activity.activityStatus === ActivityStatus.DONE && (

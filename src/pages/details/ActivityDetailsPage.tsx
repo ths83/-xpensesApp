@@ -16,7 +16,6 @@ import ClosePopUp from '../../components/popUp/ClosePopUp';
 import DeletePopUp from '../../components/popUp/DeletePopUp';
 import {ActivityStatus} from '../../enums/ActivityStatus';
 import {Currency} from '../../enums/Currency';
-import {Pages} from '../../enums/Pages';
 import activityAtom from '../../state/Activity';
 import expensesAtom from '../../state/Expenses';
 import {black, blue, dollar} from '../../themes/colors';
