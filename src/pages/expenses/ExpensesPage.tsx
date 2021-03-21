@@ -70,16 +70,16 @@ const ExpensesPage = () => {
       return (
         <>
           <ActivityDetailsTab index={tabIndex} setIndex={setTabIndex} />
-          <ScrollView
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }>
-            {tabIndex === ExpensesTabIndex.LIST ? (
+          {tabIndex === ExpensesTabIndex.LIST ? (
+            <ScrollView
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }>
               <ExpensesView index={expensesIndex} />
-            ) : (
-              <ExpensesBalanceView />
-            )}
-          </ScrollView>
+            </ScrollView>
+          ) : (
+            <ExpensesBalanceView />
+          )}
           <ActivityDetailsBottom
             expensesIndex={expensesIndex}
             setExpensesIndex={setExpensesIndex}

@@ -10,9 +10,7 @@ import DeleteButton from '../../components/buttons/DeleteButton';
 import EditHeaderButtons from '../../components/buttons/EditHeaderButtons';
 import ValidateButton from '../../components/buttons/ValidateButton';
 import DatePicker from '../../components/datePicker/CustomDatePicker';
-import Input from '../../components/input/CustomInput';
 import NameInput from '../../components/input/NameInput';
-import ClosePopUp from '../../components/popUp/ClosePopUp';
 import DeletePopUp from '../../components/popUp/DeletePopUp';
 import {ActivityStatus} from '../../enums/ActivityStatus';
 import {Currency} from '../../enums/Currency';
@@ -36,8 +34,6 @@ const ActivityDetailsPage = () => {
 
   const [deletePopUp, setDeletePopUp] = useState(false);
 
-  const [closePopUp, setClosePopUp] = useState(false);
-
   const {goBack, popToTop} = useNavigation();
 
   async function update() {
@@ -46,10 +42,6 @@ const ActivityDetailsPage = () => {
 
   async function del() {
     ACTIVITY_API.delete(activity.id).then(() => popToTop());
-  }
-
-  async function close() {
-    ACTIVITY_API.close(activity.id).then(() => popToTop());
   }
 
   const reset = () => {
@@ -175,15 +167,6 @@ const ActivityDetailsPage = () => {
             handleValidate={() => {
               del();
               setDeletePopUp(false);
-            }}
-          />
-          <ClosePopUp
-            isVisible={closePopUp}
-            onBackdropPress={() => setClosePopUp(false)}
-            handleCancel={() => setClosePopUp(false)}
-            handleValidate={() => {
-              close();
-              setClosePopUp(false);
             }}
           />
         </>

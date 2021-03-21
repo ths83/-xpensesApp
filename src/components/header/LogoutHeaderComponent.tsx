@@ -1,7 +1,7 @@
 import {Auth} from 'aws-amplify';
 import React, {memo, useState} from 'react';
 import LogoutButton from '../buttons/LogoutButton';
-import LogoutPopUp from '../popUp/LogoutPopUp';
+import LogoutPopUp from '../popUp/SignOutPopUp';
 
 const LogoutHeaderComponent = () => {
   const [visible, setVisible] = useState(false);

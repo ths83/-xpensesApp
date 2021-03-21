@@ -30,7 +30,7 @@ const LogoutPopUp: React.FC<LogoutPopUpProps> = ({
       size={iMedium}
       color={red}
     />
-    <Text style={popUpStyles.text}>Are you sure to logout ?</Text>
+    <Text style={popUpStyles.text}>Are you sure to sign out ?</Text>
     <Divider style={popUpStyles.divider} />
     <View style={popUpStyles.buttonsContainer}>
       <CancelButton onPress={handleCancel} />

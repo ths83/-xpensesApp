@@ -5,8 +5,10 @@ import {sSmall, sNormal} from '../../themes/size';
 export const popUpStyles = StyleSheet.create({
   text: {
     margin: sSmall,
+    textAlign: 'center',
   },
   red: {
+    textAlign: 'center',
     color: red,
   },
   divider: {

@@ -90,8 +90,8 @@ const ExpenseDetailsPage = () => {
       <View style={detailsStyle.center}>
         <DatePicker
           date={date}
-          onChange={(event: Event, selectedDate: Date | undefined) => {
-            setDate(to_YYYY_MM_DD(toUTC(selectedDate || date)));
+          onChange={(event: Event, selectedDate: any) => {
+            setDate(to_YYYY_MM_DD(toUTC(selectedDate)));
           }}
         />
       </View>
@@ -103,7 +103,7 @@ const ExpenseDetailsPage = () => {
           size={iMedium}
           color={black}
         />
-        <Text>{expense.startDate}</Text>
+        <Text>{date}</Text>
       </View>
     );
 
@@ -132,7 +132,11 @@ const ExpenseDetailsPage = () => {
         <DeleteButton onPress={() => setDeletePopUp(true)} />
         <ValidateButton
           onPress={updateExpense}
-          disabled={name === expense.name || amount === expense.amount}
+          disabled={
+            name === defaultExpense.name ||
+            amount === defaultExpense.amount ||
+            date === defaultExpense.startDate
+          }
         />
       </View>
     );
@@ -148,6 +152,7 @@ const ExpenseDetailsPage = () => {
     setEditable(false);
   };
 
+  console.debug(date);
   return (
     <>
       {activity.activityStatus === ActivityStatus.IN_PROGRESS ? (

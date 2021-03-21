@@ -1,23 +1,24 @@
 import React from 'react';
-import {Icon} from 'react-native-elements';
-import {green} from '../../themes/colors';
-import {iSmall} from '../../themes/icons';
+import {StyleSheet} from 'react-native';
+import {Button} from 'react-native-elements';
+import {blue} from '../../themes/colors';
+import {sMedium} from '../../themes/size';
 
 interface CloseButtonProps {
   onPress: () => void;
 }
 
 const CloseButton: React.FC<CloseButtonProps> = ({onPress}) => {
-  return (
-    <Icon
-      reverse
-      name="coins"
-      type="font-awesome-5"
-      onPress={onPress}
-      size={iSmall}
-      color={green}
-    />
-  );
+  return <Button title="Pay" onPress={onPress} buttonStyle={styles.blue} />;
 };
+
+const styles = StyleSheet.create({
+  blue: {
+    margin: sMedium,
+    paddingLeft: sMedium,
+    paddingRight: sMedium,
+    backgroundColor: blue,
+  },
+});
 
 export default CloseButton;
