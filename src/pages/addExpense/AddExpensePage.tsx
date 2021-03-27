@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
-import {Keyboard, StyleSheet, View} from 'react-native';
+import {Keyboard, ScrollView, StyleSheet, View} from 'react-native';
 import {EXPENSE_API} from '../../api/ExpenseApi';
 import CancelButton from '../../components/buttons/CancelButton';
 import ValidateButton from '../../components/buttons/ValidateButton';
@@ -67,7 +67,7 @@ const AddExpensePage = () => {
     } else {
       return (
         <>
-          <View style={styles.container}>
+          <ScrollView style={styles.container}>
             <NameInput
               text={name}
               onChangeText={setName}
@@ -78,17 +78,8 @@ const AddExpensePage = () => {
               onChangeAmount={setAmount}
               onTouchStart={() => setEditable(true)}
             />
-            <DatePicker
-              date={date}
-              onChange={(event: Event, selectedDate: Date | undefined) => {
-                setDate(
-                  selectedDate
-                    ? to_YYYY_MM_DD(toUTC(selectedDate))
-                    : initialDate,
-                );
-              }}
-            />
-          </View>
+            <DatePicker date={date} onChange={setDate} />
+          </ScrollView>
           {editable ? (
             <View style={styles.buttonsContainer}>
               <CancelButton onPress={reset} />
@@ -119,7 +110,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: sMedium,
-    justifyContent: 'center',
   },
   title: {
     margin: sMedium,

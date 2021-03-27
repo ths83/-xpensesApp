@@ -33,13 +33,11 @@ const ActivitiesPage = () => {
 
   const isFocused = useIsFocused();
 
-  const getCurrentUsername = useCallback(async () => {
-    return await Auth.currentAuthenticatedUser();
-  }, []);
-
   useEffect(() => {
-    getCurrentUsername().then((response) => setUsername(response.username));
-  }, [getCurrentUsername, setUsername]);
+    Auth.currentAuthenticatedUser().then((response) =>
+      setUsername(response.username),
+    );
+  }, [setUsername]);
 
   useEffect(() => {
     if (isFocused) {

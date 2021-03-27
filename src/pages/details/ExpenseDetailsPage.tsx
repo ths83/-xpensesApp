@@ -1,7 +1,7 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {Icon, Text} from 'react-native-elements';
 import {ACTIVITY_API} from '../../api/ActivityApi';
 import {EXPENSE_API} from '../../api/ExpenseApi';
@@ -19,7 +19,6 @@ import {Expense} from '../../model/Expense';
 import activityAtom from '../../state/Activity';
 import {black, blue, dollar} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
-import {toUTC, to_YYYY_MM_DD} from '../../utils/dateFormatter';
 import {AMOUNT_REGEX} from '../../utils/regexConstants';
 import {detailsStyle} from './styles';
 
@@ -88,12 +87,7 @@ const ExpenseDetailsPage = () => {
   const Calendar = () =>
     editable ? (
       <View style={detailsStyle.center}>
-        <DatePicker
-          date={date}
-          onChange={(event: Event, selectedDate: any) => {
-            setDate(to_YYYY_MM_DD(toUTC(selectedDate)));
-          }}
-        />
+        <DatePicker date={date} onChange={setDate} />
       </View>
     ) : (
       <View style={(detailsStyle.rowCenter, detailsStyle.center)}>
@@ -162,7 +156,7 @@ const ExpenseDetailsPage = () => {
           <BackButton onPress={goBack} />
         </View>
       )}
-      <View style={detailsStyle.details}>
+      <ScrollView style={detailsStyle.details}>
         <View style={detailsStyle.center}>
           {editable ? (
             <NameInput text={name} onChangeText={setName} />
@@ -179,7 +173,7 @@ const ExpenseDetailsPage = () => {
           </View>
         )}
         <Calendar />
-      </View>
+      </ScrollView>
       {activity.activityStatus === ActivityStatus.IN_PROGRESS ? (
         <>
           <ActionButtons />

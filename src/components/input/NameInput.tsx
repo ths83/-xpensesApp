@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Keyboard} from 'react-native';
 import Input from './CustomInput';
 
 interface NameInputProps {
@@ -25,10 +24,7 @@ const NameInput: React.FC<NameInputProps> = ({
       placeholder="Name"
       defaultValue={text}
       onChangeText={(value) => onChangeText(value)}
-      onBlur={() => {
-        Keyboard.dismiss();
-        handleText();
-      }}
+      onBlur={handleText}
       onTouchStart={onTouchStart}
       errorMessage={error}
     />

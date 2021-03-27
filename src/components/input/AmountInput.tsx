@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Keyboard} from 'react-native';
 import {AMOUNT_REGEX} from '../../utils/regexConstants';
 import Input from './CustomInput';
 
@@ -32,10 +31,7 @@ const AmountInput: React.FC<AmountInputProps> = ({
       placeholder="Amount (CAD)"
       defaultValue={amount.toString()}
       onChangeText={(value) => onChangeAmount(value)}
-      onBlur={() => {
-        Keyboard.dismiss();
-        handleAmount();
-      }}
+      onBlur={handleAmount}
       onTouchStart={onTouchStart}
       errorMessage={error}
     />

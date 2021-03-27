@@ -25,10 +25,7 @@ const ClosePopUp: React.FC<ClosePopUpProps> = ({
     onBackdropPress={onBackdropPress}
     overlayStyle={popUpStyles.lightGrey}>
     <Icon name="coins" type="font-awesome-5" size={iMedium} color={red} />
-    <Text style={popUpStyles.text}>
-      Once paid you cannot update or delete the activity and associated
-      expenses.
-    </Text>
+    <Text style={popUpStyles.text}>The activity will be closed.</Text>
     <Text style={(popUpStyles.text, popUpStyles.red)}>
       THIS ACTION CANNOT BE UNDONE
     </Text>

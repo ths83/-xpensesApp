@@ -8,10 +8,9 @@ export const detailsStyle = StyleSheet.create({
     marginBottom: 0,
   },
   details: {
+    marginTop: sMedium,
     flex: 1,
     margin: sMedium,
-    marginTop: 0,
-    justifyContent: 'center',
   },
   subDetails: {
     flexDirection: 'row',

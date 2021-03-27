@@ -66,7 +66,7 @@ const ExpensesBalanceView = () => {
     } else {
       return (
         <View style={styles.container}>
-          <Text>
+          <Text h4>
             {debtOwner} {'->'} {debtReceiver}
           </Text>
           <View style={styles.center}>
@@ -76,7 +76,9 @@ const ExpensesBalanceView = () => {
               size={iMedium}
               color={dollar}
             />
-            <Text>{formatAmount((receiverAmount - ownerAmount) / 2)} CAD</Text>
+            <Text h4>
+              {formatAmount((receiverAmount - ownerAmount) / 2)} CAD
+            </Text>
           </View>
           {activity.activityStatus === ActivityStatus.IN_PROGRESS && (
             <CloseButton onPress={() => setClosePopUp(true)} />
