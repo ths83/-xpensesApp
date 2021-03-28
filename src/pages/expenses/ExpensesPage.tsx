@@ -14,7 +14,7 @@ import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
 import expensesAtom, {buildExpenses} from '../../state/Expenses';
 import userAtom from '../../state/User';
-import {format} from '../../utils/dateFormatter';
+import {formatDate} from '../../utils/dateFormatter';
 import ExpensesBalanceView from './ExpensesBalanceView';
 import ExpensesView from './ExpensesView';
 
@@ -43,7 +43,7 @@ const ExpensesPage = () => {
     EXPENSE_API.getByActivityId(activity.id)
       .then((fetchedExpenses) => {
         fetchedExpenses.map((fetchedExpense) => {
-          fetchedExpense.startDate = format(fetchedExpense.startDate);
+          fetchedExpense.startDate = formatDate(fetchedExpense.startDate);
           return fetchedExpense;
         });
         setExpenses(buildExpenses(fetchedExpenses, username));
@@ -61,13 +61,13 @@ const ExpensesPage = () => {
     }
   }, [isFocused, fetchExpenses, activity.id]);
 
-  const render = () => {
-    if (status === Status.IN_PROGRESS) {
-      return <Loading />;
-    } else if (status === Status.ERROR) {
-      return <Error text="An error occurred while fetching expenses" />;
-    } else {
-      return (
+  return (
+    <>
+      {(status === Status.IN_PROGRESS || status === Status.IDLE) && <Loading />}
+      {status === Status.ERROR && (
+        <Error text="An error occurred while fetching expenses" />
+      )}
+      {status === Status.SUCCESS && (
         <>
           <ActivityDetailsTab index={tabIndex} setIndex={setTabIndex} />
           {tabIndex === ExpensesTabIndex.LIST ? (
@@ -85,11 +85,9 @@ const ExpensesPage = () => {
             setExpensesIndex={setExpensesIndex}
           />
         </>
-      );
-    }
-  };
-
-  return render();
+      )}
+    </>
+  );
 };
 
 export default ExpensesPage;

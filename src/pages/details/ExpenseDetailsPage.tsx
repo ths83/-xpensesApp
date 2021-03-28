@@ -17,21 +17,25 @@ import DeletePopUp from '../../components/popUp/DeletePopUp';
 import {ActivityStatus} from '../../enums/ActivityStatus';
 import {Expense} from '../../model/Expense';
 import activityAtom from '../../state/Activity';
+import userAtom from '../../state/User';
 import {black, blue, dollar} from '../../themes/colors';
 import {iMedium} from '../../themes/icons';
+import {formatAmount} from '../../utils/amountFormatter';
+import {formatDate} from '../../utils/dateFormatter';
 import {AMOUNT_REGEX} from '../../utils/regexConstants';
 import {detailsStyle} from './styles';
 
 const ExpenseDetailsPage = () => {
+  const [username] = useAtom(userAtom);
   const [activity] = useAtom(activityAtom);
 
   const {params} = useRoute();
   const [defaultExpense] = useState(params.expense);
-  const expense = params.expense;
+  const expense = params.expense as Expense;
 
   const [name, setName] = useState(expense.expenseName);
 
-  const [date, setDate] = useState(expense.startDate);
+  const [date, setDate] = useState(formatDate(expense.startDate));
   const [amount, setAmount] = useState(expense.amount);
 
   const [editable, setEditable] = useState(false);
@@ -66,7 +70,7 @@ const ExpenseDetailsPage = () => {
   const User = () => (
     <View style={(detailsStyle.rowCenter, detailsStyle.center)}>
       <Icon name="user" type="font-awesome-5" size={iMedium} color={blue} />
-      <Text>{expense.user}</Text>
+      <Text>{username === expense.user ? ' Me' : expense.user}</Text>
     </View>
   );
 
@@ -79,7 +83,7 @@ const ExpenseDetailsPage = () => {
         color={dollar}
       />
       <Text>
-        {amount} {expense.currency}
+        {formatAmount(Number(amount))} {expense.currency}
       </Text>
     </View>
   );
@@ -97,7 +101,7 @@ const ExpenseDetailsPage = () => {
           size={iMedium}
           color={black}
         />
-        <Text>{date}</Text>
+        <Text>{formatDate(date)}</Text>
       </View>
     );
 
@@ -118,7 +122,7 @@ const ExpenseDetailsPage = () => {
         <ValidateButton
           onPress={endUpdate}
           color={blue}
-          disabled={name === '' || !AMOUNT_REGEX.test(amount)}
+          disabled={name === '' || !AMOUNT_REGEX.test(amount.toString())}
         />
       </View>
     ) : (
@@ -127,9 +131,9 @@ const ExpenseDetailsPage = () => {
         <ValidateButton
           onPress={updateExpense}
           disabled={
-            name === defaultExpense.name ||
-            amount === defaultExpense.amount ||
-            date === defaultExpense.startDate
+            name === defaultExpense.expenseName &&
+            amount === defaultExpense.amount &&
+            formatDate(date) === formatDate(defaultExpense.startDate)
           }
         />
       </View>
@@ -138,7 +142,7 @@ const ExpenseDetailsPage = () => {
   const reset = () => {
     setName(defaultExpense.expenseName);
     setAmount(defaultExpense.amount);
-    setDate(defaultExpense.startDate);
+    setDate(formatDate(defaultExpense.startDate));
     setEditable(false);
   };
 
@@ -146,7 +150,6 @@ const ExpenseDetailsPage = () => {
     setEditable(false);
   };
 
-  console.debug(date);
   return (
     <>
       {activity.activityStatus === ActivityStatus.IN_PROGRESS ? (
@@ -174,7 +177,7 @@ const ExpenseDetailsPage = () => {
         )}
         <Calendar />
       </ScrollView>
-      {activity.activityStatus === ActivityStatus.IN_PROGRESS ? (
+      {activity.activityStatus === ActivityStatus.IN_PROGRESS && (
         <>
           <ActionButtons />
           <DeletePopUp
@@ -187,10 +190,6 @@ const ExpenseDetailsPage = () => {
             }}
           />
         </>
-      ) : (
-        <Text style={detailsStyle.warning} h4>
-          Activity closed
-        </Text>
       )}
     </>
   );

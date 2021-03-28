@@ -77,7 +77,8 @@ const ExpensesBalanceView = () => {
               color={dollar}
             />
             <Text h4>
-              {formatAmount((receiverAmount - ownerAmount) / 2)} CAD
+              {formatAmount((Number(receiverAmount) - Number(ownerAmount)) / 2)}{' '}
+              CAD
             </Text>
           </View>
           {activity.activityStatus === ActivityStatus.IN_PROGRESS && (

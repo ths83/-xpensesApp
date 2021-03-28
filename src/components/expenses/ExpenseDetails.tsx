@@ -34,7 +34,7 @@ const ExpenseDetails = ({expense}: ExpenseDetailsProps) => {
       </ListItem.Content>
       <ListItem.Content right>
         <ListItem.Title style={styles.blue}>
-          {formatAmount(expense.amount)} {expense.currency}
+          {formatAmount(Number(expense.amount))} {expense.currency}
         </ListItem.Title>
         <ListItem.Subtitle style={styles.italic}>
           {expense.startDate}

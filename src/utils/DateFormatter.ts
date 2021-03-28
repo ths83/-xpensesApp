@@ -1,5 +1,5 @@
 export const to_YYYY_MM_DD = (date: Date): string => {
-  return format(
+  return formatDate(
     new Date(
       date.getUTCFullYear(),
       date.getUTCMonth(),
@@ -8,7 +8,7 @@ export const to_YYYY_MM_DD = (date: Date): string => {
   );
 };
 
-export const format = (date: string): string => {
+export const formatDate = (date: string): string => {
   return date.split('T')[0].trim();
 };
 

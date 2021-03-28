@@ -7,13 +7,13 @@ type Expenses = {
   otherUser: Expense[];
 };
 
-const emptyExpenses = {
+export const EMPTY_EXPENSES = {
   all: [],
   currentUser: [],
   otherUser: [],
 } as Expenses;
 
-const expensesAtom = atom(emptyExpenses);
+const expensesAtom = atom(EMPTY_EXPENSES);
 
 export default expensesAtom;
 

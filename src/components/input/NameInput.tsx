@@ -23,7 +23,7 @@ const NameInput: React.FC<NameInputProps> = ({
       leftIcon={{type: 'font-awesome-5', name: 'heading'}}
       placeholder="Name"
       defaultValue={text}
-      onChangeText={(value) => onChangeText(value)}
+      onChangeText={onChangeText}
       onBlur={handleText}
       onTouchStart={onTouchStart}
       errorMessage={error}

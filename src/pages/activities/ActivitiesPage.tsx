@@ -19,7 +19,7 @@ import userAtom from '../../state/User';
 import {green} from '../../themes/colors';
 import {iSmall} from '../../themes/icons';
 import {sMedium} from '../../themes/size';
-import {format} from '../../utils/dateFormatter';
+import {formatDate} from '../../utils/dateFormatter';
 
 const ActivitiesPage = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -56,7 +56,7 @@ const ActivitiesPage = () => {
     ACTIVITY_API.getByUser()
       .then((fetchedActivities) => {
         fetchedActivities.map((activity: Activity) => {
-          activity.startDate = format(activity.startDate);
+          activity.startDate = formatDate(activity.startDate);
           return activity;
         });
         setActivities(fetchedActivities);
@@ -94,13 +94,13 @@ const ActivitiesPage = () => {
     ));
   }
 
-  const render = () => {
-    if (status === Status.IN_PROGRESS) {
-      return <Loading />;
-    } else if (status === Status.ERROR) {
-      return <Error text="An error occurred while fetching activities" />;
-    } else {
-      return (
+  return (
+    <>
+      {(status === Status.IN_PROGRESS || status === Status.IDLE) && <Loading />}
+      {status === Status.ERROR && (
+        <Error text="An error occurred while fetching activities" />
+      )}
+      {status === Status.SUCCESS && (
         <>
           <ScrollView
             refreshControl={
@@ -112,11 +112,9 @@ const ActivitiesPage = () => {
             <AddButton onPress={() => navigate(Pages.ADD_ACTIVITY)} />
           </View>
         </>
-      );
-    }
-  };
-
-  return render();
+      )}
+    </>
+  );
 };
 
 const styles = StyleSheet.create({

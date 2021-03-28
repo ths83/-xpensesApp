@@ -3,6 +3,8 @@ import {API, Auth} from 'aws-amplify';
 import {API_NAME} from '../config/AmplifyConfiguration';
 import {Currency} from '../enums/Currency';
 import {Expense} from '../model/Expense';
+import {formatAmount} from '../utils/amountFormatter';
+import {formatDate} from '../utils/dateFormatter';
 
 export class ExpenseApi {
   constructor() {}
@@ -11,6 +13,7 @@ export class ExpenseApi {
     name: string,
     amount: string,
     activityId: string,
+    date: string,
   ): Promise<Expense> {
     const user: CognitoUser = await Auth.currentAuthenticatedUser();
 
@@ -24,10 +27,11 @@ export class ExpenseApi {
       },
       body: {
         expenseName: name,
-        amount: amount,
+        amount: formatAmount(Number(amount)),
         currency: Currency.CANADA,
         user: user.getUsername(),
         activityId: activityId,
+        date: formatDate(date),
       },
     };
     console.debug('Adding new expense...');
@@ -59,7 +63,7 @@ export class ExpenseApi {
       },
       body: {
         expenseName: expense.expenseName,
-        amount: expense.amount,
+        amount: formatAmount(Number(expense.amount)),
         user: expense.user,
         startDate: expense.startDate,
         currency: expense.currency,

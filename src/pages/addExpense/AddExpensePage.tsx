@@ -34,7 +34,7 @@ const AddExpensePage = () => {
   const createExpense = () => {
     setStatus(Status.IN_PROGRESS);
     if (name !== '' && amount !== '') {
-      return EXPENSE_API.create(name, amount, activity.id)
+      return EXPENSE_API.create(name, amount, activity.id, date)
         .then(() => {
           setStatus(Status.SUCCESS);
           goBack();

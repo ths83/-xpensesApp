@@ -1,7 +1,7 @@
 export type Expense = {
   id: string;
   user: string;
-  amount: number;
+  amount: string;
   currency: string;
   startDate: string;
   expenseName: string;
@@ -10,8 +10,8 @@ export type Expense = {
 export const EMPTY_EXPENSE = {
   id: '',
   user: '',
-  amount: 0,
+  amount: '',
   currency: '',
   startDate: '',
   expenseName: '',
-};
+} as Expense;

@@ -19,7 +19,7 @@ const AmountInput: React.FC<AmountInputProps> = ({
     if (amount === '') {
       setError('Amount');
     } else if (!AMOUNT_REGEX.test(amount)) {
-      setError('Digits & 1 period only');
+      setError('Digits only.\nMay contains 2 decimals preceded by a period.');
     } else {
       setError('');
     }
@@ -29,11 +29,12 @@ const AmountInput: React.FC<AmountInputProps> = ({
     <Input
       leftIcon={{type: 'font-awesome-5', name: 'money-bill'}}
       placeholder="Amount (CAD)"
-      defaultValue={amount.toString()}
+      defaultValue={amount}
       onChangeText={(value) => onChangeAmount(value)}
       onBlur={handleAmount}
       onTouchStart={onTouchStart}
       errorMessage={error}
+      keyboardType="number-pad"
     />
   );
 };

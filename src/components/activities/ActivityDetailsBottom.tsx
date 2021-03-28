@@ -27,7 +27,9 @@ const ActivityDetailsBottom = ({
 
   const TotalUserExpense = () => {
     let userTotal = 0;
-    expenses.currentUser.map((expense) => (userTotal += expense.amount));
+    expenses.currentUser.map(
+      (expense) => (userTotal += Number(expense.amount)),
+    );
     return (
       <View style={styles.totalCurrentUser}>
         <Text>My total</Text>
@@ -38,7 +40,7 @@ const ActivityDetailsBottom = ({
 
   const TotalExpense = () => {
     let total = 0;
-    expenses.all.map((expense) => (total += expense.amount));
+    expenses.all.map((expense) => (total += Number(expense.amount)));
     return (
       <View style={styles.total}>
         <Text>Total</Text>

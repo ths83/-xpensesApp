@@ -1,1 +1,1 @@
-export const AMOUNT_REGEX = new RegExp('^[0-9]+(.[0-9])?');
+export const AMOUNT_REGEX = new RegExp('^[0-9]+([.][0-9]{1,2})?$');

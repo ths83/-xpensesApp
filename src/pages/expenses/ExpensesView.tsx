@@ -33,11 +33,11 @@ const ExpensesView = ({index}: ExpensesViewProps) => {
         <ListItem
           key={i}
           bottomDivider
-          onPress={() => {
+          onPress={() =>
             navigate(Pages.EXPENSE_DETAILS, {
               expense: expense,
-            });
-          }}>
+            })
+          }>
           <ExpenseDetails expense={expense} />
         </ListItem>
       ))}
