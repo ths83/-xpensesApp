@@ -24,7 +24,7 @@ _Some configuration files are deliberately missing._
 
 ## Back-end services
 
-A handmade serverless api allows the application to use the following AWS services :
+A handmade serverless api allows the application to use the following AWS services : https://github.com/ths83/-xpenses
 
 - No-SQL DB : https://aws.amazon.com/dynamodb
 - Auth / users management : https://aws.amazon.com/cognito
