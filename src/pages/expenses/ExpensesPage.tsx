@@ -63,11 +63,11 @@ const ExpensesPage = () => {
 
   return (
     <>
-      {(status === Status.IN_PROGRESS || status === Status.IDLE) && <Loading />}
+      {status === Status.IN_PROGRESS && <Loading />}
       {status === Status.ERROR && (
         <Error text="An error occurred while fetching expenses" />
       )}
-      {status === Status.SUCCESS && (
+      {(status === Status.SUCCESS || status === Status.IDLE) && (
         <>
           <ActivityDetailsTab index={tabIndex} setIndex={setTabIndex} />
           {tabIndex === ExpensesTabIndex.LIST ? (

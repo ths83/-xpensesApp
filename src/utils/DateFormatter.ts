@@ -15,3 +15,8 @@ export const formatDate = (date: string): string => {
 export const toUTC = (date: Date): Date => {
   return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
 };
+
+export const getDateNow = () => {
+  const now = new Date();
+  return new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+};

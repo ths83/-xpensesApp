@@ -34,7 +34,7 @@ const AddExpensePage = () => {
   const createExpense = () => {
     setStatus(Status.IN_PROGRESS);
     if (name !== '' && amount !== '') {
-      return EXPENSE_API.create(name, amount, activity.id, date)
+      EXPENSE_API.create(name, amount, activity.id, date)
         .then(() => {
           setStatus(Status.SUCCESS);
           goBack();
@@ -57,15 +57,15 @@ const AddExpensePage = () => {
     setEditable(false);
   };
 
-  const disabledButtons = name === '' || !AMOUNT_REGEX.test(amount);
+  const disableButtons = name === '' || !AMOUNT_REGEX.test(amount);
 
-  const render = () => {
-    if (status === Status.IN_PROGRESS) {
-      return <Loading />;
-    } else if (status === Status.ERROR) {
-      return <Error text="An error occurred while adding expense" />;
-    } else {
-      return (
+  return (
+    <>
+      {status === Status.IN_PROGRESS && <Loading />}
+      {status === Status.ERROR && (
+        <Error text="An error occurred while adding expense" />
+      )}
+      {status === Status.IDLE && (
         <>
           <ScrollView style={styles.container}>
             <NameInput
@@ -85,7 +85,7 @@ const AddExpensePage = () => {
               <CancelButton onPress={reset} />
               <ValidateButton
                 onPress={endUpdate}
-                disabled={disabledButtons}
+                disabled={disableButtons}
                 color={blue}
               />
             </View>
@@ -94,16 +94,14 @@ const AddExpensePage = () => {
               <CancelButton onPress={goBack} />
               <ValidateButton
                 onPress={createExpense}
-                disabled={disabledButtons}
+                disabled={disableButtons}
               />
             </View>
           )}
         </>
-      );
-    }
-  };
-
-  return render();
+      )}
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
