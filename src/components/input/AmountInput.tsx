@@ -34,7 +34,7 @@ const AmountInput: React.FC<AmountInputProps> = ({
       onBlur={handleAmount}
       onTouchStart={onTouchStart}
       errorMessage={error}
-      keyboardType="number-pad"
+      keyboardType="decimal-pad"
     />
   );
 };
