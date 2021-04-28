@@ -14,6 +14,7 @@ export class ExpenseApi {
     amount: string,
     activityId: string,
     date: string,
+    category: string,
   ): Promise<Expense> {
     const user: CognitoUser = await Auth.currentAuthenticatedUser();
 
@@ -32,6 +33,7 @@ export class ExpenseApi {
         user: user.getUsername(),
         activityId: activityId,
         date: formatDate(date),
+        category: category,
       },
     };
     console.debug('Adding new expense...');
@@ -67,6 +69,7 @@ export class ExpenseApi {
         user: expense.user,
         startDate: expense.startDate,
         currency: expense.currency,
+        category: expense.category,
       },
     };
     console.debug(`Updating expense '${expense.id}'...`);

@@ -5,6 +5,7 @@ export type Expense = {
   currency: string;
   startDate: string;
   expenseName: string;
+  category: string;
 };
 
 export const EMPTY_EXPENSE = {
@@ -14,4 +15,5 @@ export const EMPTY_EXPENSE = {
   currency: '',
   startDate: '',
   expenseName: '',
+  category: '',
 } as Expense;

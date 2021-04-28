@@ -31,7 +31,7 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
             mode="date"
             androidVariant="nativeAndroid"
             textColor={blue}
-            onDateChange={(selectedDate) => setValue(toUTC(selectedDate))}
+            onDateChange={selectedDate => setValue(toUTC(selectedDate))}
           />
           <View style={styles.datePickerButtons}>
             <CancelButton

@@ -1,3 +1,4 @@
+import {Picker} from '@react-native-picker/picker';
 import {useNavigation} from '@react-navigation/native';
 import {useAtom} from 'jotai';
 import React, {useState} from 'react';
@@ -13,7 +14,8 @@ import Loading from '../../components/status/Loading';
 import {Status} from '../../enums/Status';
 import activityAtom from '../../state/Activity';
 import {blue} from '../../themes/colors';
-import {sMedium, sNormal} from '../../themes/size';
+import {sMedium, sNormal, sSmall} from '../../themes/size';
+import {categories} from '../../utils/categoryConstants';
 import {toUTC, to_YYYY_MM_DD} from '../../utils/dateFormatter';
 import {AMOUNT_REGEX} from '../../utils/regexConstants';
 
@@ -21,6 +23,9 @@ const AddExpensePage = () => {
   const [name, setName] = useState<string>('');
   const [amount, setAmount] = useState<string>('');
   const [status, setStatus] = useState<Status>(Status.IDLE);
+
+  const defaultCategory = 'Other';
+  const [category, setCategory] = useState<string>(defaultCategory);
 
   const initialDate = to_YYYY_MM_DD(toUTC(new Date()));
   const [date, setDate] = useState(initialDate);
@@ -34,7 +39,7 @@ const AddExpensePage = () => {
   const createExpense = () => {
     setStatus(Status.IN_PROGRESS);
     if (name !== '' && amount !== '') {
-      EXPENSE_API.create(name, amount, activity.id, date)
+      EXPENSE_API.create(name, amount, activity.id, date, category)
         .then(() => {
           setStatus(Status.SUCCESS);
           goBack();
@@ -59,6 +64,21 @@ const AddExpensePage = () => {
 
   const disableButtons = name === '' || !AMOUNT_REGEX.test(amount);
 
+  const CategoryPicker = () => {
+    return (
+      <Picker
+        enabled={editable} //TODO cannot be disabled
+        selectedValue={category}
+        onValueChange={item => setCategory(item)}
+        mode="dropdown"
+        style={styles.picker}>
+        {categories.map(c => {
+          <Picker.Item label={c.label} value={c.label} color={c.color} />;
+        })}
+      </Picker>
+    );
+  };
+
   return (
     <>
       {status === Status.IN_PROGRESS && <Loading />}
@@ -78,6 +98,7 @@ const AddExpensePage = () => {
               onChangeAmount={setAmount}
               onTouchStart={() => setEditable(true)}
             />
+            <CategoryPicker />
             <DatePicker date={date} onChange={setDate} />
           </ScrollView>
           {editable ? (
@@ -112,6 +133,10 @@ const styles = StyleSheet.create({
   title: {
     margin: sMedium,
     marginBottom: sNormal,
+  },
+  picker: {
+    marginBottom: sSmall,
+    marginTop: sSmall,
   },
   buttonsContainer: {
     margin: sMedium,
