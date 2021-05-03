@@ -35,7 +35,9 @@ local.properties
 
 # ios/IntelliJ
 #
-ios/
+ios/Pods
+ios/xpensesApp*
+ios/*.lock
 
 # Visual Studio Code
 #
